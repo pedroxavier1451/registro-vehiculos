@@ -31,6 +31,32 @@ export class FirebaseService {
     this.db = getFirestore(app);
   }
 
+  // Verificar si existe un documento con la cédula
+  async verificarDocumentoDuplicado(documento: string): Promise<boolean> {
+    try {
+      const vehiculosRef = collection(this.db, 'vehiculos');
+      const q = query(vehiculosRef, where('documentoIdentificacion', '==', documento));
+      const querySnapshot = await getDocs(q);
+      return !querySnapshot.empty;
+    } catch (error) {
+      console.error('Error verificando documento duplicado: ', error);
+      throw error;
+    }
+  }
+
+  // Verificar si existe un documento con el email
+  async verificarEmailDuplicado(email: string): Promise<boolean> {
+    try {
+      const vehiculosRef = collection(this.db, 'vehiculos');
+      const q = query(vehiculosRef, where('email', '==', email.toLowerCase()));
+      const querySnapshot = await getDocs(q);
+      return !querySnapshot.empty;
+    } catch (error) {
+      console.error('Error verificando email duplicado: ', error);
+      throw error;
+    }
+  }
+
   async registrarVehiculo(data: any): Promise<string> {
     try {
       // Preparar los datos para Firebase
@@ -38,7 +64,7 @@ export class FirebaseService {
         nombreCompleto: data.nombreCompleto,
         documentoIdentificacion: data.documentoIdentificacion,
         telefono: data.telefono,
-        email: data.email,
+        email: data.email.toLowerCase(),
         tematica: data.tematica,
         tipoVehiculo: data.tipoVehiculo,
         placa: data.placa.toUpperCase(),

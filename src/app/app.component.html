@@ -2,12 +2,46 @@
 
 <p-toast></p-toast>
 
+<!-- Modal de Éxito -->
+<p-dialog 
+  [(visible)]="showSuccessModal" 
+  [modal]="true" 
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="success-modal"
+  [style]="{width: '90%', maxWidth: '500px'}">
+  <ng-template pTemplate="header">
+    <div class="modal-header-content">
+      <i class="pi pi-check-circle"></i>
+      <h2>¡Gracias por registrarte!</h2>
+    </div>
+  </ng-template>
+  <div class="modal-body-content">
+    <p>Hemos enviado tu código QR de acceso a tu correo.</p>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button 
+      label="Cerrar" 
+      icon="pi pi-times" 
+      (onClick)="showSuccessModal = false"
+      styleClass="p-button-text">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
 <div *ngIf="showForm" class="container">
   <p-card styleClass="registration-card">
     <ng-template pTemplate="header">
       <div class="card-header">
-        <h1><i class="pi pi-car"></i> Registro de Vehículos</h1>
-        <p>Complete el formulario para registrar su vehículo en el Pase del Niño Viajero</p>
+        <div class="header-images">
+          <img src="assets/images/Virgen del Carmen.png" alt="Virgen del Carmen" class="header-icon left">
+          <div class="header-content">
+            <h1>Orden de Carmelitas Descalzos</h1>
+            <p>Complete el formulario para registrar su vehículo en el Pase del Niño Viajero</p>
+          </div>
+          <img src="assets/images/silueta monasterio ok.png" alt="Monasterio del Carmen" class="header-icon right">
+        </div>
       </div>
     </ng-template>
 
@@ -34,10 +68,16 @@
               [class.ng-dirty]="isSubmitted"
             />
             <small class="p-error" *ngIf="isSubmitted && f['nombreCompleto'].errors?.['required']">
-              El nombre es requerido
+              El nombre completo es requerido
             </small>
             <small class="p-error" *ngIf="isSubmitted && f['nombreCompleto'].errors?.['minlength']">
               El nombre debe tener al menos 3 caracteres
+            </small>
+            <small class="p-error" *ngIf="isSubmitted && f['nombreCompleto'].errors?.['maxlength']">
+              El nombre no puede exceder 100 caracteres
+            </small>
+            <small class="p-error" *ngIf="isSubmitted && f['nombreCompleto'].errors?.['pattern']">
+              El nombre solo puede contener letras y espacios
             </small>
           </div>
 
@@ -53,10 +93,10 @@
               [class.ng-dirty]="isSubmitted"
             />
             <small class="p-error" *ngIf="isSubmitted && f['documentoIdentificacion'].errors?.['required']">
-              El documento es requerido
+              El documento de identificación es requerido
             </small>
             <small class="p-error" *ngIf="isSubmitted && f['documentoIdentificacion'].errors?.['pattern']">
-              Debe contener entre 8 y 12 dígitos
+              El documento debe contener entre 8 y 12 dígitos (solo números)
             </small>
           </div>
 
@@ -72,10 +112,10 @@
               [class.ng-dirty]="isSubmitted"
             />
             <small class="p-error" *ngIf="isSubmitted && f['telefono'].errors?.['required']">
-              El teléfono es requerido
+              El número de teléfono es requerido
             </small>
             <small class="p-error" *ngIf="isSubmitted && f['telefono'].errors?.['pattern']">
-              Debe contener 10 dígitos
+              El teléfono debe contener exactamente 10 dígitos (sin espacios ni guiones)
             </small>
           </div>
 
@@ -91,10 +131,10 @@
               [class.ng-dirty]="isSubmitted"
             />
             <small class="p-error" *ngIf="isSubmitted && f['email'].errors?.['required']">
-              El email es requerido
+              El correo electrónico es requerido
             </small>
-            <small class="p-error" *ngIf="isSubmitted && f['email'].errors?.['email']">
-              Debe ser un email válido
+            <small class="p-error" *ngIf="isSubmitted && (f['email'].errors?.['email'] || f['email'].errors?.['pattern'])">
+              Ingrese un correo electrónico válido (ejemplo: usuario@dominio.com)
             </small>
           </div>
         </div>
@@ -124,7 +164,6 @@
             >
               <ng-template let-group pTemplate="group">
                 <div class="p-d-flex p-ai-center">
-                  <i class="pi pi-book p-mr-2"></i>
                   <span>{{ group.label }}</span>
                 </div>
               </ng-template>
@@ -163,10 +202,10 @@
               [class.ng-dirty]="isSubmitted"
             />
             <small class="p-error" *ngIf="isSubmitted && f['placa'].errors?.['required']">
-              La placa es requerida
+              La placa del vehículo es requerida
             </small>
             <small class="p-error" *ngIf="isSubmitted && f['placa'].errors?.['pattern']">
-              Formato: 3 letras seguidas de 3 números (Ej: ABC123)
+              Formato inválido. Use 3 letras seguidas de 3-4 números (Ej: ABC123 o ABC-1234)
             </small>
           </div>
 

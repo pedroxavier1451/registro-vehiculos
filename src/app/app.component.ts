@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   isSubmitted = false;
   isLoading = false;
   showForm = true;
+  showSuccessModal = false;
   private routerSub?: Subscription;
 
   // Opciones para los dropdowns de PrimeNG
@@ -110,16 +111,34 @@ export class AppComponent implements OnInit {
   initializeForm(): void {
     this.vehicleForm = this.formBuilder.group({
       // Datos personales
-      nombreCompleto: ['', [Validators.required, Validators.minLength(3)]],
-      documentoIdentificacion: ['', [Validators.required, Validators.pattern(/^\d{8,12}$/)]],
-      telefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-      email: ['', [Validators.required, Validators.email]],
+      nombreCompleto: ['', [
+        Validators.required, 
+        Validators.minLength(3),
+        Validators.maxLength(100),
+        Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
+      ]],
+      documentoIdentificacion: ['', [
+        Validators.required, 
+        Validators.pattern(/^\d{8,12}$/)
+      ]],
+      telefono: ['', [
+        Validators.required, 
+        Validators.pattern(/^[0-9]{10}$/)
+      ]],
+      email: ['', [
+        Validators.required, 
+        Validators.email,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+      ]],
       
       // Datos del vehículo
       tematica: ['', [Validators.required]],
       tematicaDetalle: [''],
       tipoVehiculo: ['', [Validators.required]],
-      placa: ['', [Validators.required, Validators.pattern(/^[A-Z]{3}\d{3}$/)]]
+      placa: ['', [
+        Validators.required, 
+        Validators.pattern(/^[A-Z]{3}[0-9]{3,4}$|^[A-Z]{3}-[0-9]{3,4}$/i)
+      ]]
     });
   }
 
@@ -142,10 +161,45 @@ export class AppComponent implements OnInit {
 
     // Validar que si requiere detalle, este tenga valor
     if (this.requiereDetalle() && !this.vehicleForm.get('tematicaDetalle')?.value) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Campo Requerido',
+        detail: 'El campo "Especifique los detalles" es requerido para la temática seleccionada',
+        life: 5000
+      });
       return;
     }
 
     if (this.vehicleForm.invalid) {
+      // Identificar campos con errores
+      const camposConError: string[] = [];
+      const nombresCampos: {[key: string]: string} = {
+        'nombreCompleto': 'Nombre Completo',
+        'documentoIdentificacion': 'Documento de Identificación',
+        'telefono': 'Teléfono',
+        'email': 'Correo Electrónico',
+        'tematica': 'Temática',
+        'tipoVehiculo': 'Tipo de Vehículo',
+        'placa': 'Placa'
+      };
+
+      Object.keys(this.vehicleForm.controls).forEach(key => {
+        const control = this.vehicleForm.get(key);
+        if (control?.invalid && control.touched || control?.invalid && this.isSubmitted) {
+          camposConError.push(nombresCampos[key] || key);
+        }
+      });
+
+      const mensaje = camposConError.length === 1 
+        ? `El campo "${camposConError[0]}" no es correcto`
+        : `Los siguientes campos no son correctos: ${camposConError.join(', ')}`;
+
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Formulario Incompleto',
+        detail: mensaje,
+        life: 6000
+      });
       return;
     }
 
@@ -162,22 +216,63 @@ export class AppComponent implements OnInit {
 
     console.log('Datos a enviar a Firebase:', datosFormulario);
 
-    // Guardar en Firebase
-    this.firebaseService.registrarVehiculo(datosFormulario)
-      .then((docId) => {
-        console.log('Vehículo registrado exitosamente con ID:', docId);
+    // Verificar duplicados antes de guardar
+    Promise.all([
+      this.firebaseService.verificarDocumentoDuplicado(datosFormulario.documentoIdentificacion),
+      this.firebaseService.verificarEmailDuplicado(datosFormulario.email)
+    ])
+    .then(([documentoExiste, emailExiste]) => {
+      if (documentoExiste && emailExiste) {
         this.messageService.add({
-          severity: 'success',
-          summary: '¡Registro Exitoso!',
-          detail: 'Su vehículo ha sido registrado correctamente. Recibirá un correo con el código QR.',
-          life: 5000
+          severity: 'error',
+          summary: 'Registro Duplicado',
+          detail: 'Ya existe un usuario registrado con esa cédula y correo electrónico',
+          life: 6000
         });
+        this.isLoading = false;
+        return Promise.reject('duplicado');
+      }
+      
+      if (documentoExiste) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Cédula Duplicada',
+          detail: 'Ya existe un usuario registrado con esa cédula',
+          life: 6000
+        });
+        this.isLoading = false;
+        return Promise.reject('duplicado');
+      }
+      
+      if (emailExiste) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Correo Duplicado',
+          detail: 'Ya existe un usuario registrado con ese correo electrónico',
+          life: 6000
+        });
+        this.isLoading = false;
+        return Promise.reject('duplicado');
+      }
+
+      // Si no hay duplicados, proceder a guardar
+      return this.firebaseService.registrarVehiculo(datosFormulario);
+    })
+    .then((docId) => {
+      if (docId) {
+        console.log('Vehículo registrado exitosamente con ID:', docId);
+        
+        // Mostrar modal de éxito
+        this.showSuccessModal = true;
         
         // Reiniciar formulario
         this.vehicleForm.reset();
         this.isSubmitted = false;
-      })
-      .catch((error) => {
+        this.isLoading = false;
+      }
+    })
+    .catch((error) => {
+      if (error !== 'duplicado') {
         console.error('Error al registrar vehículo:', error);
         this.messageService.add({
           severity: 'error',
@@ -185,10 +280,9 @@ export class AppComponent implements OnInit {
           detail: 'No se pudo registrar el vehículo. Por favor, inténtelo de nuevo.',
           life: 5000
         });
-      })
-      .finally(() => {
         this.isLoading = false;
-      });
+      }
+    });
   }
 
   resetForm(): void {
