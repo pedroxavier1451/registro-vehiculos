@@ -1,0 +1,26 @@
+<div class="login-container">
+	<div class="login-card">
+		<h2>Ingreso Administrador</h2>
+		<p class="muted">Acceda con credenciales (ruta secreta).</p>
+
+		<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+			<label>
+				Usuario
+				<input formControlName="username" placeholder="usuario" />
+			</label>
+			<div class="error" *ngIf="isSubmitted && lf['username'].errors">Usuario requerido</div>
+
+			<label>
+				Contraseña
+				<input type="password" formControlName="password" placeholder="contraseña" />
+			</label>
+			<div class="error" *ngIf="isSubmitted && lf['password'].errors">Contraseña requerida</div>
+
+			<div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+			<div class="actions">
+				<button type="submit" [disabled]="isLoading">{{ isLoading ? 'Ingresando...' : 'Ingresar' }}</button>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,172 @@
+<div class="validacion-container">
+	<div class="validacion-header">
+		<h2>🎯 Validación de Códigos QR</h2>
+		<button class="btn-back" (click)="volver()">← Volver al Panel</button>
+	</div>
+
+	<div class="scanner-section">
+		<!-- Pestañas -->
+		<div class="tabs">
+			<button 
+				class="tab" 
+				[class.active]="modoEscaneo === 'camara'"
+				(click)="cambiarModo('camara')">
+				📷 Escanear con Cámara
+			</button>
+			<button 
+				class="tab" 
+				[class.active]="modoEscaneo === 'manual'"
+				(click)="cambiarModo('manual')">
+				⌨️ Ingreso Manual
+			</button>
+		</div>
+
+		<!-- Modo Cámara -->
+		<div *ngIf="modoEscaneo === 'camara'" class="camera-container">
+			<div class="camera-header">
+				<p class="camera-status">
+					<span *ngIf="!camaraIniciada" class="status-waiting">⏳ Iniciando cámara...</span>
+					<span *ngIf="camaraIniciada && !validando" class="status-ready">✓ Cámara lista - Apunta al código QR</span>
+					<span *ngIf="validando" class="status-scanning">🔍 Validando código...</span>
+				</p>
+			</div>
+
+			<div class="scanner-wrapper">
+				<zxing-scanner
+					*ngIf="camaraActiva"
+					[device]="camaraSeleccionada"
+					(scanSuccess)="onScanSuccess($event)"
+					(camerasFound)="onCamerasFound($event)"
+					(permissionResponse)="onPermissionResponse($event)"
+					[formats]="formatosPermitidos"
+					[tryHarder]="true"
+					class="qr-scanner">
+				</zxing-scanner>
+
+				<div *ngIf="!camaraActiva && !errorCamara" class="scanner-placeholder">
+					<p>📷 Preparando cámara...</p>
+				</div>
+
+				<div *ngIf="errorCamara" class="scanner-error">
+					<p>❌ Error al acceder a la cámara</p>
+					<small>{{ errorCamara }}</small>
+					<button class="btn-retry" (click)="reiniciarCamara()">🔄 Reintentar</button>
+				</div>
+			</div>
+
+			<div class="camera-controls" *ngIf="camarasDisponibles.length > 1">
+				<label for="cameraSelect">Seleccionar cámara:</label>
+				<select id="cameraSelect" [(ngModel)]="camaraSeleccionada" (change)="cambiarCamara()">
+					<option *ngFor="let cam of camarasDisponibles" [value]="cam.deviceId">
+						{{ cam.label || 'Cámara ' + (camarasDisponibles.indexOf(cam) + 1) }}
+					</option>
+				</select>
+			</div>
+
+			<div class="instrucciones">
+				<p>💡 <strong>Instrucciones:</strong></p>
+				<ul>
+					<li>Apunta la cámara al código QR del participante</li>
+					<li>Mantén el código dentro del área de escaneo</li>
+					<li>El sistema validará automáticamente al detectar el código</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Modo Manual -->
+		<div *ngIf="modoEscaneo === 'manual'" class="manual-container">
+			<div class="input-group">
+				<label for="qrInput">Ingresa el código QR:</label>
+				<input 
+					type="text" 
+					id="qrInput"
+					[(ngModel)]="codigoQR"
+					(keyup.enter)="validarCodigo()"
+					placeholder="Pega o escribe el código QR aquí"
+					autofocus
+				/>
+				<button class="btn-validar" (click)="validarCodigo()" [disabled]="!codigoQR || validando">
+					{{ validando ? 'Validando...' : '✓ Validar' }}
+				</button>
+			</div>
+
+			<div class="instrucciones">
+				<p>💡 <strong>Instrucciones:</strong></p>
+				<ul>
+					<li>Pega el código QR en el campo de texto</li>
+					<li>O escríbelo manualmente</li>
+					<li>Presiona Enter o el botón Validar</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal de Resultado -->
+	<div *ngIf="mostrarModal" class="modal-overlay" (click)="cerrarModal()">
+		<div class="modal-content" (click)="$event.stopPropagation()" [ngClass]="resultado?.valido ? 'modal-exito' : 'modal-error'">
+			<div class="modal-icon">
+				{{ resultado?.valido ? '✅' : '❌' }}
+			</div>
+			<h2 class="modal-titulo">{{ resultado?.titulo }}</h2>
+			<p class="modal-mensaje">{{ resultado?.mensaje }}</p>
+			
+			<div *ngIf="resultado?.valido && resultado?.datos" class="modal-datos">
+				<div class="datos-grid">
+					<div class="dato-item">
+						<span class="dato-label">Nombre:</span>
+						<span class="dato-valor">{{ resultado?.datos?.nombreCompleto }}</span>
+					</div>
+					<div class="dato-item">
+						<span class="dato-label">Email:</span>
+						<span class="dato-valor">{{ resultado?.datos?.email }}</span>
+					</div>
+					<div class="dato-item">
+						<span class="dato-label">Tipo de Vehículo:</span>
+						<span class="dato-valor">{{ resultado?.datos?.tipoVehiculo }}</span>
+					</div>
+					<div class="dato-item">
+						<span class="dato-label">Placa:</span>
+						<span class="dato-valor">{{ resultado?.datos?.placa }}</span>
+					</div>
+					<div class="dato-item">
+						<span class="dato-label">Temática:</span>
+						<span class="dato-valor">{{ resultado?.datos?.tematica }}</span>
+					</div>
+				</div>
+			</div>
+
+			<div *ngIf="!resultado?.valido && resultado?.datos" class="modal-datos">
+				<div class="datos-grid">
+					<div class="dato-item">
+						<span class="dato-label">Nombre:</span>
+						<span class="dato-valor">{{ resultado?.datos?.nombreCompleto }}</span>
+					</div>
+					<div class="dato-item" *ngIf="resultado?.datos?.validadoAt">
+						<span class="dato-label">Validado el:</span>
+						<span class="dato-valor">{{ resultado?.datos?.validadoAt?.toDate() | date:'dd/MM/yyyy HH:mm' }}</span>
+					</div>
+					<div class="dato-item" *ngIf="resultado?.datos?.validadoPor">
+						<span class="dato-label">Validado por:</span>
+						<span class="dato-valor">{{ resultado?.datos?.validadoPor }}</span>
+					</div>
+				</div>
+			</div>
+			
+			<button class="btn-modal-cerrar" (click)="cerrarModal()">Aceptar</button>
+		</div>
+	</div>
+
+	<!-- Historial de validaciones -->
+	<div *ngIf="historial.length" class="historial-section">
+		<h3>📋 Historial de Validaciones (Sesión Actual)</h3>
+		<div class="historial-lista">
+			<div *ngFor="let item of historial" class="historial-item" [ngClass]="item.valido ? 'historial-exito' : 'historial-error'">
+				<div class="historial-icon">{{ item.valido ? '✅' : '❌' }}</div>
+				<div class="historial-info">
+					<strong>{{ item.datos?.nombreCompleto || 'Código inválido' }}</strong>
+					<small>{{ item.hora | date:'HH:mm:ss' }} - {{ item.mensaje }}</small>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

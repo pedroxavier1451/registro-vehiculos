@@ -1,0 +1,245 @@
+<router-outlet *ngIf="!showForm"></router-outlet>
+
+<div *ngIf="showForm" class="container">
+  <div class="form-wrapper">
+    <!-- Header -->
+    <div class="header">
+      <h1 class="title">
+        <i class="icon">🚗</i>
+        Registro de Vehículos
+      </h1>
+      <p class="subtitle">Complete el formulario para registrar su vehículo en el evento</p>
+    </div>
+
+    <!-- Formulario -->
+    <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()" class="registration-form">
+      
+      <!-- Sección de Datos Personales -->
+      <div class="form-section">
+        <h2 class="section-title">
+          <i class="section-icon">👤</i>
+          Datos Personales
+        </h2>
+        
+        <div class="form-grid">
+          <!-- Nombre Completo -->
+          <div class="form-group">
+            <label for="nombreCompleto" class="form-label">Nombre Completo *</label>
+            <input
+              type="text"
+              id="nombreCompleto"
+              formControlName="nombreCompleto"
+              class="form-input"
+              [class.is-invalid]="isSubmitted && f['nombreCompleto'].errors"
+              placeholder="Ingrese su nombre completo"
+            />
+            <div class="error-message" *ngIf="isSubmitted && f['nombreCompleto'].errors">
+              <span *ngIf="f['nombreCompleto'].errors['required']">El nombre es requerido</span>
+              <span *ngIf="f['nombreCompleto'].errors['minlength']">El nombre debe tener al menos 3 caracteres</span>
+            </div>
+          </div>
+
+          <!-- Documento de Identificación -->
+          <div class="form-group">
+            <label for="documentoIdentificacion" class="form-label">Documento de Identificación *</label>
+            <input
+              type="text"
+              id="documentoIdentificacion"
+              formControlName="documentoIdentificacion"
+              class="form-input"
+              [class.is-invalid]="isSubmitted && f['documentoIdentificacion'].errors"
+              placeholder="Ej: 12345678"
+            />
+            <div class="error-message" *ngIf="isSubmitted && f['documentoIdentificacion'].errors">
+              <span *ngIf="f['documentoIdentificacion'].errors['required']">El documento es requerido</span>
+              <span *ngIf="f['documentoIdentificacion'].errors['pattern']">Debe contener entre 8 y 12 dígitos</span>
+            </div>
+          </div>
+
+          <!-- Teléfono -->
+          <div class="form-group">
+            <label for="telefono" class="form-label">Número de Teléfono *</label>
+            <input
+              type="tel"
+              id="telefono"
+              formControlName="telefono"
+              class="form-input"
+              [class.is-invalid]="isSubmitted && f['telefono'].errors"
+              placeholder="Ej: 3001234567"
+            />
+            <div class="error-message" *ngIf="isSubmitted && f['telefono'].errors">
+              <span *ngIf="f['telefono'].errors['required']">El teléfono es requerido</span>
+              <span *ngIf="f['telefono'].errors['pattern']">Debe contener 10 dígitos</span>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email" class="form-label">Correo Electrónico *</label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              class="form-input"
+              [class.is-invalid]="isSubmitted && f['email'].errors"
+              placeholder="ejemplo@correo.com"
+            />
+            <div class="error-message" *ngIf="isSubmitted && f['email'].errors">
+              <span *ngIf="f['email'].errors['required']">El email es requerido</span>
+              <span *ngIf="f['email'].errors['email']">Debe ser un email válido</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de Datos del Vehículo -->
+      <div class="form-section">
+        <h2 class="section-title">
+          <i class="section-icon">🚙</i>
+          Datos del Vehículo
+        </h2>
+        
+        <div class="form-grid">
+          <!-- Temática -->
+          <div class="form-group full-width">
+            <label for="tematica" class="form-label">Temática del Carro Alegórico *</label>
+            <select
+              id="tematica"
+              formControlName="tematica"
+              class="form-input form-select"
+              [class.is-invalid]="isSubmitted && f['tematica'].errors"
+            >
+              <option value="">Seleccione una temática</option>
+              
+              <optgroup label="Temas Bíblicos">
+                <option value="La creación">La creación</option>
+                <option value="El jardín del Edén">El jardín del Edén</option>
+                <option value="El Arca de Noé">El Arca de Noé</option>
+                <option value="José interpreta los sueños del Faraón">José interpreta los sueños del Faraón</option>
+                <option value="Moisés salvado de las aguas">Moisés salvado de las aguas</option>
+                <option value="La zarza ardiente">La zarza ardiente</option>
+                <option value="Yahvé envía el maná en el desierto">Yahvé envía el maná en el desierto</option>
+                <option value="Los diez mandamientos">Los diez mandamientos</option>
+                <option value="Los Israelitas llevan el Arca de la Alianza">Los Israelitas llevan el Arca de la Alianza</option>
+                <option value="David y Goliat">David y Goliat</option>
+                <option value="El sacrificio del profeta Elías">El sacrificio del profeta Elías</option>
+                <option value="Elías da de comer a la viuda de Sarepta">Elías da de comer a la viuda de Sarepta</option>
+                <option value="Elías ora para que venga la lluvia">Elías ora para que venga la lluvia</option>
+                <option value="Anuncio del nacimiento de Juan el Bautista">Anuncio del nacimiento de Juan el Bautista</option>
+                <option value="Los padres (Joaquín y Ana) de la Virgen María">Los padres (Joaquín y Ana) de la Virgen María</option>
+                <option value="La niña María">La niña María</option>
+                <option value="La anunciación de la Virgen María">La anunciación de la Virgen María</option>
+                <option value="El Sueño de José">El Sueño de José</option>
+                <option value="La visitación">La visitación</option>
+                <option value="El empadronamiento">El empadronamiento</option>
+                <option value="María y José buscan posada">María y José buscan posada</option>
+                <option value="El nacimiento de Jesús">El nacimiento de Jesús</option>
+                <option value="El anuncio del Ángel a los pastores">El anuncio del Ángel a los pastores</option>
+                <option value="La visita y adoración de los pastores al Niño Jesús">La visita y adoración de los pastores al Niño Jesús</option>
+                <option value="La visita de los reyes magos">La visita de los reyes magos</option>
+                <option value="La huida de la sagrada Familia a Egipto">La huida de la sagrada Familia a Egipto</option>
+                <option value="El sacrificio de los santos inocentes">El sacrificio de los santos inocentes</option>
+                <option value="La profecía de Ana y Simeón">La profecía de Ana y Simeón</option>
+                <option value="La presentación del Niño en el templo">La presentación del Niño en el templo</option>
+                <option value="La Sagrada Familia en Nazareth">La Sagrada Familia en Nazareth</option>
+                <option value="Jesús entre los doctores de la Ley del templo de Jerusalén">Jesús entre los doctores de la Ley del templo de Jerusalén</option>
+                <option value="Jesús, amigo de los niños">Jesús, amigo de los niños</option>
+                <option value="Jesús en el taller de su padre José">Jesús en el taller de su padre José</option>
+                <option value="Los cuatro evangelistas">Los cuatro evangelistas</option>
+              </optgroup>
+              
+              <optgroup label="Temas Generales">
+                <option value="Pasajes bíblicos">Pasajes bíblicos (especificar)</option>
+                <option value="Personajes de la navidad">Personajes de la navidad (especificar)</option>
+                <option value="Pesebres vivientes">Pesebres vivientes</option>
+                <option value="Grupo folklórico">Grupo folklórico (especificar)</option>
+                <option value="Grupos artístico navideño">Grupos artístico navideño (especificar)</option>
+                <option value="Otros">Otros (especificar)</option>
+              </optgroup>
+            </select>
+            <div class="error-message" *ngIf="isSubmitted && f['tematica'].errors">
+              <span *ngIf="f['tematica'].errors['required']">La temática es requerida</span>
+            </div>
+          </div>
+
+          <!-- Campo condicional para detalles de temática -->
+          <div class="form-group full-width" *ngIf="requiereDetalle()">
+            <label for="tematicaDetalle" class="form-label">Especifique los detalles *</label>
+            <input
+              type="text"
+              id="tematicaDetalle"
+              formControlName="tematicaDetalle"
+              class="form-input"
+              [class.is-invalid]="isSubmitted && requiereDetalle() && !f['tematicaDetalle'].value"
+              placeholder="Describa los detalles de la temática seleccionada"
+            />
+            <div class="error-message" *ngIf="isSubmitted && requiereDetalle() && !f['tematicaDetalle'].value">
+              <span>Este campo es requerido para la temática seleccionada</span>
+            </div>
+          </div>
+
+          <!-- Placa -->
+          <div class="form-group">
+            <label for="placa" class="form-label">Placa *</label>
+            <input
+              type="text"
+              id="placa"
+              formControlName="placa"
+              class="form-input"
+              [class.is-invalid]="isSubmitted && f['placa'].errors"
+              placeholder="Ej: ABC123"
+              style="text-transform: uppercase;"
+            />
+            <div class="error-message" *ngIf="isSubmitted && f['placa'].errors">
+              <span *ngIf="f['placa'].errors['required']">La placa es requerida</span>
+              <span *ngIf="f['placa'].errors['pattern']">Formato: 3 letras seguidas de 3 números (Ej: ABC123)</span>
+            </div>
+          </div>
+        
+
+          <!-- Tipo de Vehículo -->
+          <div class="form-group full-width">
+            <label for="tipoVehiculo" class="form-label">Tipo de Vehículo *</label>
+            <select
+              id="tipoVehiculo"
+              formControlName="tipoVehiculo"
+              class="form-input form-select"
+              [class.is-invalid]="isSubmitted && f['tipoVehiculo'].errors"
+            >
+              <option value="">Seleccione el tipo de vehículo</option>
+              <option value="Automóvil (Sedán)">Automóvil (Sedán)</option>
+              <option value="Hatchback">Hatchback</option>
+              <option value="SUV">SUV</option>
+              <option value="Camioneta">Camioneta</option>
+              <option value="Pickup liviana">Pickup liviana</option>
+              <option value="Crossover">Crossover</option>
+              <option value="Furgoneta pequeña">Furgoneta pequeña</option>
+              <option value="Plataforma liviana">Plataforma liviana</option>
+            </select>
+            <div class="error-message" *ngIf="isSubmitted && f['tipoVehiculo'].errors">
+              <span *ngIf="f['tipoVehiculo'].errors['required']">El tipo de vehículo es requerido</span>
+            </div>
+            
+            <div class="warning-box">
+              <strong>⚠️ Vehículos NO permitidos:</strong>
+              <p>Camiones, doble eje, cabezales, tráiler, buses, busetas, volquetas o vehículos de carga pesada.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="resetForm()" [disabled]="isLoading">
+          <i class="btn-icon">🔄</i>
+          Limpiar
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+          <i class="btn-icon" *ngIf="!isLoading">💾</i>
+          <i class="btn-icon loading-icon" *ngIf="isLoading">⏳</i>
+          {{ isLoading ? 'Guardando...' : 'Registrar Vehículo' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

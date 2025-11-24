@@ -1,0 +1,54 @@
+<div class="admin-container">
+	<div class="admin-header">
+		<h2>Panel de Administración</h2>
+		<div class="actions">
+			<button class="btn-validacion" (click)="irAValidacion()">Validar Códigos QR</button>
+			<button (click)="logout()">Cerrar sesión</button>
+		</div>
+	</div>
+
+	<div *ngIf="loading">Cargando registros...</div>
+
+	<table *ngIf="!loading && vehiculos.length" class="records-table">
+		<thead>
+			<tr>
+				<th>Nombre Completo</th>
+				<th>Documento</th>
+				<th>Teléfono</th>
+				<th>Email</th>
+				<th>Temática</th>
+				<th>Tipo Vehículo</th>
+				<th>Placa</th>
+				<th>Fecha Registro</th>
+				<th>Validado</th>
+				<th>Fecha Validación</th>
+				<th>Validado Por</th>
+				<th>Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let v of vehiculos">
+				<td>{{ v.nombreCompleto }}</td>
+				<td>{{ v.documentoIdentificacion }}</td>
+				<td>{{ v.telefono }}</td>
+				<td>{{ v.email }}</td>
+				<td>{{ v.tematica }}</td>
+				<td>{{ v.tipoVehiculo }}</td>
+				<td>{{ v.placa }}</td>
+				<td>{{ v.fechaRegistro?.toDate?.() | date:'short' }}</td>
+				<td>
+					<span [style.color]="v.validado ? 'green' : 'red'">
+						{{ v.validado ? '✓ Sí' : '✗ No' }}
+					</span>
+				</td>
+				<td>{{ v.validadoAt ? (v.validadoAt?.toDate?.() | date:'short') : '-' }}</td>
+				<td>{{ v.validadoPor || '-' }}</td>
+				<td>
+					<button (click)="eliminar(v.id)">Eliminar</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div *ngIf="!loading && !vehiculos.length" class="empty">No hay registros aún.</div>
+</div>

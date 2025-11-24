@@ -1,0 +1,51 @@
+.admin-container {
+	padding: 20px;
+}
+
+.admin-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.admin-header h2 { margin: 0; }
+
+.records-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.records-table th, .records-table td {
+	padding: 8px 10px;
+	border-bottom: 1px solid #e6e9ef;
+	text-align: left;
+}
+
+.records-table tbody tr:hover { background: #fbfdff; }
+
+.actions {
+	display: flex;
+	gap: 10px;
+}
+
+.actions button, .records-table button {
+	background: #ef4444;
+	border: none;
+	color: white;
+	padding: 6px 10px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.actions .btn-validacion {
+	background: #10b981;
+	padding: 8px 16px;
+	font-weight: 500;
+}
+
+.actions .btn-validacion:hover {
+	background: #059669;
+}
+
+.empty { color: #6b7280; margin-top: 12px; }
