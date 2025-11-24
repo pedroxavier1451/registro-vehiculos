@@ -14,6 +14,7 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TagModule } from 'primeng/tag';
+import { MessageModule } from 'primeng/message';
 import { MessageService, ConfirmationService } from 'primeng/api';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -45,7 +46,8 @@ import { ValidacionComponent } from './pages/validacion/validacion.component';
     ToastModule,
     ConfirmDialogModule,
     DialogModule,
-    TagModule
+    TagModule,
+    MessageModule
   ],
   providers: [MessageService, ConfirmationService],
   bootstrap: [AppComponent]
