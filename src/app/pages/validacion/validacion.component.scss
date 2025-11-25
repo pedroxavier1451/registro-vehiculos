@@ -18,18 +18,20 @@
 	color: #1f2937;
 }
 
-.btn-back {
+::ng-deep .btn-back {
 	background: #6b7280;
-	color: white;
 	border: none;
 	padding: 10px 20px;
 	border-radius: 6px;
-	cursor: pointer;
 	font-weight: 500;
-}
 
-.btn-back:hover {
-	background: #4b5563;
+	&:hover {
+		background: #4b5563 !important;
+	}
+
+	.p-button-icon {
+		margin-right: 8px;
+	}
 }
 
 .scanner-section {
@@ -154,18 +156,20 @@
 	margin-bottom: 15px;
 }
 
-.btn-retry {
-	background: #3b82f6;
-	color: white;
+::ng-deep .btn-retry {
+	background: #f59e0b;
 	border: none;
 	padding: 10px 20px;
 	border-radius: 6px;
 	font-weight: 500;
-	cursor: pointer;
-}
 
-.btn-retry:hover {
-	background: #2563eb;
+	&:hover {
+		background: #d97706 !important;
+	}
+
+	.p-button-icon {
+		margin-right: 8px;
+	}
 }
 
 .camera-controls {
@@ -180,19 +184,55 @@
 	color: #374151;
 }
 
-.camera-controls select {
+::ng-deep .camera-dropdown {
 	width: 100%;
-	padding: 10px 15px;
-	font-size: 15px;
-	border: 2px solid #d1d5db;
-	border-radius: 8px;
-	background: white;
-	cursor: pointer;
+	
+	.p-dropdown {
+		width: 100%;
+		border: 2px solid #d1d5db;
+		border-radius: 8px;
+		background: white;
+		
+		&:not(.p-disabled):hover {
+			border-color: #1f2937;
+		}
+		
+		&:not(.p-disabled).p-focus {
+			border-color: #1f2937;
+			box-shadow: 0 0 0 0.2rem rgba(31, 41, 55, 0.25);
+		}
+	}
+	
+	.p-dropdown-label {
+		padding: 10px 15px;
+		font-size: 15px;
+		color: #1f2937;
+		font-family: inherit;
+	}
+
+	.p-dropdown-trigger {
+		color: #1f2937;
+	}
 }
 
-.camera-controls select:focus {
-	outline: none;
-	border-color: #3b82f6;
+::ng-deep .p-dropdown-panel {
+	.p-dropdown-items {
+		.p-dropdown-item {
+			color: #1f2937;
+			font-size: 15px;
+			font-family: inherit;
+			
+			&:not(.p-highlight):not(.p-disabled):hover {
+				background: #f3f4f6;
+				color: #1f2937;
+			}
+			
+			&.p-highlight {
+				background: #1f2937;
+				color: white;
+			}
+		}
+	}
 }
 
 .input-group {
@@ -215,33 +255,36 @@
 	border-radius: 8px;
 	box-sizing: border-box;
 	margin-bottom: 15px;
+
+	&:focus {
+		outline: none;
+		border-color: #3b82f6;
+		box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+	}
 }
 
-.input-group input:focus {
-	outline: none;
-	border-color: #3b82f6;
-}
-
-.btn-validar {
+::ng-deep .btn-validar {
 	width: 100%;
 	background: #10b981;
-	color: white;
 	border: none;
 	padding: 14px;
 	font-size: 16px;
 	font-weight: 600;
 	border-radius: 8px;
-	cursor: pointer;
-	transition: background 0.2s;
-}
 
-.btn-validar:hover:not(:disabled) {
-	background: #059669;
-}
+	&:enabled:hover {
+		background: #059669 !important;
+	}
 
-.btn-validar:disabled {
-	background: #9ca3af;
-	cursor: not-allowed;
+	&:disabled {
+		background: #9ca3af !important;
+		cursor: not-allowed;
+		opacity: 0.6;
+	}
+
+	.p-button-icon {
+		margin-right: 8px;
+	}
 }
 
 .instrucciones {
@@ -539,27 +582,43 @@
 	color: #1f2937;
 }
 
-.btn-modal-cerrar {
+::ng-deep .btn-modal-cerrar {
 	width: 100%;
-	background: #3b82f6;
-	color: white;
-	border: none;
 	padding: 16px;
 	font-size: 18px;
 	font-weight: 600;
 	border-radius: 10px;
-	cursor: pointer;
 	transition: all 0.2s;
-}
 
-.btn-modal-cerrar:hover {
-	background: #2563eb;
-	transform: translateY(-2px);
-	box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-}
+	&.p-button-success {
+		background: #10b981;
+		border-color: #10b981;
 
-.btn-modal-cerrar:active {
-	transform: translateY(0);
+		&:hover {
+			background: #059669 !important;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+		}
+	}
+
+	&.p-button-danger {
+		background: #ef4444;
+		border-color: #ef4444;
+
+		&:hover {
+			background: #dc2626 !important;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+		}
+	}
+
+	&:active {
+		transform: translateY(0);
+	}
+
+	.p-button-icon {
+		margin-right: 8px;
+	}
 }
 
 .detalle-secundario {

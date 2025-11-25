@@ -1,7 +1,12 @@
 <div class="validacion-container">
 	<div class="validacion-header">
-		<h2>🎯 Validación de Códigos QR</h2>
-		<button class="btn-back" (click)="volver()">← Volver al Panel</button>
+		<h2>Validación de Códigos QR</h2>
+		<p-button 
+			label="Volver al Panel" 
+			icon="pi pi-arrow-left"
+			(onClick)="volver()"
+			styleClass="btn-back p-button-secondary"
+		></p-button>
 	</div>
 
 	<div class="scanner-section">
@@ -11,13 +16,13 @@
 				class="tab" 
 				[class.active]="modoEscaneo === 'camara'"
 				(click)="cambiarModo('camara')">
-				📷 Escanear con Cámara
+				Escanear con Cámara
 			</button>
 			<button 
 				class="tab" 
 				[class.active]="modoEscaneo === 'manual'"
 				(click)="cambiarModo('manual')">
-				⌨️ Ingreso Manual
+				Ingreso Manual
 			</button>
 		</div>
 
@@ -50,17 +55,26 @@
 				<div *ngIf="errorCamara" class="scanner-error">
 					<p>❌ Error al acceder a la cámara</p>
 					<small>{{ errorCamara }}</small>
-					<button class="btn-retry" (click)="reiniciarCamara()">🔄 Reintentar</button>
+					<p-button 
+						label="Reintentar" 
+						icon="pi pi-refresh"
+						(onClick)="reiniciarCamara()"
+						styleClass="btn-retry p-button-warning"
+					></p-button>
 				</div>
 			</div>
 
 			<div class="camera-controls" *ngIf="camarasDisponibles.length > 1">
 				<label for="cameraSelect">Seleccionar cámara:</label>
-				<select id="cameraSelect" [(ngModel)]="camaraSeleccionada" (change)="cambiarCamara()">
-					<option *ngFor="let cam of camarasDisponibles" [ngValue]="cam">
-						{{ cam.label || 'Cámara ' + (camarasDisponibles.indexOf(cam) + 1) }}
-					</option>
-				</select>
+				<p-dropdown 
+					id="cameraSelect"
+					[options]="camarasDisponibles" 
+					[(ngModel)]="camaraSeleccionada"
+					(onChange)="cambiarCamara()"
+					optionLabel="label"
+					placeholder="Seleccione una cámara"
+					styleClass="camera-dropdown"
+				></p-dropdown>
 			</div>
 
 			<div class="instrucciones">
@@ -80,14 +94,19 @@
 				<input 
 					type="text" 
 					id="qrInput"
+					pInputText
 					[(ngModel)]="codigoQR"
 					(keyup.enter)="validarCodigo()"
 					placeholder="Pega o escribe el código QR aquí"
 					autofocus
 				/>
-				<button class="btn-validar" (click)="validarCodigo()" [disabled]="!codigoQR || validando">
-					{{ validando ? 'Validando...' : '✓ Validar' }}
-				</button>
+				<p-button 
+					label="{{ validando ? 'Validando...' : 'Validar' }}" 
+					icon="pi pi-check"
+					(onClick)="validarCodigo()" 
+					[disabled]="!codigoQR || validando"
+					styleClass="btn-validar p-button-success"
+				></p-button>
 			</div>
 
 			<div class="instrucciones">
@@ -152,7 +171,13 @@
 				</div>
 			</div>
 			
-			<button class="btn-modal-cerrar" (click)="cerrarModal()">Aceptar</button>
+			<p-button 
+				label="Aceptar" 
+				icon="pi pi-check"
+				(onClick)="cerrarModal()"
+				styleClass="btn-modal-cerrar"
+				[styleClass]="resultado?.valido ? 'btn-modal-cerrar p-button-success' : 'btn-modal-cerrar p-button-danger'"
+			></p-button>
 		</div>
 	</div>
 
