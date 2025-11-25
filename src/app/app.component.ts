@@ -18,6 +18,8 @@ export class AppComponent implements OnInit {
   isLoading = false;
   showForm = true;
   showSuccessModal = false;
+  showConfirmModal = false;
+  confirmacionDatos: any = {};
   private routerSub?: Subscription;
 
   // Opciones para los dropdowns de PrimeNG
@@ -142,7 +144,7 @@ export class AppComponent implements OnInit {
       tipoVehiculo: ['', [Validators.required]],
       placa: ['', [
         Validators.required, 
-        Validators.pattern(/^[A-Z]{2,3}-[0-9]{4}$/i)
+        Validators.pattern(/^[A-Z]{3}-[0-9]{3,4}$/i)
       ]]
     });
   }
@@ -208,6 +210,22 @@ export class AppComponent implements OnInit {
       return;
     }
 
+    // Preparar los datos para mostrar en el modal de confirmación
+    this.confirmacionDatos = { ...this.vehicleForm.value };
+    
+    // Si requiere detalle, combinar temática con detalle para mostrar
+    if (this.requiereDetalle() && this.confirmacionDatos.tematicaDetalle) {
+      this.confirmacionDatos.tematicaCompleta = `${this.confirmacionDatos.tematica}: ${this.confirmacionDatos.tematicaDetalle}`;
+    } else {
+      this.confirmacionDatos.tematicaCompleta = this.confirmacionDatos.tematica;
+    }
+
+    // Mostrar modal de confirmación
+    this.showConfirmModal = true;
+  }
+
+  confirmarRegistro(): void {
+    this.showConfirmModal = false;
     this.isLoading = true;
 
     // Preparar los datos para guardar
@@ -216,7 +234,7 @@ export class AppComponent implements OnInit {
     // Si requiere detalle, combinar temática con detalle
     if (this.requiereDetalle() && datosFormulario.tematicaDetalle) {
       datosFormulario.tematica = `${datosFormulario.tematica}: ${datosFormulario.tematicaDetalle}`;
-      delete datosFormulario.tematicaDetalle; // Eliminar el campo separado
+      delete datosFormulario.tematicaDetalle;
     }
 
     console.log('Datos a enviar a Firebase:', datosFormulario);
@@ -288,6 +306,10 @@ export class AppComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  cancelarRegistro(): void {
+    this.showConfirmModal = false;
   }
 
   resetForm(): void {

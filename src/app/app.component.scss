@@ -829,6 +829,10 @@ body {
     transition: all 0.3s ease;
     border: 2px solid transparent;
 
+    .p-button-icon {
+      margin-right: 8px;
+    }
+
     &.p-button-secondary {
       background: linear-gradient(135deg, #8B8680 0%, #6D6A65 100%);
       border-color: #8B8680;
@@ -985,6 +989,181 @@ body {
   &:focus {
     border-color: var(--success-color);
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  }
+}
+
+// Modal de Confirmación - Temática católica café
+::ng-deep .confirm-modal {
+  .p-dialog-header {
+    background: linear-gradient(135deg, #8B6F47 0%, #6B4423 100%);
+    color: #FFFEF7;
+    padding: 1.5rem;
+    border-radius: 12px 12px 0 0;
+    border-bottom: 3px solid var(--accent-gold);
+  }
+
+  .confirm-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+
+    i {
+      font-size: 2.5rem;
+      color: #DAA520;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    h2 {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 1.4rem;
+      margin: 0;
+      color: #FFFEF7;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .p-dialog-content {
+    background: linear-gradient(to bottom, #FFFEF7 0%, #F9F6F0 100%);
+    padding: 2rem;
+  }
+
+  .confirm-body {
+    .confirm-message {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 1.1rem;
+      color: #6B4423;
+      margin: 0 0 1.5rem 0;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .datos-confirmacion {
+      display: grid;
+      gap: 1rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 2px solid var(--accent-gold);
+      box-shadow: 0 2px 8px rgba(107, 68, 35, 0.1);
+
+      .dato-item {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 1rem;
+        padding: 0.75rem;
+        border-bottom: 1px solid #E8DCC8;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .dato-label {
+          font-family: 'Cinzel', Georgia, serif;
+          font-weight: 600;
+          color: #6B4423;
+          font-size: 0.95rem;
+        }
+
+        .dato-valor {
+          font-family: 'Crimson Text', Georgia, serif;
+          color: #2C1810;
+          font-size: 1rem;
+          word-break: break-word;
+
+          &.placa-highlight {
+            background: linear-gradient(135deg, #6B4423 0%, #8B6F47 100%);
+            color: #FFFEF7;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-align: center;
+            font-size: 1.1rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+          gap: 0.5rem;
+
+          .dato-label {
+            font-size: 0.9rem;
+          }
+
+          .dato-valor {
+            font-size: 0.95rem;
+          }
+        }
+      }
+    }
+  }
+
+  .p-dialog-footer {
+    background: linear-gradient(to bottom, #FFFEF7 0%, #F9F6F0 100%);
+    padding: 1.25rem 1.5rem;
+    border-top: 2px solid var(--accent-gold);
+
+    .confirm-footer-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+
+      .p-button {
+        font-family: 'Cinzel', Georgia, serif;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        min-width: 160px;
+
+        .p-button-icon {
+          margin-right: 8px;
+        }
+
+        &.p-button-secondary {
+          background: transparent;
+          color: #6B4423;
+          border: 2px solid #6B4423;
+
+          &:hover {
+            background: #F5F1E8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(107, 68, 35, 0.2);
+          }
+        }
+
+        &.p-button-success {
+          background: linear-gradient(135deg, #6B4423 0%, #8B6F47 100%);
+          border-color: #6B4423;
+          color: #FFFEF7;
+
+          &:hover {
+            background: linear-gradient(135deg, #8B6F47 0%, #A0826D 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(107, 68, 35, 0.4);
+          }
+        }
+      }
+
+      @media (max-width: 480px) {
+        flex-direction: column;
+
+        .p-button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
   }
 }
 

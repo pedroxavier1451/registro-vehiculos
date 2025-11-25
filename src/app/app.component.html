@@ -2,6 +2,76 @@
 
 <p-toast></p-toast>
 
+<!-- Modal de Confirmación -->
+<p-dialog 
+  [(visible)]="showConfirmModal" 
+  [modal]="true" 
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="confirm-modal"
+  [style]="{width: '90%', maxWidth: '600px'}">
+  <ng-template pTemplate="header">
+    <div class="modal-header-content confirm-header">
+      <h2>Confirmar Datos de Registro</h2>
+    </div>
+  </ng-template>
+  <div class="modal-body-content confirm-body">
+    <p class="confirm-message">Por favor, verifica que los datos sean correctos antes de continuar:</p>
+    
+    <div class="datos-confirmacion">
+      <div class="dato-item">
+        <span class="dato-label">Nombre Completo:</span>
+        <span class="dato-valor">{{ confirmacionDatos.nombreCompleto }}</span>
+      </div>
+      <div class="dato-item">
+        <span class="dato-label">Nombre del Grupo:</span>
+        <span class="dato-valor">{{ confirmacionDatos.nombreGrupo }}</span>
+      </div>
+      <div class="dato-item">
+        <span class="dato-label">Documento de Identificación:</span>
+        <span class="dato-valor">{{ confirmacionDatos.documentoIdentificacion }}</span>
+      </div>
+      <div class="dato-item">
+        <span class="dato-label">Teléfono:</span>
+        <span class="dato-valor">{{ confirmacionDatos.telefono }}</span>
+      </div>
+      <div class="dato-item">
+        <span class="dato-label">Correo Electrónico:</span>
+        <span class="dato-valor">{{ confirmacionDatos.email }}</span>
+      </div>
+      <div class="dato-item">
+        <span class="dato-label">Temática:</span>
+        <span class="dato-valor">{{ confirmacionDatos.tematicaCompleta }}</span>
+      </div>
+      <div class="dato-item">
+        <span class="dato-label">Tipo de Vehículo:</span>
+        <span class="dato-valor">{{ confirmacionDatos.tipoVehiculo }}</span>
+      </div>
+      <div class="dato-item">
+        <span class="dato-label">Placa:</span>
+        <span class="dato-valor placa-highlight">{{ confirmacionDatos.placa | uppercase }}</span>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="confirm-footer-buttons">
+      <p-button 
+        label="Cancelar" 
+        icon="pi pi-times" 
+        (onClick)="cancelarRegistro()"
+        styleClass="p-button-secondary p-button-outlined">
+      </p-button>
+      <p-button 
+        label="Confirmar y Registrar" 
+        icon="pi pi-check" 
+        (onClick)="confirmarRegistro()"
+        styleClass="p-button-success">
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
 <!-- Modal de Éxito -->
 <p-dialog 
   [(visible)]="showSuccessModal" 
@@ -219,7 +289,7 @@
               pInputText 
               id="placa" 
               formControlName="placa"
-              placeholder="Ej: ABC-1234"
+              placeholder="Ej: ABC-123"
               style="text-transform: uppercase;"
               [class.ng-invalid]="isSubmitted && f['placa'].errors"
               [class.ng-dirty]="isSubmitted"
@@ -228,7 +298,7 @@
               La placa del vehículo es requerida
             </small>
             <small class="p-error" *ngIf="isSubmitted && f['placa'].errors?.['pattern']">
-              Formato inválido. Use 2-3 letras, guion y 4 números (Ej: ABC-1234 o AB-5678)
+              Formato inválido. Use 3 letras, guion y 3-4 números (Ej: ABC-123)
             </small>
           </div>
 

@@ -9,11 +9,24 @@
 ::ng-deep .login-card {
 	width: 420px;
 	background: linear-gradient(180deg, #ffffff 0%, #f7f9fb 100%);
-	border-radius: 12px;
-	box-shadow: 0 10px 30px rgba(16,24,40,0.08);
+	border-radius: 20px;
+	box-shadow: 
+		0 4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 10px 15px -3px rgba(0, 0, 0, 0.08),
+		0 20px 25px -5px rgba(0, 0, 0, 0.05);
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	transition: all 0.3s ease;
+
+	&:hover {
+		box-shadow: 
+			0 10px 15px -3px rgba(0, 0, 0, 0.12),
+			0 20px 25px -5px rgba(0, 0, 0, 0.1),
+			0 30px 35px -7px rgba(0, 0, 0, 0.08);
+		transform: translateY(-2px);
+	}
 
 	.p-card-body {
-		padding: 28px;
+		padding: 32px;
 	}
 
 	.p-card-content {
@@ -27,10 +40,8 @@
 	color: #0f172a;
 }
 
-.login-card .muted {
-	color: #6b7280;
-	font-size: 13px;
-	margin-bottom: 20px;
+.spacer {
+	height: 40px;
 }
 
 .login-form {
