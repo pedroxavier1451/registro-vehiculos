@@ -41,9 +41,13 @@ export class RegistroComponent implements OnInit {
     try {
       const ok = await this.firebaseService.validarCredenciales(username, password);
       if (ok) {
+        // Generar token de sesión
+        const token = this.generarToken(username);
         sessionStorage.setItem('isAdmin', 'true');
         sessionStorage.setItem('adminUser', username);
-        console.log('Usuario guardado en sessionStorage:', username);
+        sessionStorage.setItem('authToken', token);
+        sessionStorage.setItem('tokenTimestamp', Date.now().toString());
+        console.log('Usuario autenticado con token:', username);
         this.router.navigate(['/admin/panel']);
       } else {
         this.errorMessage = 'Credenciales inválidas';
@@ -53,5 +57,15 @@ export class RegistroComponent implements OnInit {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  private generarToken(username: string): string {
+    // Generar un token simple basado en usuario + timestamp + clave secreta
+    const timestamp = Date.now();
+    const secretKey = 'registro-vehiculos-2025-secret'; // En producción, esto debe estar en el backend
+    const data = `${username}-${timestamp}-${secretKey}`;
+    
+    // Codificar en base64
+    return btoa(data);
   }
 }

@@ -11,6 +11,76 @@
 
 .admin-header h2 { margin: 0; }
 
+// Estilos del buscador
+.search-container {
+	margin: 20px 0;
+}
+
+.search-box {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	max-width: 400px;
+}
+
+.search-input {
+	width: 100%;
+	padding: 12px 45px 12px 40px;
+	border: 2px solid #8B6F47;
+	border-radius: 8px;
+	font-size: 14px;
+	transition: all 0.3s ease;
+	background: white;
+
+	&:focus {
+		outline: none;
+		border-color: #6B4423;
+		box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
+	}
+
+	&::placeholder {
+		color: #9ca3af;
+	}
+}
+
+.search-icon {
+	position: absolute;
+	left: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #8B6F47;
+	pointer-events: none;
+}
+
+.clear-btn {
+	position: absolute;
+	right: 8px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: #8B6F47;
+	color: white;
+	border: none;
+	border-radius: 50%;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	transition: background 0.2s ease;
+
+	&:hover {
+		background: #6B4423;
+	}
+}
+
+.search-results {
+	margin-top: 8px;
+	font-size: 14px;
+	color: #6b7280;
+}
+
 .records-table {
 	width: 100%;
 	border-collapse: collapse;

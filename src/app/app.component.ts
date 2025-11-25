@@ -117,6 +117,11 @@ export class AppComponent implements OnInit {
         Validators.maxLength(100),
         Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
       ]],
+      nombreGrupo: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(100)
+      ]],
       documentoIdentificacion: ['', [
         Validators.required, 
         Validators.pattern(/^\d{8,12}$/)
@@ -137,7 +142,7 @@ export class AppComponent implements OnInit {
       tipoVehiculo: ['', [Validators.required]],
       placa: ['', [
         Validators.required, 
-        Validators.pattern(/^[A-Z]{3}[0-9]{3,4}$|^[A-Z]{3}-[0-9]{3,4}$/i)
+        Validators.pattern(/^[A-Z]{2,3}-[0-9]{4}$/i)
       ]]
     });
   }
@@ -288,6 +293,10 @@ export class AppComponent implements OnInit {
   resetForm(): void {
     this.vehicleForm.reset();
     this.isSubmitted = false;
+  }
+
+  getCurrentYear(): number {
+    return new Date().getFullYear();
   }
 
   ngOnDestroy(): void {

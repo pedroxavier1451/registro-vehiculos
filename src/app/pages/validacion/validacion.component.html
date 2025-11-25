@@ -57,7 +57,7 @@
 			<div class="camera-controls" *ngIf="camarasDisponibles.length > 1">
 				<label for="cameraSelect">Seleccionar cámara:</label>
 				<select id="cameraSelect" [(ngModel)]="camaraSeleccionada" (change)="cambiarCamara()">
-					<option *ngFor="let cam of camarasDisponibles" [value]="cam.deviceId">
+					<option *ngFor="let cam of camarasDisponibles" [ngValue]="cam">
 						{{ cam.label || 'Cámara ' + (camarasDisponibles.indexOf(cam) + 1) }}
 					</option>
 				</select>

@@ -9,10 +9,29 @@
 
 	<div *ngIf="loading">Cargando registros...</div>
 
-	<table *ngIf="!loading && vehiculos.length" class="records-table">
+	<!-- Buscador -->
+	<div *ngIf="!loading" class="search-container">
+		<div class="search-box">
+			<input 
+				type="text" 
+				placeholder="Buscar por número de cédula..." 
+				[(ngModel)]="busquedaCedula"
+				(input)="filtrarVehiculos()"
+				class="search-input"
+			/>
+			<span class="search-icon">🔍</span>
+			<button *ngIf="busquedaCedula" class="clear-btn" (click)="limpiarBusqueda()">✕</button>
+		</div>
+		<p class="search-results" *ngIf="busquedaCedula">
+			Mostrando {{ vehiculosFiltrados.length }} de {{ vehiculos.length }} registros
+		</p>
+	</div>
+
+	<table *ngIf="!loading && vehiculosFiltrados.length" class="records-table">
 		<thead>
 			<tr>
 				<th>Nombre Completo</th>
+				<th>Nombre del Grupo</th>
 				<th>Documento</th>
 				<th>Teléfono</th>
 				<th>Email</th>
@@ -27,8 +46,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let v of vehiculos">
+			<tr *ngFor="let v of vehiculosFiltrados">
 				<td>{{ v.nombreCompleto }}</td>
+				<td>{{ v.nombreGrupo }}</td>
 				<td>{{ v.documentoIdentificacion }}</td>
 				<td>{{ v.telefono }}</td>
 				<td>{{ v.email }}</td>
@@ -51,4 +71,5 @@
 	</table>
 
 	<div *ngIf="!loading && !vehiculos.length" class="empty">No hay registros aún.</div>
+	<div *ngIf="!loading && vehiculos.length && !vehiculosFiltrados.length" class="empty">No se encontraron registros con ese número de cédula.</div>
 </div>

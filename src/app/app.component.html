@@ -37,8 +37,8 @@
         <div class="header-images">
           <img src="assets/images/Virgen del Carmen.png" alt="Virgen del Carmen" class="header-icon left">
           <div class="header-content">
-            <h1>Orden de Carmelitas Descalzos</h1>
-            <p>Complete el formulario para registrar su vehículo en el Pase del Niño Viajero</p>
+            <h1>Santuario Mariano Nacional del Carmen <br>de la Asunción</h1>
+            <p>Complete el formulario para registrar su vehículo en <br>El Pase del Niño Viajero</p>
           </div>
           <img src="assets/images/silueta monasterio ok.png" alt="Monasterio del Carmen" class="header-icon right">
         </div>
@@ -56,9 +56,32 @@
         </h2>
         
         <div class="p-fluid p-formgrid p-grid">
+
+          <!-- Nombre del Grupo -->
+          <div class="p-field p-col-12 p-md-6">
+            <label for="nombreGrupo">Nombre del Grupo</label>
+            <input 
+              pInputText 
+              id="nombreGrupo" 
+              formControlName="nombreGrupo"
+              placeholder="Ingrese el nombre del grupo"
+              [class.ng-invalid]="isSubmitted && f['nombreGrupo'].errors"
+              [class.ng-dirty]="isSubmitted"
+            />
+            <small class="p-error" *ngIf="isSubmitted && f['nombreGrupo'].errors?.['required']">
+              El nombre del grupo es requerido
+            </small>
+            <small class="p-error" *ngIf="isSubmitted && f['nombreGrupo'].errors?.['minlength']">
+              El nombre del grupo debe tener al menos 3 caracteres
+            </small>
+            <small class="p-error" *ngIf="isSubmitted && f['nombreGrupo'].errors?.['maxlength']">
+              El nombre del grupo no puede exceder 100 caracteres
+            </small>
+          </div>
+
           <!-- Nombre Completo -->
           <div class="p-field p-col-12 p-md-6">
-            <label for="nombreCompleto">Nombre Completo</label>
+            <label for="nombreCompleto">Nombre del Representante</label>
             <input 
               pInputText 
               id="nombreCompleto" 
@@ -88,7 +111,7 @@
               pInputText 
               id="documentoIdentificacion" 
               formControlName="documentoIdentificacion"
-              placeholder="Ej: 12345678"
+              placeholder="Ej: 012345678"
               [class.ng-invalid]="isSubmitted && f['documentoIdentificacion'].errors"
               [class.ng-dirty]="isSubmitted"
             />
@@ -107,7 +130,7 @@
               pInputText 
               id="telefono" 
               formControlName="telefono"
-              placeholder="Ej: 3001234567"
+              placeholder="Ej: 0987654321"
               [class.ng-invalid]="isSubmitted && f['telefono'].errors"
               [class.ng-dirty]="isSubmitted"
             />
@@ -196,7 +219,7 @@
               pInputText 
               id="placa" 
               formControlName="placa"
-              placeholder="Ej: ABC123"
+              placeholder="Ej: ABC-1234"
               style="text-transform: uppercase;"
               [class.ng-invalid]="isSubmitted && f['placa'].errors"
               [class.ng-dirty]="isSubmitted"
@@ -205,7 +228,7 @@
               La placa del vehículo es requerida
             </small>
             <small class="p-error" *ngIf="isSubmitted && f['placa'].errors?.['pattern']">
-              Formato inválido. Use 3 letras seguidas de 3-4 números (Ej: ABC123 o ABC-1234)
+              Formato inválido. Use 2-3 letras, guion y 4 números (Ej: ABC-1234 o AB-5678)
             </small>
           </div>
 
@@ -240,10 +263,22 @@
                   <li>Cabezales y tráiler</li>
                   <li>Buses y busetas</li>
                   <li>Volquetas</li>
+                  <li>Plataforma (Huincha)</li>
                 </ul>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Nota informativa -->
+      <div class="p-col-12">
+        <div class="info-note">
+          <i class="pi pi-info-circle"></i>
+          <p><strong>Notas importantes:</strong><br>
+          • El orden de ubicación será asignado según el orden de llegada al evento.<br>
+          • Si el tipo de carro o la temática no son acordes a la navidad no podrán participar.<br>
+          • En el caso de no poder registrarse en línea, por favor acercarse al Monasterio De La Asunción.</p>
         </div>
       </div>
 
@@ -258,12 +293,36 @@
         ></p-button>
         <p-button 
           label="{{ isLoading ? 'Guardando...' : 'Registrar' }}" 
-          icon="{{ isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-save' }}"
+          icon="pi pi-save"
           type="submit"
           [disabled]="isLoading"
-          [loading]="isLoading"
         ></p-button>
       </div>
     </form>
   </p-card>
 </div>
+
+<!-- Footer -->
+<footer *ngIf="showForm" class="page-footer">
+  <div class="footer-content">
+    <div class="footer-section footer-main">
+      <img src="assets/images/Virgen del Carmen.png" alt="Virgen del Carmen" class="footer-image">
+      <div class="footer-text">
+        <h3>Santuario Mariano Nacional<br>del Carmen de la Asunción</h3>
+        <p>Pase del Niño Viajero {{ getCurrentYear() }}</p>
+      </div>
+    </div>
+    <div class="footer-section">
+      <h4>Contacto</h4>
+      <p><i class="pi pi-phone"></i> +593 123 456 789</p>
+      <p><i class="pi pi-envelope"></i> info@carmelitascuenca.org</p>
+    </div>
+    <div class="footer-section">
+      <h4>Ubicación</h4>
+      <p><i class="pi pi-map-marker"></i> Cuenca, Ecuador</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; {{ getCurrentYear() }} Santuario Mariano Nacional del Carmen de la Asunción. Todos los derechos reservados.</p>
+  </div>
+</footer>

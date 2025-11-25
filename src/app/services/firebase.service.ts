@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 export interface VehicleRegistration {
   // Datos personales
   nombreCompleto: string;
+  nombreGrupo: string;
   documentoIdentificacion: string;
   telefono: string;
   email: string;
@@ -62,6 +63,7 @@ export class FirebaseService {
       // Preparar los datos para Firebase
       const vehicleData: VehicleRegistration = {
         nombreCompleto: data.nombreCompleto,
+        nombreGrupo: data.nombreGrupo,
         documentoIdentificacion: data.documentoIdentificacion,
         telefono: data.telefono,
         email: data.email.toLowerCase(),

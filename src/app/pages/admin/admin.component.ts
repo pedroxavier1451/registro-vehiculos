@@ -9,6 +9,8 @@ import { FirebaseService } from '../../services/firebase.service';
 })
 export class AdminComponent implements OnInit {
   vehiculos: any[] = [];
+  vehiculosFiltrados: any[] = [];
+  busquedaCedula: string = '';
   loading = false;
 
   constructor(
@@ -17,9 +19,9 @@ export class AdminComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    const isAdmin = sessionStorage.getItem('isAdmin');
-    if (!isAdmin) {
-      // No autorizado, enviar a login secreto
+    // Verificar autenticación completa
+    if (!this.verificarAutenticacion()) {
+      console.warn('Acceso no autorizado al panel de administración');
       this.router.navigate(['/admin']);
       return;
     }
@@ -27,16 +29,77 @@ export class AdminComponent implements OnInit {
     await this.loadVehiculos();
   }
 
+  private verificarAutenticacion(): boolean {
+    const isAdmin = sessionStorage.getItem('isAdmin');
+    const authToken = sessionStorage.getItem('authToken');
+    const tokenTimestamp = sessionStorage.getItem('tokenTimestamp');
+    const adminUser = sessionStorage.getItem('adminUser');
+
+    // Verificar que todos los datos existan
+    if (!isAdmin || !authToken || !tokenTimestamp || !adminUser) {
+      return false;
+    }
+
+    // Verificar que el token no haya expirado (24 horas)
+    const tokenAge = Date.now() - parseInt(tokenTimestamp);
+    const maxAge = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
+    
+    if (tokenAge > maxAge) {
+      console.warn('Token expirado');
+      this.logout();
+      return false;
+    }
+
+    // Verificar que el token sea válido
+    if (!this.validarToken(authToken, adminUser, tokenTimestamp)) {
+      console.warn('Token inválido');
+      this.logout();
+      return false;
+    }
+
+    return true;
+  }
+
+  private validarToken(token: string, username: string, timestamp: string): boolean {
+    try {
+      const secretKey = 'registro-vehiculos-2025-secret';
+      const expectedData = `${username}-${timestamp}-${secretKey}`;
+      const expectedToken = btoa(expectedData);
+      
+      return token === expectedToken;
+    } catch (e) {
+      return false;
+    }
+  }
+
   async loadVehiculos(): Promise<void> {
     this.loading = true;
     try {
       this.vehiculos = await this.firebaseService.obtenerVehiculos();
+      this.vehiculosFiltrados = [...this.vehiculos];
     } catch (e) {
       console.error(e);
       alert('Error cargando registros');
     } finally {
       this.loading = false;
     }
+  }
+
+  filtrarVehiculos(): void {
+    if (!this.busquedaCedula.trim()) {
+      this.vehiculosFiltrados = [...this.vehiculos];
+      return;
+    }
+
+    const busqueda = this.busquedaCedula.trim().toLowerCase();
+    this.vehiculosFiltrados = this.vehiculos.filter(v => 
+      v.documentoIdentificacion?.toLowerCase().includes(busqueda)
+    );
+  }
+
+  limpiarBusqueda(): void {
+    this.busquedaCedula = '';
+    this.vehiculosFiltrados = [...this.vehiculos];
   }
 
   async eliminar(id: string): Promise<void> {
@@ -58,7 +121,12 @@ export class AdminComponent implements OnInit {
   }
 
   logout(): void {
+    // Limpiar toda la sesión
     sessionStorage.removeItem('isAdmin');
+    sessionStorage.removeItem('adminUser');
+    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('tokenTimestamp');
+    console.log('Sesión cerrada');
     this.router.navigate(['/']);
   }
 }
