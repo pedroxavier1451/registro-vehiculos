@@ -33,7 +33,7 @@
         <span class="dato-valor">{{ confirmacionDatos.documentoIdentificacion }}</span>
       </div>
       <div class="dato-item">
-        <span class="dato-label">Teléfono:</span>
+        <span class="dato-label">Celular:</span>
         <span class="dato-valor">{{ confirmacionDatos.telefono }}</span>
       </div>
       <div class="dato-item">
@@ -94,6 +94,7 @@
     <p-button 
       label="Cerrar" 
       icon="pi pi-times" 
+      iconPos="left"
       (onClick)="showSuccessModal = false"
       styleClass="p-button-text">
     </p-button>
@@ -108,6 +109,10 @@
           <img src="assets/images/Virgen del Carmen.png" alt="Virgen del Carmen" class="header-icon left">
           <div class="header-content">
             <h1>Santuario Mariano Nacional del Carmen <br>de la Asunción</h1>
+            <!-- Imagen del Niño Viajero -->
+            <div class="nino-viajero-container">
+              <img src="assets/images/Niño Viajero.png" alt="Niño Viajero" class="nino-viajero-image">
+            </div>
             <p>Complete el formulario para registrar su vehículo en <br>El Pase del Niño Viajero</p>
           </div>
           <img src="assets/images/silueta monasterio ok.png" alt="Monasterio del Carmen" class="header-icon right">
@@ -117,7 +122,7 @@
 
     <!-- Formulario -->
     <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()" class="registration-form">
-      
+
       <!-- Sección de Datos Personales -->
       <div class="form-section">
         <h2 class="section-title">
@@ -193,9 +198,9 @@
             </small>
           </div>
 
-          <!-- Teléfono -->
+          <!-- Celular -->
           <div class="p-field p-col-12 p-md-6">
-            <label for="telefono">Número de Teléfono</label>
+            <label for="telefono">Número de Celular</label>
             <input 
               pInputText 
               id="telefono" 
@@ -205,10 +210,10 @@
               [class.ng-dirty]="isSubmitted"
             />
             <small class="p-error" *ngIf="isSubmitted && f['telefono'].errors?.['required']">
-              El número de teléfono es requerido
+              El número de celular es requerido
             </small>
             <small class="p-error" *ngIf="isSubmitted && f['telefono'].errors?.['pattern']">
-              El teléfono debe contener exactamente 10 dígitos (sin espacios ni guiones)
+              El celular debe contener exactamente 10 dígitos (sin espacios ni guiones)
             </small>
           </div>
 

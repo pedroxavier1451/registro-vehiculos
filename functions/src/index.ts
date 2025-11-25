@@ -68,52 +68,106 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <style>
+    :root {
+      color-scheme: light only;
+    }
+    @media (prefers-color-scheme: dark) {
+      .email-wrapper {
+        background-color: #F5F1E8 !important;
+      }
+      .email-card {
+        background-color: #FFFEF7 !important;
+      }
+      .text-dark {
+        color: #2C1810 !important;
+      }
+      .text-brown {
+        color: #5D4037 !important;
+      }
+      .text-red {
+        color: #8B0000 !important;
+      }
+    }
+  </style>
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f4f4f4;">
+<body style="margin: 0; padding: 0; font-family: 'Georgia', 'Crimson Text', serif; background-color: #F5F1E8 !important;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" class="email-wrapper" style="background-color: #F5F1E8 !important;">
     <tr>
-      <td align="center" style="padding: 20px;">
-        <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff;">
-          <!-- Header -->
+      <td align="center" style="padding: 20px 10px;">
+        <table width="600" cellpadding="0" cellspacing="0" border="0" class="email-card" style="background-color: #FFFEF7 !important; border: 3px solid #DAA520; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(139, 0, 0, 0.15);">
+          
+          <!-- Header con gradiente marrón -->
           <tr>
-            <td style="padding: 30px;">
-              <h2 style="color: #333333; margin: 0 0 20px 0;">¡Gracias por registrarte!</h2>
-              <p style="color: #666666; margin: 0 0 10px 0;">Hola <strong>${nombre || ''}</strong>,</p>
-              <p style="color: #666666; margin: 0;">Tu registro ha sido confirmado exitosamente para el <strong>Pase del Niño Viajero</strong> del <strong>24 de diciembre de 2025</strong>.</p>
+            <td style="background: linear-gradient(135deg, #4A2C1A 0%, #523319 100%); padding: 30px 20px; text-align: center; border-bottom: 4px solid #DAA520;">
+              <h1 style="color: #FFFEF7; margin: 0 0 10px 0; font-size: 28px; font-family: 'Georgia', serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                Santuario Mariano Nacional<br>del Carmen de la Asunción
+              </h1>
+              <p style="color: #DAA520; margin: 0; font-size: 16px; font-weight: bold; letter-spacing: 1px;">
+                Pase del Niño Viajero 2025
+              </p>
+            </td>
+          </tr>
+
+          <!-- Saludo -->
+          <tr>
+            <td style="padding: 30px 30px 20px 30px; background-color: #FFFEF7 !important;">
+              <h2 class="text-red" style="color: #8B0000 !important; margin: 0 0 15px 0; font-size: 24px; font-family: 'Georgia', serif; border-bottom: 2px solid #D7CCC8; padding-bottom: 10px;">
+                ¡Bendiciones, ${nombre || ''}!
+              </h2>
+              <p class="text-dark" style="color: #2C1810 !important; margin: 0 0 15px 0; font-size: 16px; line-height: 1.7;">
+                Tu registro ha sido confirmado exitosamente para el <strong class="text-red" style="color: #8B0000 !important;">Pase del Niño Viajero</strong> que se realizará el <strong class="text-red" style="color: #8B0000 !important;">24 de diciembre de 2025</strong>.
+              </p>
+              <p class="text-brown" style="color: #5D4037 !important; margin: 0; font-size: 15px; line-height: 1.7;">
+                Es un honor contar con tu participación en esta tradición tan especial de nuestra fe católica.
+              </p>
             </td>
           </tr>
           
-          <!-- Info Box -->
+          <!-- QR Code Section con colores católicos -->
           <tr>
-            <td style="padding: 0 30px 30px 30px;">
-              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #e8f5e9; border-left: 4px solid #4caf50;">
+            <td style="padding: 0 30px 20px 30px; background-color: #FFFEF7 !important;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background: linear-gradient(135deg, #FFF9E6 0%, #F5F1E8 100%) !important; border: 2px solid #B8860B; border-radius: 8px; box-shadow: 0 4px 12px rgba(139, 0, 0, 0.1);">
                 <tr>
-                  <td style="padding: 20px;">
-                    <h3 style="color: #2e7d32; margin: 0 0 10px 0;">Tu Código QR de Acceso</h3>
-                    <p style="color: #1b5e20; margin: 0 0 10px 0;">Descarga el archivo adjunto <strong>qr-code.png</strong> y guárdalo en tu dispositivo para presentarlo el día del evento.</p>
-                    <p style="color: #1b5e20; margin: 0;"><strong>¡IMPORTANTE!</strong> Presenta este código QR el día del evento.</p>
+                  <td style="padding: 25px; background-color: #FFF9E6 !important;">
+                    <h3 class="text-red" style="color: #8B0000 !important; margin: 0 0 15px 0; font-size: 20px; font-family: 'Georgia', serif;">
+                      Tu Código QR de Acceso
+                    </h3>
+                    <p class="text-dark" style="color: #2C1810 !important; margin: 0 0 12px 0; font-size: 15px; line-height: 1.6;">
+                      Descarga el archivo adjunto <strong class="text-red" style="color: #8B0000 !important;">qr-code.png</strong> y guárdalo en tu dispositivo.
+                    </p>
+                    <p class="text-dark" style="color: #2C1810 !important; margin: 0; font-size: 15px; line-height: 1.6;">
+                      <strong class="text-red" style="color: #8B0000 !important;">¡MUY IMPORTANTE!</strong> Presenta este código QR el día del evento para tu validación.
+                    </p>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
           
-          <!-- Location Section -->
+          <!-- Punto de Concentración con colores católicos -->
           <tr>
-            <td style="padding: 0 30px 30px 30px;">
-              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #e3f2fd; border-left: 4px solid #2196f3;">
+            <td style="padding: 0 30px 20px 30px; background-color: #FFFEF7 !important;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background: linear-gradient(135deg, #E8DCC8 0%, #F5F1E8 100%) !important; border: 2px solid #8B0000; border-radius: 8px; box-shadow: 0 4px 12px rgba(139, 0, 0, 0.1);">
                 <tr>
-                  <td style="padding: 20px;">
-                    <h3 style="color: #1565c0; margin: 0 0 15px 0;">Punto de Concentración</h3>
-                    <p style="color: #0d47a1; margin: 0 0 10px 0; font-size: 14px;">
-                      <strong>Dirección:</strong> Av. 3 de Noviembre y Simón Bolivar, Cuenca - Ecuador
+                  <td style="padding: 25px; background-color: #E8DCC8 !important;">
+                    <h3 class="text-red" style="color: #8B0000 !important; margin: 0 0 15px 0; font-size: 20px; font-family: 'Georgia', serif;">
+                      Punto de Concentración
+                    </h3>
+                    <p class="text-dark" style="color: #2C1810 !important; margin: 0 0 15px 0; font-size: 15px; line-height: 1.6;">
+                      <strong class="text-red" style="color: #8B0000 !important;">Dirección:</strong><br>
+                      Av. 3 de Noviembre y Simón Bolivar<br>
+                      Cuenca - Ecuador
                     </p>
 
-                    <!-- Botón de Google Maps -->
-                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 10px;">
+                    <!-- Botón de Google Maps con estilo católico -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px;">
                       <tr>
-                        <td align="center" style="padding: 5px;">
-                          <a href="https://www.google.com/maps?q=-2.895326072253961,-79.01550912890595" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #2196f3; color: #ffffff; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 13px;">
+                        <td align="center">
+                          <a href="https://www.google.com/maps?q=-2.895326072253961,-79.01550912890595" target="_blank" style="display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #8B0000 0%, #660000 100%) !important; color: #FFFEF7 !important; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; border: 2px solid #DAA520; box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);">
                             Ver Ubicación en Google Maps
                           </a>
                         </td>
@@ -125,19 +179,34 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
             </td>
           </tr>
           
-          <!-- Footer -->
-          <!-- Warning Box -->
+          <!-- Warning Box con estilo católico -->
           <tr>
-            <td style="padding: 0 30px 30px 30px;">
-              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #fff3e0;">
+            <td style="padding: 0 30px 30px 30px; background-color: #FFFEF7 !important;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #FFF9E6 !important; border-left: 4px solid #B8860B; border-radius: 6px;">
                 <tr>
-                  <td style="padding: 15px;">
-                    <p style="color: #e65100; margin: 0; font-size: 14px;">⚠️ <strong>Nota:</strong> Este código QR es único y personal. No lo compartas con nadie.</p>
+                  <td style="padding: 15px 20px; background-color: #FFF9E6 !important;">
+                    <p class="text-red" style="color: #8B0000 !important; margin: 0; font-size: 14px; line-height: 1.6;">
+                      ⚠️ <strong>Nota Importante:</strong> Este código QR es único y personal. No lo compartas con otras personas.
+                    </p>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
+
+          <!-- Footer con bendición -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #4A2C1A 0%, #523319 100%); padding: 25px 30px; text-align: center; border-top: 4px solid #DAA520;">
+              <p style="color: #DAA520; margin: 0 0 10px 0; font-size: 15px; font-style: italic; line-height: 1.6;">
+                "Que el Niño Jesús bendiga tu hogar y tu familia"
+              </p>
+              <p style="color: #FFFEF7; margin: 0; font-size: 13px;">
+                Santuario Mariano Nacional del Carmen de la Asunción<br>
+                Cuenca - Ecuador
+              </p>
+            </td>
+          </tr>
+
         </table>
       </td>
     </tr>
@@ -158,8 +227,8 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
   const msg: any = {
     to: email,
     from: sendgridFromValue,
-    subject: 'Gracias por registrarte - Tu código QR',
-    text: `Hola ${nombre || ''},\n\nGracias por registrarte en el evento.\n\nPor favor presenta tu código QR el día del evento.\n\nSaludos,\nEl equipo.`,
+    subject: 'Confirmación de Registro - Pase del Niño Viajero 2025',
+    text: `Bendiciones ${nombre || ''},\n\nTu registro para el Pase del Niño Viajero del 24 de diciembre de 2025 ha sido confirmado exitosamente.\n\nDescarga el archivo adjunto qr-code.png y preséntalo el día del evento.\n\nPunto de concentración: Av. 3 de Noviembre y Simón Bolivar, Cuenca - Ecuador\n\nQue el Niño Jesús bendiga tu hogar y tu familia.\n\nSantuario Mariano Nacional del Carmen de la Asunción\nCuenca - Ecuador`,
     html: htmlContent,
     attachments: []
   };

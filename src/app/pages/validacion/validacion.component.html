@@ -183,7 +183,7 @@
 
 	<!-- Historial de validaciones -->
 	<div *ngIf="historial.length" class="historial-section">
-		<h3>📋 Historial de Validaciones (Sesión Actual)</h3>
+		<h3>Historial de Validaciones</h3>
 		<div class="historial-lista">
 			<div *ngFor="let item of historial" class="historial-item" [ngClass]="item.valido ? 'historial-exito' : 'historial-error'">
 				<div class="historial-icon">{{ item.valido ? '✅' : '❌' }}</div>
