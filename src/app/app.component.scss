@@ -129,9 +129,10 @@ body {
   .header-images {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     gap: 2rem;
     max-width: 100%;
+    width: 100%;
 
     @media (max-width: 768px) {
       flex-direction: column;
@@ -140,27 +141,43 @@ body {
   }
 
   .header-icon {
-    height: 120px;
-    width: auto;
     object-fit: contain;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    display: block;
+    flex-shrink: 0;
 
     &.left {
-      animation: float 3s ease-in-out infinite;
+      height: 220px;
+      width: auto;
+      max-width: 200px;
     }
 
     &.right {
-      animation: float 3s ease-in-out infinite 1.5s;
+      height: 140px;
+      width: auto;
+      max-width: 250px;
     }
 
     @media (max-width: 768px) {
-      height: 80px;
+      &.left {
+        height: 100px;
+        max-width: 180px;
+      }
+
+      &.right {
+        height: 90px;
+        max-width: 170px;
+      }
     }
   }
 
   .header-content {
     flex: 1;
     max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   h1 {
@@ -1253,6 +1270,10 @@ body {
       padding: 0.75rem 2rem;
       font-size: 1rem;
       border-radius: 8px;
+
+      .p-button-icon {
+        margin-right: 0.5rem;
+      }
 
       &:hover {
         background: linear-gradient(135deg, #8B6F47 0%, #A0826D 100%);

@@ -119,7 +119,7 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
                 ¡Bendiciones, ${nombre || ''}!
               </h2>
               <p class="text-dark" style="color: #2C1810 !important; margin: 0 0 15px 0; font-size: 16px; line-height: 1.7;">
-                Tu registro ha sido confirmado exitosamente para el <strong class="text-red" style="color: #8B0000 !important;">Pase del Niño Viajero</strong> que se realizará el <strong class="text-red" style="color: #8B0000 !important;">24 de diciembre de 2025</strong>.
+                Tu registro ha sido confirmado exitosamente para el <strong class="text-red" style="color: #8B0000 !important;">Pase del Niño Viajero</strong> que se realizará el <strong class="text-red" style="color: #8B0000 !important;">24 de diciembre de 2025 a las 10:00 am</strong>.
               </p>
               <p class="text-brown" style="color: #5D4037 !important; margin: 0; font-size: 15px; line-height: 1.7;">
                 Es un honor contar con tu participación en esta tradición tan especial de nuestra fe católica.
@@ -181,12 +181,18 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
           
           <!-- Warning Box con estilo católico -->
           <tr>
-            <td style="padding: 0 30px 30px 30px; background-color: #FFFEF7 !important;">
+            <td style="padding: 0 30px 20px 30px; background-color: #FFFEF7 !important;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #FFF9E6 !important; border-left: 4px solid #B8860B; border-radius: 6px;">
                 <tr>
                   <td style="padding: 15px 20px; background-color: #FFF9E6 !important;">
-                    <p class="text-red" style="color: #8B0000 !important; margin: 0; font-size: 14px; line-height: 1.6;">
-                      ⚠️ <strong>Nota Importante:</strong> Este código QR es único y personal. No lo compartas con otras personas.
+                    <p style="color: #8B0000 !important; margin: 0 0 12px 0; font-size: 14px; line-height: 1.6; font-weight: bold;">
+                      ⚠️ Importante:
+                    </p>
+                    <p style="color: #2C1810 !important; margin: 0 0 10px 0; font-size: 14px; line-height: 1.6;">
+                      • Este código QR es único y personal. No lo compartas con otras personas.
+                    </p>
+                    <p style="color: #2C1810 !important; margin: 0; font-size: 14px; line-height: 1.6;">
+                      • El orden de ubicación será asignado según el orden de llegada al evento.
                     </p>
                   </td>
                 </tr>
