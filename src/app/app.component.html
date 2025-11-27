@@ -105,18 +105,23 @@
   <p-card styleClass="registration-card">
     <ng-template pTemplate="header">
       <div class="card-header">
-        <div class="header-images">
-          <img src="assets/images/Logos editables-02.png" alt="Virgen del Carmen" class="header-icon left">
-          <div class="header-content">
-            <h1>Gran Pase del<br>Niño Viajero<br>2025</h1>
-            <!-- Imagen del Niño Viajero -->
-            <div class="nino-viajero-container">
-              <img src="assets/images/Niño Viajero.png" alt="Niño Viajero" class="nino-viajero-image">
-            </div>
-            <p>Complete el formulario para registrar su vehículo</p>
-          </div>
-          <img src="assets/images/Monasterio.png" alt="Monasterio del Carmen" class="header-icon right">
+        <!-- Fila 1: Los 3 logos institucionales -->
+        <div class="header-logos-top">
+          <img src="assets/images/Logos editables-02.png" alt="Virgen del Carmen" class="top-logo logo-carmelitas">
+          <img src="assets/images/Logo arquidiocesis3.png" alt="Arquidiócesis de Cuenca" class="top-logo logo-arquidiocesis">
+          <img src="assets/images/Monasterio.png" alt="Monasterio del Carmen" class="top-logo logo-monasterio">
         </div>
+        
+        <!-- Fila 2: Título principal -->
+        <h1 class="header-title">Gran Pase del Niño Viajero 2025</h1>
+        
+        <!-- Fila 3: Niño Viajero grande -->
+        <div class="nino-viajero-hero">
+          <img src="assets/images/Niño Viajero.png" alt="Niño Viajero" class="nino-viajero-large">
+        </div>
+        
+        <!-- Fila 4: Texto descriptivo -->
+        <p class="header-subtitle">Complete el formulario para registrar su vehículo</p>
       </div>
     </ng-template>
 
@@ -296,6 +301,8 @@
               formControlName="placa"
               placeholder="Ej: ABC-123"
               style="text-transform: uppercase;"
+              (input)="formatPlaca($event)"
+              maxlength="9"
               [class.ng-invalid]="isSubmitted && f['placa'].errors"
               [class.ng-dirty]="isSubmitted"
             />
@@ -303,7 +310,7 @@
               La placa del vehículo es requerida
             </small>
             <small class="p-error" *ngIf="isSubmitted && f['placa'].errors?.['pattern']">
-              Formato inválido. Use 3 letras, guion y 3-4 números (Ej: ABC-123)
+              Formato inválido. Use 3-4 letras y 3-4 números (Ej: ABC-123)
             </small>
           </div>
 
@@ -338,7 +345,6 @@
                   <li>Cabezales y tráiler</li>
                   <li>Buses y busetas</li>
                   <li>Volquetas</li>
-                  <li>Plataforma (Huincha)</li>
                 </ul>
               </div>
             </div>
@@ -353,7 +359,7 @@
           <p><strong>Notas importantes:</strong><br>
           • El orden de ubicación será asignado según el orden de llegada al evento.<br>
           • Si el tipo de carro o la temática no son acordes a la navidad no podrán participar.<br>
-          • En el caso de no poder registrarse en línea, por favor acercarse al Monasterio De La Asunción.</p>
+          • En el caso de no poder registrarse en línea, por favor acercarse al Monasterio Del Carmen De La Asunción.</p>
         </div>
       </div>
 

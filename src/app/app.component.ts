@@ -144,7 +144,7 @@ export class AppComponent implements OnInit {
       tipoVehiculo: ['', [Validators.required]],
       placa: ['', [
         Validators.required, 
-        Validators.pattern(/^[A-Z]{3}-[0-9]{3,4}$/i)
+        Validators.pattern(/^[A-Z]{3,4}-[0-9]{3,4}$/i)
       ]]
     });
   }
@@ -315,6 +315,36 @@ export class AppComponent implements OnInit {
   resetForm(): void {
     this.vehicleForm.reset();
     this.isSubmitted = false;
+  }
+
+  formatPlaca(event: any): void {
+    let value = event.target.value.toUpperCase().replace(/-/g, ''); // Eliminar guiones existentes y convertir a mayúsculas
+    
+    // Solo permitir letras y números
+    value = value.replace(/[^A-Z0-9]/g, '');
+    
+    // Separar letras y números
+    const letras = value.match(/^[A-Z]+/)?.[0] || '';
+    const numeros = value.replace(/^[A-Z]+/, '');
+    
+    // Limitar letras a máximo 4 y números a máximo 4
+    const letrasLimitadas = letras.substring(0, 4);
+    const numerosLimitados = numeros.substring(0, 4);
+    
+    // Si hay letras y números, agregar guion
+    if (letrasLimitadas && numerosLimitados) {
+      value = letrasLimitadas + '-' + numerosLimitados;
+    } else {
+      value = letrasLimitadas + numerosLimitados;
+    }
+    
+    // Actualizar el valor del formulario
+    this.vehicleForm.patchValue({
+      placa: value
+    }, { emitEvent: false });
+    
+    // Actualizar el input
+    event.target.value = value;
   }
 
   getCurrentYear(): number {
