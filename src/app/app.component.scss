@@ -121,7 +121,7 @@ body {
 }
 
 .card-header {
-  padding: 0rem 2rem 2.5rem;
+  padding: 1.5rem 2rem 2.5rem;
   text-align: center;
   color: #FFFEF7;
   background: linear-gradient(135deg, #4A2C1A 0%, #523319 100%);
@@ -131,26 +131,45 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4rem;
+    gap: 3rem;
     margin-bottom: 1.3rem;
 
     @media (max-width: 968px) {
-      gap: 2.5rem;
+      gap: 2rem;
       margin-bottom: 1rem;
     }
 
     @media (max-width: 768px) {
-      gap: 1.5rem;
+      gap: 1.2rem;
       margin-bottom: 0.8rem;
     }
   }
 
+  // Contenedor de cada logo (mismo tamaño para todos)
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 160px;
+    height: 160px;
+    flex-shrink: 0;
+
+    @media (max-width: 968px) {
+      width: 130px;
+      height: 130px;
+    }
+
+    @media (max-width: 768px) {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  // Estilos para las imágenes dentro de los contenedores
   .top-logo {
     object-fit: contain;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
     transition: transform 0.3s ease;
-    flex-shrink: 0;
-    
 
     &:hover {
       transform: translateY(-5px);
@@ -165,13 +184,11 @@ body {
       height: 120px;
       width: auto;
       margin-top: 40px;
-      margin-right: 45px;
     }
 
     &.logo-monasterio {
       height: 95px;
       width: auto;
-      margin-right: 18px;
       margin-top: 20px;
     }
 
