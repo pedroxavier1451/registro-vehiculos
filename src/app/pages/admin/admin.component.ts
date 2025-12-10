@@ -28,48 +28,16 @@ export class AdminComponent implements OnInit {
 
     await this.loadVehiculos();
   }
-
   private verificarAutenticacion(): boolean {
     const isAdmin = sessionStorage.getItem('isAdmin');
-    const authToken = sessionStorage.getItem('authToken');
-    const tokenTimestamp = sessionStorage.getItem('tokenTimestamp');
     const adminUser = sessionStorage.getItem('adminUser');
 
-    // Verificar que todos los datos existan
-    if (!isAdmin || !authToken || !tokenTimestamp || !adminUser) {
-      return false;
-    }
-
-    // Verificar que el token no haya expirado (24 horas)
-    const tokenAge = Date.now() - parseInt(tokenTimestamp);
-    const maxAge = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
-    
-    if (tokenAge > maxAge) {
-      console.warn('Token expirado');
-      this.logout();
-      return false;
-    }
-
-    // Verificar que el token sea válido
-    if (!this.validarToken(authToken, adminUser, tokenTimestamp)) {
-      console.warn('Token inválido');
-      this.logout();
+    // Verificar que el usuario administrador exista en sesión
+    if (!isAdmin || !adminUser) {
       return false;
     }
 
     return true;
-  }
-
-  private validarToken(token: string, username: string, timestamp: string): boolean {
-    try {
-      const secretKey = 'registro-vehiculos-2025-secret';
-      const expectedData = `${username}-${timestamp}-${secretKey}`;
-      const expectedToken = btoa(expectedData);
-      
-      return token === expectedToken;
-    } catch (e) {
-      return false;
-    }
   }
 
   async loadVehiculos(): Promise<void> {
@@ -116,6 +84,76 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  exportarCSV(): void {
+    if (!this.vehiculosFiltrados || !this.vehiculosFiltrados.length) {
+      alert('No hay registros para exportar');
+      return;
+    }
+
+    const headers = [
+      'Nombre Completo',
+      'Nombre del Grupo',
+      'Documento',
+      'Teléfono',
+      'Email',
+      'Temática',
+      'Tipo Vehículo',
+      'Placa',
+      'Fecha Registro',
+      'Validado',
+      'Fecha Validación',
+      'Validado Por'
+    ];
+
+    const rows = this.vehiculosFiltrados.map(v => [
+      v.nombreCompleto || '',
+      v.nombreGrupo || '',
+      v.documentoIdentificacion || '',
+      v.telefono || '',
+      v.email || '',
+      v.tematica || '',
+      v.tipoVehiculo || '',
+      v.placa || '',
+      this.formatDate(v.fechaRegistro),
+      v.validado ? 'Validado' : 'Pendiente',
+      this.formatDate(v.validadoAt),
+      v.validadoPor || ''
+    ]);
+
+    const escapeCell = (value: any) => {
+      const s = value === null || value === undefined ? '' : String(value);
+      return '"' + s.replace(/"/g, '""') + '"';
+    };
+
+    const csvContent = [
+      headers.map(h => escapeCell(h)).join(';'),
+      ...rows.map(r => r.map(c => escapeCell(c)).join(';'))
+    ].join('\r\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const ts = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+    a.download = `vehiculos_${ts}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  private formatDate(field: any): string {
+    if (!field) return '';
+    try {
+      if (field.toDate && typeof field.toDate === 'function') {
+        const d: Date = field.toDate();
+        return d.toLocaleString();
+      }
+      if (field instanceof Date) return field.toLocaleString();
+      return String(field);
+    } catch (e) {
+      return '';
+    }
+  }
+
   irAValidacion(): void {
     this.router.navigate(['/admin/validacion']);
   }
@@ -124,8 +162,6 @@ export class AdminComponent implements OnInit {
     // Limpiar toda la sesión
     sessionStorage.removeItem('isAdmin');
     sessionStorage.removeItem('adminUser');
-    sessionStorage.removeItem('authToken');
-    sessionStorage.removeItem('tokenTimestamp');
     console.log('Sesión cerrada');
     this.router.navigate(['/']);
   }

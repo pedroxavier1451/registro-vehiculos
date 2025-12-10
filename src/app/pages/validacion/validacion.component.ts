@@ -60,53 +60,16 @@ export class ValidacionComponent implements OnInit, OnDestroy {
 
   private verificarAutenticacion(): boolean {
     const isAdmin = sessionStorage.getItem('isAdmin');
-    const authToken = sessionStorage.getItem('authToken');
-    const tokenTimestamp = sessionStorage.getItem('tokenTimestamp');
     const adminUser = sessionStorage.getItem('adminUser');
 
-    // Verificar que todos los datos existan
-    if (!isAdmin || !authToken || !tokenTimestamp || !adminUser) {
-      return false;
-    }
-
-    // Verificar que el token no haya expirado (24 horas)
-    const tokenAge = Date.now() - parseInt(tokenTimestamp);
-    const maxAge = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
-    
-    if (tokenAge > maxAge) {
-      console.warn('Token expirado');
-      this.cerrarSesion();
-      return false;
-    }
-
-    // Verificar que el token sea válido
-    if (!this.validarToken(authToken, adminUser, tokenTimestamp)) {
-      console.warn('Token inválido');
-      this.cerrarSesion();
+    // Verificar que el usuario administrador exista en sesión
+    if (!isAdmin || !adminUser) {
       return false;
     }
 
     return true;
   }
-
-  private validarToken(token: string, username: string, timestamp: string): boolean {
-    try {
-      const secretKey = 'registro-vehiculos-2025-secret';
-      const expectedData = `${username}-${timestamp}-${secretKey}`;
-      const expectedToken = btoa(expectedData);
-      
-      return token === expectedToken;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  private cerrarSesion(): void {
-    sessionStorage.removeItem('isAdmin');
-    sessionStorage.removeItem('adminUser');
-    sessionStorage.removeItem('authToken');
-    sessionStorage.removeItem('tokenTimestamp');
-  }
+  
 
   async validarCodigo(): Promise<void> {
     if (!this.codigoQR.trim()) {
