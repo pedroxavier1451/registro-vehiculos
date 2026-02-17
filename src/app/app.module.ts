@@ -17,6 +17,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TagModule } from 'primeng/tag';
 import { MessageModule } from 'primeng/message';
+import { GalleriaModule } from 'primeng/galleria';
+import { CarouselModule } from 'primeng/carousel';
 import { MessageService, ConfirmationService } from 'primeng/api';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +27,7 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { ValidacionComponent } from './pages/validacion/validacion.component';
 import { FormularioPaseComponent } from './pages/formulario-pase/formulario-pase.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { FormularioPaseComponent } from './pages/formulario-pase/formulario-pase
     AdminComponent,
     RegistroComponent,
     ValidacionComponent,
-    FormularioPaseComponent
+    FormularioPaseComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -51,10 +55,11 @@ import { FormularioPaseComponent } from './pages/formulario-pase/formulario-pase
     ConfirmDialogModule,
     DialogModule,
     TagModule,
-    MessageModule
-    ,
+    MessageModule,
     MenubarModule,
-    MenuModule
+    MenuModule,
+    GalleriaModule,
+    CarouselModule
   ],
   providers: [MessageService, ConfirmationService],
   bootstrap: [AppComponent]

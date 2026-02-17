@@ -1,4 +1,4 @@
-<div class="menu-container">
+<div class="menu-container" *ngIf="showHeaderFooter">
   <div class="logo-section">
     <a routerLink="/">
       <img src="assets/images/LogoMonasterio.png" alt="Logo" class="menu-logo" />
@@ -12,7 +12,7 @@
 <router-outlet></router-outlet>
 
 <!-- Footer Global -->
-<footer class="page-footer">
+<footer class="page-footer" *ngIf="showHeaderFooter">
 	<div class="footer-content">
 		<div class="footer-section footer-main">
 			<img src="assets/images/Virgen del Carmen.png" alt="Virgen del Carmen" class="footer-image">

@@ -4,8 +4,12 @@ import { RegistroComponent } from './pages/registro/registro.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { ValidacionComponent } from './pages/validacion/validacion.component';
 import { FormularioPaseComponent } from './pages/formulario-pase/formulario-pase.component';
+import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
+  // Página principal
+  { path: '', component: HomeComponent },
+
   // Ruta secreta para login de administradores (no hay enlaces visibles hacia aquí)
   { path: 'admin', component: RegistroComponent },
 
@@ -17,7 +21,7 @@ const routes: Routes = [
 
   { path: 'formulario', component: FormularioPaseComponent },
 
-  // Redirigir cualquier otra ruta a la raíz (AppComponent mostrará la UI pública)
+  // Redirigir cualquier otra ruta a la página principal
   { path: '**', redirectTo: '' }
 ];
 

@@ -6,24 +6,35 @@
 .menu-container {
   display: flex;
   align-items: center;
-  background: #f6f1ea;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  padding: 12px 24px;
+  background: linear-gradient(180deg, #fff 0%, #f9f7f4 100%);
+  border-bottom: 2px solid #e8dcc8;
+  padding: 16px 48px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
 }
 
 .logo-section {
   flex-shrink: 0;
-  margin-right: 48px;
+  margin-right: 64px;
   
   a {
     display: block;
     line-height: 0;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
   }
   
   .menu-logo {
-    height: 120px;
+    height: 100px;
     width: auto;
     display: block;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
 }
 
@@ -42,56 +53,217 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 48px;
+    gap: 56px;
     width: 100%;
   }
 
   .p-menuitem {
     position: relative;
+    min-width: 180px;
+    text-align: center;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 80%;
+      height: 3px;
+      background: linear-gradient(90deg, #8b7355, #b8956a, #8b7355);
+      border-radius: 2px;
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover::after {
+      transform: translateX(-50%) scaleX(1);
+    }
   }
 
   .p-menuitem-link {
-    padding: 12px 0 !important;
+    padding: 16px 8px !important;
     background: transparent !important;
     border: none !important;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(139, 115, 85, 0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
     
     &:hover {
       background: transparent !important;
+      
+      &::before {
+        opacity: 1;
+      }
     }
 
     .p-menuitem-text {
-      color: #111 !important;
-      font-size: 22px !important;
+      color: #2c2416 !important;
+      font-size: 17px !important;
       font-weight: 600 !important;
-      letter-spacing: 1px !important;
+      letter-spacing: 0.5px !important;
       text-transform: uppercase;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: all 0.3s ease;
     }
 
-    .p-menuitem-icon {
+    .p-submenu-icon {
+      display: none !important;
+    }
+
+    &:hover {
+      .p-menuitem-text {
+        color: #8b7355 !important;
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  // Estilos específicos para el botón de login
+  .login-button {
+    .p-menuitem-link {
+      background: #e8dcc8 !important;
+      border-radius: 8px;
+      padding: 12px 20px !important;
+      
+      &::before {
+        display: none;
+      }
+      
+      &:hover {
+        background: #d4c7b0 !important;
+      }
+      
+      .p-menuitem-text {
+        color: #5a4a3a !important;
+        text-transform: none !important;
+        font-size: 16px !important;
+      }
+      
+      .p-menuitem-icon {
+        color: #5a4a3a !important;
+        font-size: 18px;
+        margin-right: 8px;
+      }
+    }
+    
+    &::after {
       display: none;
-    }
-
-    &:hover .p-menuitem-text {
-      color: #333 !important;
     }
   }
 
   .p-submenu-list {
     background: #fff !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+    padding: 8px 0 !important;
+    margin-top: 8px !important;
+    width: 180px;
+    
+    .p-menuitem {
+      &::after {
+        display: none;
+      }
+    }
     
     .p-menuitem-link {
-      padding: 12px 16px !important;
+      padding: 12px 20px !important;
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+      
+      &:hover {
+        background: linear-gradient(90deg, #f9f7f4 0%, #fff 100%) !important;
+        border-left-color: #8b7355;
+      }
       
       .p-menuitem-text {
-        font-size: 16px !important;
-        text-transform: none;
+        font-size: 15px !important;
+        text-transform: none !important;
+        font-weight: 500 !important;
+        color: #4a4a4a !important;
       }
       
       .p-menuitem-icon {
-        display: inline-block;
-        margin-right: 8px;
+        color: #8b7355 !important;
+        margin-right: 12px;
+        font-size: 14px;
+      }
+      
+      &:hover .p-menuitem-text {
+        color: #2c2416 !important;
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+// Responsive para el menú
+@media (max-width: 1024px) {
+  .menu-container {
+    padding: 12px 24px;
+  }
+  
+  .logo-section {
+    margin-right: 32px;
+    
+    .menu-logo {
+      height: 80px;
+    }
+  }
+  
+  ::ng-deep .p-menubar {
+    .p-menubar-root-list {
+      gap: 32px;
+    }
+    
+    .p-menuitem-link {
+      .p-menuitem-text {
+        font-size: 15px !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-container {
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .logo-section {
+    margin-right: 0;
+    
+    .menu-logo {
+      height: 70px;
+    }
+  }
+  
+  ::ng-deep .p-menubar {
+    width: 100%;
+    
+    .p-menubar-root-list {
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .p-menuitem-link {
+      padding: 10px 6px !important;
+      
+      .p-menuitem-text {
+        font-size: 13px !important;
       }
     }
   }

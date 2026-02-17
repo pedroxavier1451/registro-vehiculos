@@ -1,18 +1,36 @@
 export const MENU_USER = [
   {
-    label: 'Operaciones',
-    icon: 'pi pi-folder',
+    label: 'Nosotros',
     items: [
-      { label: 'Formulario', icon: 'pi pi-file', routerLink: ['/formulario'] },
-      { label: 'Registro', icon: 'pi pi-list', routerLink: ['/registro'] },
+      { label: 'Monasterio', routerLink: ['/'] },
+      { label: 'Quienes Somos', routerLink: ['/'] },
     ]
   },
   {
-    label: 'Admin',
-    icon: 'pi pi-folder',
+    label: 'Espiritualidad',
     items: [
-      { label: 'Validación', icon: 'pi pi-check', routerLink: ['/validacion'] },
-      { label: 'Admin', icon: 'pi pi-user', routerLink: ['/admin'] }
+      { label: 'Virgen del Carmen', routerLink: ['/'] },
+      { label: 'Niño Viajero', routerLink: ['/'] },
+      { label: 'Santuario', routerLink: ['/'] },
+      { label: 'Grupo Hermano Miguel', routerLink: ['/'] },
     ]
+  },
+  {
+    label: 'Productos',
+    items: [
+      { label: 'Producto 1', routerLink: ['/'] },
+    ]
+  },
+  {
+    label: 'Eventos',
+    items: [
+      { label: 'Pase del niño viajero', routerLink: ['/formulario'] },
+    ]
+  },
+  {
+    label: 'Iniciar sesión',
+    icon: 'pi pi-user',
+    routerLink: ['/admin'],
+    styleClass: 'login-button'
   }
 ];

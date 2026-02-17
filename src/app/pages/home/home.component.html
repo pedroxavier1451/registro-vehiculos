@@ -1,0 +1,59 @@
+<div class="home-container">
+  <!-- Hero Section con Carrusel -->
+  <section class="hero-section">
+    <p-carousel 
+      [value]="images" 
+      [numVisible]="1" 
+      [numScroll]="1" 
+      [circular]="true" 
+      [autoplayInterval]="3000"
+      [showNavigators]="true"
+      [showIndicators]="true"
+      [page]="0">
+      <ng-template let-image pTemplate="item">
+        <div class="carousel-item-container">
+          <img [src]="image.itemImageSrc" [alt]="image.alt" class="carousel-image" />
+        </div>
+      </ng-template>
+    </p-carousel>
+  </section>
+
+  <!-- Sección de Bienvenida -->
+  <section class="welcome-section">
+    <div class="welcome-content">
+      <h1>Bienvenidos al Monasterio del Carmen de la Asunción</h1>
+      <p class="subtitle">Santuario Mariano Nacional</p>
+      <p class="description">
+        Un lugar de paz, oración y reflexión en el corazón de Cuenca. 
+        El Monasterio del Carmen de la Asunción es un espacio sagrado dedicado 
+        a la contemplación y el encuentro con Dios.
+      </p>
+    </div>
+  </section>
+
+  <!-- Secciones Principales -->
+  <section class="main-sections">
+    <div class="section-grid">
+      <div class="section-card">
+        <i class="pi pi-users section-icon"></i>
+        <h3>Nosotros</h3>
+        <p>Conoce nuestra historia, misión y la vida contemplativa de nuestras hermanas carmelitas.</p>
+      </div>
+      <div class="section-card">
+        <i class="pi pi-heart section-icon"></i>
+        <h3>Espiritualidad</h3>
+        <p>Descubre la riqueza espiritual del Carmelo y únete a nuestras actividades de oración.</p>
+      </div>
+      <div class="section-card">
+        <i class="pi pi-shopping-cart section-icon"></i>
+        <h3>Productos</h3>
+        <p>Apoya nuestra labor con la compra de productos artesanales elaborados por nuestras hermanas.</p>
+      </div>
+      <div class="section-card">
+        <i class="pi pi-calendar section-icon"></i>
+        <h3>Eventos</h3>
+        <p>Mantente informado sobre celebraciones, retiros y actividades especiales.</p>
+      </div>
+    </div>
+  </section>
+</div>
