@@ -1,74 +1,99 @@
-// Variables de colores - Temática católica
-:root {
-  --primary-color: #8B0000;        // Rojo vino/burdeos
-  --primary-hover: #660000;        // Burdeos oscuro
-  --secondary-color: #B8860B;      // Dorado/oro viejo
-  --success-color: #2E7D32;        // Verde litúrgico
-  --error-color: #C62828;          // Rojo más suave
-  --background-color: #F5F1E8;     // Crema/pergamino
-  --card-background: #FFFEF7;      // Blanco crema
-  --text-primary: #2C1810;         // Marrón oscuro
-  --text-secondary: #5D4037;       // Marrón medio
-  --border-color: #D7CCC8;         // Beige
-  --border-focus: #8B0000;         // Burdeos
-  --accent-gold: #DAA520;          // Dorado brillante
-  --shadow-sm: 0 2px 4px rgba(139, 0, 0, 0.08);
-  --shadow-md: 0 4px 8px rgba(139, 0, 0, 0.12);
-  --shadow-lg: 0 8px 24px rgba(139, 0, 0, 0.15);
-}
+/* Estilos movidos a src/app/pages/formulario-pase/formulario-pase.component.scss */
 
-// Reset básico
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* AppComponent ahora es minimal: estilos globales del formulario se trasladaron al componente formulario-pase. */
 
-body {
-  font-family: 'Crimson Text', 'Lora', Georgia, serif;
-  line-height: 1.7;
-  color: var(--text-primary);
-  background-color: var(--background-color);
-}
-
-// Container principal - Temática católica con fondo crema
-.container {
-  min-height: 100vh;
+/* Contenedor del menú con logo */
+.menu-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 2rem 1rem;
-  background: linear-gradient(135deg, #F5F1E8 0%, #E8DCC8 50%, #D7CCC8 100%);
-  position: relative;
+  background: #f6f1ea;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 12px 24px;
+}
 
-  // Efecto de textura de papel antiguo
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      repeating-linear-gradient(
-        0deg,
-        rgba(139, 0, 0, 0.02) 0px,
-        rgba(139, 0, 0, 0.02) 1px,
-        transparent 1px,
-        transparent 2px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        rgba(218, 165, 32, 0.015) 0px,
-        rgba(218, 165, 32, 0.015) 1px,
-        transparent 1px,
-        transparent 2px
-      );
-    pointer-events: none;
+.logo-section {
+  flex-shrink: 0;
+  margin-right: 48px;
+  
+  a {
+    display: block;
+    line-height: 0;
+  }
+  
+  .menu-logo {
+    height: 120px;
+    width: auto;
+    display: block;
+  }
+}
+
+.menubar-section {
+  flex: 1;
+}
+
+/* Estilos personalizados para el menubar - inspirado en el diseño del Monasterio */
+::ng-deep .p-menubar {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+
+  .p-menubar-root-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    width: 100%;
   }
 
-  @media (max-width: 768px) {
-    padding: 1rem;
+  .p-menuitem {
+    position: relative;
+  }
+
+  .p-menuitem-link {
+    padding: 12px 0 !important;
+    background: transparent !important;
+    border: none !important;
+    
+    &:hover {
+      background: transparent !important;
+    }
+
+    .p-menuitem-text {
+      color: #111 !important;
+      font-size: 22px !important;
+      font-weight: 600 !important;
+      letter-spacing: 1px !important;
+      text-transform: uppercase;
+    }
+
+    .p-menuitem-icon {
+      display: none;
+    }
+
+    &:hover .p-menuitem-text {
+      color: #333 !important;
+    }
+  }
+
+  .p-submenu-list {
+    background: #fff !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    
+    .p-menuitem-link {
+      padding: 12px 16px !important;
+      
+      .p-menuitem-text {
+        font-size: 16px !important;
+        text-transform: none;
+      }
+      
+      .p-menuitem-icon {
+        display: inline-block;
+        margin-right: 8px;
+      }
+    }
   }
 }
 
@@ -978,11 +1003,115 @@ body {
       width: 100%;
     }
   }
+}
 
-  @media (max-width: 480px) {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
+/* Footer Global */
+.page-footer {
+	width: 100%;
+	margin-top: 0;
+	background: linear-gradient(135deg, #6B4423 0%, #8B6F47 100%);
+	color: #FFFEF7;
+	overflow: hidden;
+	box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+
+	.footer-content {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 2rem;
+		padding: 2.5rem 2rem;
+		border-bottom: 2px solid var(--accent-gold);
+
+		@media (max-width: 768px) {
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+			padding: 2rem 1.5rem;
+		}
+	}
+
+	.footer-section {
+		&.footer-main {
+			display: flex;
+			align-items: center;
+			gap: 1.25rem;
+
+			@media (max-width: 768px) {
+				order: -1;
+				flex-direction: column;
+				text-align: center;
+				gap: 1rem;
+			}
+		}
+
+		.footer-image {
+			height: 100px;
+			width: auto;
+			object-fit: contain;
+			filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+			flex-shrink: 0;
+
+			@media (max-width: 768px) {
+				height: 80px;
+			}
+		}
+
+		.footer-text {
+			flex: 1;
+		}
+
+		h3 {
+			font-family: 'Cinzel', Georgia, serif;
+			font-size: 1.3rem;
+			margin: 0 0 0.75rem 0;
+			color: var(--accent-gold);
+			letter-spacing: 0.5px;
+		}
+
+		h4 {
+			font-family: 'Cinzel', Georgia, serif;
+			font-size: 1.1rem;
+			margin: 0 0 0.5rem 0;
+			color: var(--accent-gold);
+			letter-spacing: 0.3px;
+		}
+
+		p {
+			font-family: 'Crimson Text', Georgia, serif;
+			font-size: 0.95rem;
+			line-height: 1.6;
+			margin: 0.25rem 0;
+			color: #F5F1E8;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+
+			i {
+				color: var(--accent-gold);
+				font-size: 1rem;
+			}
+		}
+	}
+
+	.footer-bottom {
+		background: rgba(0, 0, 0, 0.2);
+		padding: 1.25rem 2rem;
+		text-align: center;
+
+		p {
+			margin: 0;
+			font-family: 'Crimson Text', Georgia, serif;
+			font-size: 0.9rem;
+			color: #F5F1E8;
+			opacity: 0.95;
+		}
+
+		@media (max-width: 768px) {
+			padding: 1rem 1.5rem;
+
+			p {
+				font-size: 0.85rem;
+			}
+		}
+	}
 }
 
 // Estilos de botones
@@ -1544,114 +1673,5 @@ body {
   to {
     transform: translateY(0);
     opacity: 1;
-  }
-}
-
-// Footer
-.page-footer {
-  width: 100%;
-  margin-top: 0;
-  background: linear-gradient(135deg, #6B4423 0%, #8B6F47 100%);
-  color: #FFFEF7;
-  overflow: hidden;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
-
-  .footer-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    padding: 2.5rem 2rem;
-    border-bottom: 2px solid var(--accent-gold);
-
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      padding: 2rem 1.5rem;
-    }
-  }
-
-  .footer-section {
-    &.footer-main {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-
-      @media (max-width: 768px) {
-        order: -1;
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-      }
-    }
-
-    .footer-image {
-      height: 100px;
-      width: auto;
-      object-fit: contain;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-      flex-shrink: 0;
-
-      @media (max-width: 768px) {
-        height: 80px;
-      }
-    }
-
-    .footer-text {
-      flex: 1;
-    }
-
-    h3 {
-      font-family: 'Cinzel', Georgia, serif;
-      font-size: 1.3rem;
-      margin: 0 0 0.75rem 0;
-      color: var(--accent-gold);
-      letter-spacing: 0.5px;
-    }
-
-    h4 {
-      font-family: 'Cinzel', Georgia, serif;
-      font-size: 1.1rem;
-      margin: 0 0 0.5rem 0;
-      color: var(--accent-gold);
-      letter-spacing: 0.3px;
-    }
-
-    p {
-      font-family: 'Crimson Text', Georgia, serif;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin: 0.25rem 0;
-      color: #F5F1E8;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-
-      i {
-        color: var(--accent-gold);
-        font-size: 1rem;
-      }
-    }
-  }
-
-  .footer-bottom {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 1.25rem 2rem;
-    text-align: center;
-
-    p {
-      margin: 0;
-      font-family: 'Crimson Text', Georgia, serif;
-      font-size: 0.9rem;
-      color: #F5F1E8;
-      opacity: 0.95;
-    }
-
-    @media (max-width: 768px) {
-      padding: 1rem 1.5rem;
-
-      p {
-        font-size: 0.85rem;
-      }
-    }
   }
 }

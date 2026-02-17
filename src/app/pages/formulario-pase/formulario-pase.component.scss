@@ -1,0 +1,1639 @@
+// Reset básico
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Crimson Text', 'Lora', Georgia, serif;
+	line-height: 1.7;
+	color: var(--text-primary);
+	background-color: var(--background-color);
+}
+
+// Container principal - Temática católica con fondo crema
+.container {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem 1rem;
+	background: linear-gradient(135deg, #F5F1E8 0%, #E8DCC8 50%, #D7CCC8 100%);
+	position: relative;
+
+	// Efecto de textura de papel antiguo
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-image: 
+			repeating-linear-gradient(
+				0deg,
+				rgba(139, 0, 0, 0.02) 0px,
+				rgba(139, 0, 0, 0.02) 1px,
+				transparent 1px,
+				transparent 2px
+			),
+			repeating-linear-gradient(
+				90deg,
+				rgba(218, 165, 32, 0.015) 0px,
+				rgba(218, 165, 32, 0.015) 1px,
+				transparent 1px,
+				transparent 2px
+			);
+		pointer-events: none;
+	}
+
+	@media (max-width: 768px) {
+		padding: 1rem;
+	}
+}
+
+// Estilos para PrimeNG Card - Temática católica
+::ng-deep .registration-card {
+	max-width: 1200px;
+	width: 95%;
+	margin: 0 auto;
+	border-radius: 20px;
+	overflow: hidden;
+	box-shadow: 0 8px 32px rgba(139, 0, 0, 0.3),
+							0 0 0 3px var(--accent-gold);
+	border: 2px solid var(--accent-gold);
+
+	.p-card-header {
+		background: linear-gradient(135deg, #4A2C1A 0%, #523319 100%);
+		color: #FFFEF7;
+		padding: 0;
+		position: relative;
+    
+		// Borde decorativo dorado
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			height: 4px;
+			background: linear-gradient(90deg, 
+				transparent 0%,
+				var(--accent-gold) 20%,
+				var(--accent-gold) 80%,
+				transparent 100%
+			);
+		}
+	}
+
+	.p-card-body {
+		padding: 2.5rem;
+		background: var(--card-background);
+
+		@media (max-width: 768px) {
+			padding: 1.5rem;
+		}
+	}
+
+	.p-card-content {
+		padding: 0;
+	}
+}
+
+.card-header {
+	padding: 0rem 2rem 2.5rem;
+	text-align: center;
+	color: #FFFEF7;
+	background: linear-gradient(135deg, #4A2C1A 0%, #523319 100%);
+
+	// Fila 1: Los 3 logos institucionales
+	.header-logos-top {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 3rem;
+		margin-bottom: 1.3rem;
+
+		@media (max-width: 968px) {
+			gap: 2rem;
+			margin-bottom: 1rem;
+		}
+
+		@media (max-width: 768px) {
+			gap: 1.2rem;
+			margin-bottom: 0.8rem;
+		}
+	}
+
+	// Contenedor de cada logo (mismo tamaño para todos)
+	.logo-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 160px;
+		height: 160px;
+		flex-shrink: 0;
+
+		@media (max-width: 968px) {
+			width: 130px;
+			height: 130px;
+		}
+
+		@media (max-width: 768px) {
+			width: 100px;
+			height: 100px;
+		}
+	}
+
+	// Estilos para las imágenes dentro de los contenedores
+	.top-logo {
+		object-fit: contain;
+		filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+		transition: transform 0.3s ease;
+
+		&:hover {
+			transform: translateY(-5px);
+		}
+
+		&.logo-carmelitas {
+			height: 120px;
+			width: auto;
+		}
+
+		&.logo-arquidiocesis {
+			height: 120px;
+			width: auto;
+			margin-top: 40px;
+		}
+
+		&.logo-monasterio {
+			height: 95px;
+			width: auto;
+			margin-top: 20px;
+		}
+
+		@media (max-width: 968px) {
+			&.logo-carmelitas {
+				height: 100px;
+			}
+
+			&.logo-arquidiocesis {
+				height: 90px;
+			}
+
+			&.logo-monasterio {
+				height: 75px;
+			}
+		}
+
+		@media (max-width: 768px) {
+			&.logo-carmelitas {
+				height: 80px;
+			}
+
+			&.logo-arquidiocesis {
+				height: 70px;
+			}
+
+			&.logo-monasterio {
+				height: 60px;
+			}
+		}
+	}
+
+	// Fila 2: Título
+	.header-title {
+		font-family: 'Cinzel', 'Crimson Text', Georgia, serif;
+		font-size: 2.3rem;
+		font-weight: 700;
+		margin: 0 0 1.2rem 0;
+		letter-spacing: 1.5px;
+		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+		color: #FFFEF7;
+		line-height: 1.2;
+
+		@media (max-width: 768px) {
+			font-size: 1.7rem;
+			margin-bottom: 1rem;
+			letter-spacing: 1px;
+		}
+	}
+
+	// Fila 3: Niño Viajero grande
+	.nino-viajero-hero {
+		margin-bottom: 1.2rem;
+		animation: float 3s ease-in-out infinite;
+
+		@media (max-width: 768px) {
+			margin-bottom: 1.3rem;
+		}
+	}
+
+	.nino-viajero-large {
+		height: 170px;
+		width: auto;
+		max-width: 90%;
+		object-fit: contain;
+		filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+
+		@media (max-width: 968px) {
+			height: 130px;
+		}
+
+		@media (max-width: 768px) {
+			height: 100px;
+		}
+	}
+
+	// Fila 4: Texto descriptivo
+	.header-subtitle {
+		margin: 0;
+		font-family: 'Crimson Text', Georgia, serif;
+		font-size: 1.2rem;
+		font-style: italic;
+		opacity: 0.95;
+		color: #F5DEB3;
+		font-weight: 500;
+		text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+
+		@media (max-width: 768px) {
+			font-size: 1.05rem;
+		}
+	}
+}
+
+@keyframes float {
+	0%, 100% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+}
+
+// Imagen del Niño Viajero
+.nino-viajero-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 1.5rem 0;
+}
+
+.nino-viajero-image {
+	max-width: 100%;
+	height: auto;
+	max-height: 150px;
+	object-fit: contain;
+
+	@media (max-width: 768px) {
+		max-height: 120px;
+	}
+
+	@media (max-width: 480px) {
+		max-height: 100px;
+	}
+}
+
+// Wrapper del formulario
+.form-wrapper {
+	background: var(--card-background);
+	border-radius: 16px;
+	box-shadow: var(--shadow-lg);
+	padding: 3rem;
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+
+	@media (max-width: 768px) {
+		padding: 2rem;
+		border-radius: 12px;
+	}
+
+	@media (max-width: 480px) {
+		padding: 1.5rem;
+	}
+}
+
+// Header del formulario
+.header {
+	text-align: center;
+	margin-bottom: 3rem;
+
+	.title {
+		font-size: 2.5rem;
+		font-weight: 700;
+		color: var(--text-primary);
+		margin-bottom: 0.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+
+		@media (max-width: 768px) {
+			font-size: 2rem;
+		}
+
+		@media (max-width: 480px) {
+			font-size: 1.75rem;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+
+		.icon {
+			font-size: 3rem;
+      
+			@media (max-width: 768px) {
+				font-size: 2.5rem;
+			}
+		}
+	}
+
+	.subtitle {
+		font-size: 1.125rem;
+		color: var(--text-secondary);
+		font-weight: 400;
+
+		@media (max-width: 768px) {
+			font-size: 1rem;
+		}
+	}
+}
+
+// Formulario
+.registration-form {
+	display: flex;
+	flex-direction: column;
+	//gap: 2.5rem;
+}
+
+// Secciones del formulario - Estilo católico
+.form-section {
+	background: linear-gradient(to bottom, #FFFEF7 0%, #F9F6F0 100%);
+	border-radius: 16px;
+	padding: 2rem;
+	border: 2px solid var(--border-color);
+	margin-bottom: 2rem;
+	box-shadow: inset 0 1px 3px rgba(139, 0, 0, 0.05);
+	position: relative;
+
+	@media (max-width: 768px) {
+		padding: 1.5rem;
+	}
+}
+
+.section-title {
+	font-family: 'Cinzel', 'Crimson Text', Georgia, serif;
+	font-size: 1.6rem;
+	font-weight: 600;
+	color: #6B4423;
+	margin-bottom: 1.5rem;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	letter-spacing: 0.5px;
+	border-bottom: 2px solid var(--accent-gold);
+	padding-bottom: 0.75rem;
+
+	i {
+		font-size: 1.85rem;
+		color: var(--accent-gold);
+	}
+
+	@media (max-width: 768px) {
+		font-size: 1.35rem;
+    
+		i {
+			font-size: 1.6rem;
+		}
+	}
+}
+
+// Estilos para PrimeNG form fields - Temática católica
+::ng-deep {
+	.p-field {
+		margin-bottom: 1.5rem;
+
+		label {
+			display: block;
+			margin-bottom: 0.5rem;
+			font-family: 'Crimson Text', Georgia, serif;
+			font-weight: 600;
+			color: var(--text-primary);
+			font-size: 1.05rem;
+			letter-spacing: 0.3px;
+		}
+
+		.p-inputtext,
+		.p-dropdown {
+			width: 100%;
+			font-family: 'Lora', Georgia, serif;
+			font-size: 1rem;
+			padding: 0.75rem 1rem;
+			border-radius: 10px;
+			border: 2px solid var(--border-color) !important;
+			background: #FFFEF7;
+			transition: all 0.3s ease;
+			box-shadow: none !important;
+
+			&:focus,
+			&.p-focus {
+				border-color: var(--primary-color) !important;
+				box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1) !important;
+				outline: none !important;
+			}
+
+			&:enabled:hover {
+				border-color: var(--primary-color) !important;
+			}
+		}
+
+		.p-inputtext {
+			height: 45px;
+		}
+
+		.p-dropdown {
+			height: 45px;
+			display: flex;
+			align-items: center;
+			position: relative;
+			z-index: 1;
+
+			&:not(.p-disabled) {
+				&:hover {
+					border-color: var(--primary-color) !important;
+				}
+			}
+
+			&.p-focus {
+				z-index: 2;
+				border-color: var(--primary-color) !important;
+				box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1) !important;
+			}
+
+			.p-dropdown-label {
+				padding: 0 !important;
+				margin: 0 !important;
+				line-height: 45px !important;
+				display: block !important;
+				text-align: left !important;
+				border: none !important;
+				box-shadow: none !important;
+				outline: none !important;
+				color: #4A4A4A !important;
+			}
+
+			.p-dropdown-trigger {
+				width: 2.5rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.p-dropdown-clear-icon {
+				right: 2.5rem;
+				margin-top: -0.5rem;
+			}
+		}
+
+		.p-error {
+			display: block;
+			margin-top: 0.25rem;
+			font-size: 0.875rem;
+			color: var(--error-color);
+		}
+	}
+
+	.p-inputtext {
+		&.ng-invalid.ng-dirty {
+			border-color: var(--error-color) !important;
+			box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.1) !important;
+		}
+
+		&:enabled:focus {
+			outline: none !important;
+			box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1) !important;
+		}
+	}
+
+	.p-dropdown {
+		&.ng-invalid.ng-dirty {
+			border-color: var(--error-color) !important;
+			box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.1) !important;
+		}
+
+		// Eliminar todos los estilos de borde por defecto
+		&.p-component {
+			box-shadow: none !important;
+		}
+	}
+
+	// Estilos para el panel del dropdown - Temática católica
+	.p-dropdown-panel {
+		max-width: 95vw;
+		border-radius: 12px !important;
+		border: 2px solid var(--accent-gold) !important;
+		background: linear-gradient(to bottom, #FFFEF7 0%, #F9F6F0 100%) !important;
+		box-shadow: 0 8px 24px rgba(139, 0, 0, 0.2) !important;
+		z-index: 1000 !important;
+		margin-top: 4px;
+    
+		// Eliminar estilos del wrapper interno
+		.p-dropdown-items-wrapper {
+			max-height: 300px;
+			overflow-y: auto;
+			border: none !important;
+			box-shadow: none !important;
+			background: transparent !important;
+		}
+
+		.p-dropdown-items {
+			padding: 0.5rem 0;
+			background: transparent !important;
+			border: none !important;
+
+			// Scrollbar personalizado
+			&::-webkit-scrollbar {
+				width: 8px;
+			}
+
+			&::-webkit-scrollbar-track {
+				background: #F5F1E8;
+				border-radius: 4px;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				background: var(--secondary-color);
+				border-radius: 4px;
+
+				&:hover {
+					background: var(--primary-color);
+				}
+			}
+
+			.p-dropdown-item {
+				padding: 0.75rem 1rem;
+				margin: 0.25rem 0.5rem;
+				border-radius: 8px;
+				font-family: 'Crimson Text', Georgia, serif;
+				font-size: 1rem;
+				white-space: normal;
+				word-wrap: break-word;
+				color: var(--text-primary);
+				transition: all 0.2s ease;
+				border: 1px solid transparent;
+
+				&:hover {
+					background: linear-gradient(135deg, #FFF9E6 0%, #FFE4B5 100%);
+					border-color: var(--accent-gold);
+					color: var(--primary-color);
+					transform: translateX(4px);
+				}
+
+				&.p-highlight {
+					background: linear-gradient(135deg, #6B4423 0%, #8B6F47 100%);
+					color: #FFFEF7 !important;
+					border-color: var(--accent-gold);
+					font-weight: 600;
+				}
+			}
+
+			.p-dropdown-item-group {
+				padding: 0.85rem 1rem;
+				font-family: 'Cinzel', Georgia, serif;
+				font-weight: 700;
+				color: #FFFEF7;
+				background: linear-gradient(135deg, #6B4423 0%, #8B6F47 50%, #A0826D 100%);
+				margin: 0.5rem 0;
+				font-size: 0.95rem;
+				position: sticky;
+				top: 0;
+				z-index: 1;
+				letter-spacing: 0.5px;
+				border-bottom: 2px solid var(--accent-gold);
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+				text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+
+				i {
+					color: var(--primary-color);
+				}
+			}
+		}
+
+		.p-dropdown-filter-container {
+			padding: 0.75rem 1rem;
+
+			.p-dropdown-filter {
+				padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+				font-size: 1rem;
+			}
+
+			.p-dropdown-filter-icon {
+				right: 1rem;
+				top: 50%;
+				transform: translateY(-50%);
+				margin-top: 0;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.p-dropdown-items {
+				.p-dropdown-item {
+					padding: 0.6rem 0.75rem;
+					font-size: 0.95rem;
+				}
+
+				.p-dropdown-item-group {
+					padding: 0.6rem 0.75rem;
+					font-size: 0.9rem;
+				}
+			}
+		}
+	}
+}
+
+.subsection-title {
+	font-size: 1.125rem;
+	font-weight: 500;
+	color: var(--text-primary);
+	margin-bottom: 1rem;
+	margin-top: 1.5rem;
+}
+
+// Grid del formulario
+.form-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 1.5rem;
+
+	@media (max-width: 768px) {
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+}
+
+.dimensions-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 1rem;
+
+	@media (max-width: 480px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.dimensions-section {
+	margin-top: 1rem;
+}
+
+// Grupos de formulario
+.form-group {
+	display: flex;
+	flex-direction: column;
+
+	&.full-width {
+		grid-column: 1 / -1;
+	}
+}
+
+// Labels
+.form-label {
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: var(--text-primary);
+	margin-bottom: 0.5rem;
+	display: block;
+}
+
+// Inputs
+.form-input {
+	padding: 0.75rem 1rem;
+	border: 2px solid var(--border-color);
+	border-radius: 8px;
+	font-size: 1rem;
+	font-family: inherit;
+	transition: all 0.2s ease-in-out;
+	background-color: white;
+
+	&:focus {
+		outline: none;
+		border-color: var(--border-focus);
+		box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+	}
+
+	&::placeholder {
+		color: #9ca3af;
+	}
+
+	&.is-invalid {
+		border-color: var(--error-color);
+    
+		&:focus {
+			border-color: var(--error-color);
+			box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+		}
+	}
+}
+
+.form-select {
+	appearance: none;
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+	background-position: right 0.75rem center;
+	background-repeat: no-repeat;
+	background-size: 1.5em 1.5em;
+	padding-right: 2.5rem;
+}
+
+// Mensajes de error
+.error-message {
+	margin-top: 0.5rem;
+	font-size: 0.875rem;
+	color: var(--error-color);
+	font-weight: 500;
+
+	span {
+		display: block;
+	}
+}
+
+// Cuadro de advertencia - Estilo católico
+.warning-card {
+	background: linear-gradient(135deg, #FFF9E6 0%, #FFEAA7 100%);
+	border: 3px solid var(--accent-gold);
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 4px 12px rgba(139, 0, 0, 0.15);
+	margin-top: 1rem;
+
+	.warning-header {
+		background: linear-gradient(135deg, var(--secondary-color) 0%, #9A7506 100%);
+		color: #2C1810;
+		padding: 0.75rem 1rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-family: 'Cinzel', Georgia, serif;
+		font-size: 1rem;
+		border-bottom: 2px solid var(--accent-gold);
+
+		i {
+			font-size: 1.3rem;
+			color: #2C1810;
+			animation: pulse 2s infinite;
+		}
+
+		strong {
+			font-weight: 700;
+			letter-spacing: 0.5px;
+		}
+	}
+
+	.warning-content {
+		padding: 1rem;
+		color: #5d4037;
+
+		p {
+			margin: 0 0 0.5rem 0;
+			font-family: 'Crimson Text', Georgia, serif;
+			font-size: 0.95rem;
+			line-height: 1.4;
+
+			strong {
+				color: #e65100;
+				font-weight: 700;
+			}
+		}
+
+		ul {
+			margin: 0;
+			padding-left: 1.5rem;
+			list-style: none;
+
+			li {
+				position: relative;
+				padding: 0.25rem 0;
+				font-family: 'Crimson Text', Georgia, serif;
+				font-size: 0.9rem;
+				line-height: 1.3;
+
+				&:before {
+					content: "✖";
+					position: absolute;
+					left: -1.5rem;
+					color: #e65100;
+					font-weight: bold;
+				}
+			}
+		}
+	}
+
+	@media (max-width: 768px) {
+		.warning-header {
+			padding: 0.875rem 1rem;
+			font-size: 1rem;
+
+			i {
+				font-size: 1.25rem;
+			}
+		}
+
+		.warning-content {
+			padding: 1rem;
+
+			p {
+				font-size: 0.9rem;
+			}
+
+			ul li {
+				font-size: 0.85rem;
+			}
+		}
+	}
+}
+
+@keyframes pulse {
+	0%, 100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+}
+
+// Nota informativa
+.info-note {
+	background: linear-gradient(135deg, #FFF9E6 0%, #FFE4B5 100%);
+	border: 2px solid var(--accent-gold);
+	border-radius: 10px;
+	padding: 1rem 1.25rem;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-top: 1rem;
+	box-shadow: 0 2px 8px rgba(139, 0, 0, 0.1);
+
+	i {
+		font-size: 1.5rem;
+		color: #8B6F47;
+		flex-shrink: 0;
+	}
+
+	p {
+		margin: 0;
+		font-family: 'Crimson Text', Georgia, serif;
+		font-size: 0.95rem;
+		line-height: 1.5;
+		color: #6B4423;
+
+		strong {
+			font-weight: 700;
+			color: #5A3A1D;
+		}
+	}
+
+	@media (max-width: 768px) {
+		padding: 0.875rem 1rem;
+    
+		i {
+			font-size: 1.25rem;
+		}
+
+		p {
+			font-size: 0.9rem;
+		}
+	}
+}
+
+// Botones de acción - Estilo católico
+.form-actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: flex-end;
+	padding-top: 2rem;
+	border-top: 2px solid var(--accent-gold);
+	margin-top: 2rem;
+
+	::ng-deep .p-button {
+		min-width: 170px;
+		font-family: 'Cinzel', Georgia, serif;
+		font-weight: 600;
+		padding: 0.85rem 1.75rem;
+		border-radius: 10px;
+		letter-spacing: 0.5px;
+		transition: all 0.3s ease;
+		border: 2px solid transparent;
+
+		.p-button-icon {
+			margin-right: 8px;
+		}
+
+		&.p-button-secondary {
+			background: linear-gradient(135deg, #8B8680 0%, #6D6A65 100%);
+			border-color: #8B8680;
+
+			&:hover {
+				background: linear-gradient(135deg, #6D6A65 0%, #5A5854 100%);
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+			}
+		}
+
+		&:not(.p-button-secondary) {
+			background: linear-gradient(135deg, #6B4423 0%, #8B6F47 100%);
+			border-color: #6B4423;
+			color: #FFFEF7 !important;
+
+			.p-button-label,
+			.p-button-icon {
+				color: #FFFEF7 !important;
+			}
+
+			&:hover {
+				background: linear-gradient(135deg, #8B6F47 0%, #A0826D 100%);
+				transform: translateY(-2px);
+				box-shadow: 0 4px 16px rgba(107, 68, 35, 0.4);
+			}
+		}
+
+		@media (max-width: 480px) {
+			width: 100%;
+		}
+	}
+
+	@media (max-width: 480px) {
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+}
+
+// Estilos de botones
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 0.75rem 2rem;
+	font-size: 1rem;
+	font-weight: 500;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+	text-decoration: none;
+	font-family: inherit;
+	min-width: 140px;
+
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	.btn-icon {
+		font-size: 1.125rem;
+	}
+
+	.loading-icon {
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		from { transform: rotate(0deg); }
+		to { transform: rotate(360deg); }
+	}
+
+	@media (max-width: 480px) {
+		width: 100%;
+		justify-content: center;
+	}
+}
+
+.btn-primary {
+	background-color: var(--primary-color);
+	color: white;
+
+	&:hover:not(:disabled) {
+		background-color: var(--primary-hover);
+		transform: translateY(-1px);
+		box-shadow: var(--shadow-md);
+	}
+
+	&:active {
+		transform: translateY(0);
+	}
+}
+
+.btn-secondary {
+	background-color: white;
+	color: var(--text-secondary);
+	border: 2px solid var(--border-color);
+
+	&:hover:not(:disabled) {
+		background-color: #f9fafb;
+		border-color: var(--text-secondary);
+		transform: translateY(-1px);
+		box-shadow: var(--shadow-sm);
+	}
+
+	&:active {
+		transform: translateY(0);
+	}
+}
+
+// Animaciones
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.form-wrapper {
+	animation: fadeIn 0.6s ease-out;
+}
+
+// Efectos hover para inputs
+.form-input:not(.is-invalid):hover {
+	border-color: #d1d5db;
+}
+
+// Responsive mejoras
+@media (max-width: 640px) {
+	.form-grid {
+		grid-template-columns: 1fr;
+	}
+  
+	.dimensions-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+// Estados de validación exitosa (opcional)
+.form-input.is-valid {
+	border-color: var(--success-color);
+  
+	&:focus {
+		border-color: var(--success-color);
+		box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+	}
+}
+
+// Modal de Confirmación - Temática católica café
+::ng-deep .confirm-modal {
+	.p-dialog-header {
+		background: linear-gradient(135deg, #8B6F47 0%, #6B4423 100%);
+		color: #FFFEF7;
+		padding: 1.5rem;
+		border-radius: 12px 12px 0 0;
+		border-bottom: 3px solid var(--accent-gold);
+	}
+
+	.confirm-header {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		width: 100%;
+
+		i {
+			font-size: 2.5rem;
+			color: #DAA520;
+			animation: pulse 1.5s ease-in-out infinite;
+		}
+
+		h2 {
+			font-family: 'Cinzel', Georgia, serif;
+			font-size: 1.4rem;
+			margin: 0;
+			color: #FFFEF7;
+			letter-spacing: 0.5px;
+		}
+	}
+
+	.p-dialog-content {
+		background: linear-gradient(to bottom, #FFFEF7 0%, #F9F6F0 100%);
+		padding: 2rem;
+	}
+
+	.confirm-body {
+		.confirm-message {
+			font-family: 'Crimson Text', Georgia, serif;
+			font-size: 1.1rem;
+			color: #6B4423;
+			margin: 0 0 1.5rem 0;
+			text-align: center;
+			font-weight: 600;
+		}
+
+		.datos-confirmacion {
+			display: grid;
+			gap: 1rem;
+			background: white;
+			padding: 1.5rem;
+			border-radius: 12px;
+			border: 2px solid var(--accent-gold);
+			box-shadow: 0 2px 8px rgba(107, 68, 35, 0.1);
+
+			.dato-item {
+				display: grid;
+				grid-template-columns: 200px 1fr;
+				gap: 1rem;
+				padding: 0.75rem;
+				border-bottom: 1px solid #E8DCC8;
+
+				&:last-child {
+					border-bottom: none;
+				}
+
+				.dato-label {
+					font-family: 'Cinzel', Georgia, serif;
+					font-weight: 600;
+					color: #6B4423;
+					font-size: 0.95rem;
+				}
+
+				.dato-valor {
+					font-family: 'Crimson Text', Georgia, serif;
+					color: #2C1810;
+					font-size: 1rem;
+					word-break: break-word;
+
+					&.placa-highlight {
+						background: linear-gradient(135deg, #6B4423 0%, #8B6F47 100%);
+						color: #FFFEF7;
+						padding: 0.5rem 1rem;
+						border-radius: 6px;
+						font-family: monospace;
+						font-weight: bold;
+						letter-spacing: 2px;
+						text-align: center;
+						font-size: 1.1rem;
+					}
+				}
+
+				@media (max-width: 768px) {
+					grid-template-columns: 1fr;
+					gap: 0.5rem;
+
+					.dato-label {
+						font-size: 0.9rem;
+					}
+
+					.dato-valor {
+						font-size: 0.95rem;
+					}
+				}
+			}
+		}
+	}
+
+	.p-dialog-footer {
+		background: linear-gradient(to bottom, #FFFEF7 0%, #F9F6F0 100%);
+		padding: 1.25rem 1.5rem;
+		border-top: 2px solid var(--accent-gold);
+
+		.confirm-footer-buttons {
+			display: flex;
+			gap: 1rem;
+			justify-content: center;
+
+			.p-button {
+				font-family: 'Cinzel', Georgia, serif;
+				padding: 0.75rem 2rem;
+				font-size: 1rem;
+				border-radius: 8px;
+				font-weight: 600;
+				min-width: 160px;
+
+				.p-button-icon {
+					margin-right: 8px;
+				}
+
+				&.p-button-secondary {
+					background: transparent;
+					color: #6B4423;
+					border: 2px solid #6B4423;
+
+					&:hover {
+						background: #F5F1E8;
+						transform: translateY(-2px);
+						box-shadow: 0 4px 12px rgba(107, 68, 35, 0.2);
+					}
+				}
+
+				&.p-button-success {
+					background: linear-gradient(135deg, #6B4423 0%, #8B6F47 100%);
+					border-color: #6B4423;
+					color: #FFFEF7;
+
+					&:hover {
+						background: linear-gradient(135deg, #8B6F47 0%, #A0826D 100%);
+						transform: translateY(-2px);
+						box-shadow: 0 4px 12px rgba(107, 68, 35, 0.4);
+					}
+				}
+			}
+
+			@media (max-width: 480px) {
+				flex-direction: column;
+
+				.p-button {
+					width: 100%;
+				}
+			}
+		}
+	}
+}
+
+@keyframes pulse {
+	0%, 100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+}
+
+// Modal de Éxito - Temática católica café
+::ng-deep .success-modal {
+	.p-dialog-header {
+		background: linear-gradient(135deg, #6B4423 0%, #8B6F47 100%);
+		color: #FFFEF7;
+		padding: 1.5rem;
+		border-radius: 12px 12px 0 0;
+		border-bottom: 3px solid var(--accent-gold);
+	}
+
+	.modal-header-content {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		width: 100%;
+
+		i {
+			font-size: 2.5rem;
+			color: var(--accent-gold);
+			animation: scaleIn 0.5s ease-out;
+		}
+
+		h2 {
+			font-family: 'Cinzel', Georgia, serif;
+			font-size: 1.5rem;
+			margin: 0;
+			color: #FFFEF7;
+			letter-spacing: 0.5px;
+		}
+	}
+
+	.p-dialog-content {
+		background: linear-gradient(to bottom, #FFFEF7 0%, #F9F6F0 100%);
+		padding: 2rem;
+	}
+
+	.modal-body-content {
+		text-align: center;
+    
+		p {
+			font-family: 'Crimson Text', Georgia, serif;
+			font-size: 1.15rem;
+			color: #6B4423;
+			margin: 0;
+			line-height: 1.6;
+		}
+	}
+
+	.p-dialog-footer {
+		background: linear-gradient(to bottom, #FFFEF7 0%, #F9F6F0 100%);
+		padding: 1.25rem 1.5rem;
+		border-top: 2px solid var(--accent-gold);
+		display: flex;
+		justify-content: center;
+
+		.p-button {
+			background: linear-gradient(135deg, #6B4423 0%, #8B6F47 100%);
+			border-color: #6B4423;
+			color: #FFFEF7;
+			font-family: 'Cinzel', Georgia, serif;
+			padding: 0.75rem 2rem;
+			font-size: 1rem;
+			border-radius: 8px;
+
+			.p-button-icon {
+				margin-right: 0.5rem;
+			}
+
+			&:hover {
+				background: linear-gradient(135deg, #8B6F47 0%, #A0826D 100%);
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(107, 68, 35, 0.3);
+			}
+		}
+	}
+}
+
+@keyframes scaleIn {
+	0% {
+		transform: scale(0);
+		opacity: 0;
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+// Estilos mejorados para mensajes Toast
+::ng-deep .p-toast {
+	opacity: 1;
+	z-index: 9999;
+
+	.p-toast-message {
+		margin: 0 0 1.5rem 0;
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+		border-radius: 12px;
+		backdrop-filter: blur(10px);
+		min-width: 350px;
+		max-width: 500px;
+
+		@media (max-width: 768px) {
+			min-width: 280px;
+			max-width: 90vw;
+		}
+
+		.p-toast-message-content {
+			padding: 1.25rem;
+			gap: 1rem;
+			align-items: flex-start;
+		}
+
+		.p-toast-message-icon {
+			font-size: 2rem;
+			flex-shrink: 0;
+			margin-top: 0.25rem;
+		}
+
+		.p-toast-message-text {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+
+		.p-toast-summary {
+			font-family: 'Cinzel', Georgia, serif;
+			font-weight: 700;
+			font-size: 1.1rem;
+			letter-spacing: 0.3px;
+			line-height: 1.3;
+			margin-bottom: 0.25rem;
+		}
+
+		.p-toast-detail {
+			font-family: 'Crimson Text', Georgia, serif;
+			font-size: 1rem;
+			line-height: 1.6;
+			opacity: 0.95;
+			white-space: pre-wrap;
+			word-wrap: break-word;
+		}
+
+		.p-toast-icon-close {
+			width: 2rem;
+			height: 2rem;
+			border-radius: 50%;
+			transition: all 0.2s ease;
+			flex-shrink: 0;
+
+			&:hover {
+				background: rgba(255, 255, 255, 0.2);
+				transform: scale(1.1);
+			}
+
+			.p-toast-icon-close-icon {
+				font-size: 1rem;
+			}
+		}
+
+		// Error (rojo oscuro)
+		&.p-toast-message-error {
+			background: linear-gradient(135deg, #8B0000 0%, #660000 100%);
+			border-left: 5px solid #4A0000;
+			color: #FFFEF7;
+
+			.p-toast-message-icon,
+			.p-toast-summary,
+			.p-toast-detail,
+			.p-toast-icon-close-icon {
+				color: #FFFEF7;
+			}
+		}
+
+		// Advertencia (naranja rojizo)
+		&.p-toast-message-warn {
+			background: linear-gradient(135deg, #CD5C5C 0%, #A0522D 100%);
+			border-left: 5px solid var(--accent-gold);
+			color: #FFFEF7;
+
+			.p-toast-message-icon,
+			.p-toast-summary,
+			.p-toast-detail,
+			.p-toast-icon-close-icon {
+				color: #FFFEF7;
+			}
+		}
+
+		// Éxito (terracota)
+		&.p-toast-message-success {
+			background: linear-gradient(135deg, #B8860B 0%, #8B6F47 100%);
+			border-left: 5px solid #6B5A3D;
+			color: #FFFEF7;
+
+			.p-toast-message-icon,
+			.p-toast-summary,
+			.p-toast-detail,
+			.p-toast-icon-close-icon {
+				color: #FFFEF7;
+			}
+		}
+
+		// Información (rojo ladrillo)
+		&.p-toast-message-info {
+			background: linear-gradient(135deg, #A0522D 0%, #8B4513 100%);
+			border-left: 5px solid #6B3410;
+			color: #FFFEF7;
+
+			.p-toast-message-icon,
+			.p-toast-summary,
+			.p-toast-detail,
+			.p-toast-icon-close-icon {
+				color: #FFFEF7;
+			}
+		}
+	}
+
+	// Animación de entrada
+	&.p-toast-top-right .p-toast-message {
+		animation: toastSlideInRight 0.3s ease-out;
+	}
+
+	&.p-toast-top-left .p-toast-message {
+		animation: toastSlideInLeft 0.3s ease-out;
+	}
+
+	&.p-toast-top-center .p-toast-message {
+		animation: toastSlideInDown 0.3s ease-out;
+	}
+}
+
+@keyframes toastSlideInRight {
+	from {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes toastSlideInLeft {
+	from {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes toastSlideInDown {
+	from {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+// Footer
+.page-footer {
+	width: 100%;
+	margin-top: 0;
+	background: linear-gradient(135deg, #6B4423 0%, #8B6F47 100%);
+	color: #FFFEF7;
+	overflow: hidden;
+	box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+
+	.footer-content {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 2rem;
+		padding: 2.5rem 2rem;
+		border-bottom: 2px solid var(--accent-gold);
+
+		@media (max-width: 768px) {
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+			padding: 2rem 1.5rem;
+		}
+	}
+
+	.footer-section {
+		&.footer-main {
+			display: flex;
+			align-items: center;
+			gap: 1.25rem;
+
+			@media (max-width: 768px) {
+				order: -1;
+				flex-direction: column;
+				text-align: center;
+				gap: 1rem;
+			}
+		}
+
+		.footer-image {
+			height: 100px;
+			width: auto;
+			object-fit: contain;
+			filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+			flex-shrink: 0;
+
+			@media (max-width: 768px) {
+				height: 80px;
+			}
+		}
+
+		.footer-text {
+			flex: 1;
+		}
+
+		h3 {
+			font-family: 'Cinzel', Georgia, serif;
+			font-size: 1.3rem;
+			margin: 0 0 0.75rem 0;
+			color: var(--accent-gold);
+			letter-spacing: 0.5px;
+		}
+
+		h4 {
+			font-family: 'Cinzel', Georgia, serif;
+			font-size: 1.1rem;
+			margin: 0 0 0.5rem 0;
+			color: var(--accent-gold);
+			letter-spacing: 0.3px;
+		}
+
+		p {
+			font-family: 'Crimson Text', Georgia, serif;
+			font-size: 0.95rem;
+			line-height: 1.6;
+			margin: 0.25rem 0;
+			color: #F5F1E8;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+
+			i {
+				color: var(--accent-gold);
+				font-size: 1rem;
+			}
+		}
+	}
+
+	.footer-bottom {
+		background: rgba(0, 0, 0, 0.2);
+		padding: 1.25rem 2rem;
+		text-align: center;
+
+		p {
+			margin: 0;
+			font-family: 'Crimson Text', Georgia, serif;
+			font-size: 0.9rem;
+			color: #F5F1E8;
+			opacity: 0.95;
+		}
+
+		@media (max-width: 768px) {
+			padding: 1rem 1.5rem;
+
+			p {
+				font-size: 0.85rem;
+			}
+		}
+	}
+}
+

@@ -11,6 +11,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
+import { MenubarModule } from 'primeng/menubar';
+import { MenuModule } from 'primeng/menu';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TagModule } from 'primeng/tag';
@@ -22,13 +24,15 @@ import { AppComponent } from './app.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { ValidacionComponent } from './pages/validacion/validacion.component';
+import { FormularioPaseComponent } from './pages/formulario-pase/formulario-pase.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
     RegistroComponent,
-    ValidacionComponent
+    ValidacionComponent,
+    FormularioPaseComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +52,9 @@ import { ValidacionComponent } from './pages/validacion/validacion.component';
     DialogModule,
     TagModule,
     MessageModule
+    ,
+    MenubarModule,
+    MenuModule
   ],
   providers: [MessageService, ConfirmationService],
   bootstrap: [AppComponent]

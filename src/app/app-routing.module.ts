@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { ValidacionComponent } from './pages/validacion/validacion.component';
+import { FormularioPaseComponent } from './pages/formulario-pase/formulario-pase.component';
 
 const routes: Routes = [
   // Ruta secreta para login de administradores (no hay enlaces visibles hacia aquí)
@@ -13,6 +14,8 @@ const routes: Routes = [
 
   // Página de validación de códigos QR
   { path: 'admin/validacion', component: ValidacionComponent },
+
+  { path: 'formulario', component: FormularioPaseComponent },
 
   // Redirigir cualquier otra ruta a la raíz (AppComponent mostrará la UI pública)
   { path: '**', redirectTo: '' }
