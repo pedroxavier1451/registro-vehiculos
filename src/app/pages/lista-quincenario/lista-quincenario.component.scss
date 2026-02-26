@@ -1,0 +1,142 @@
+/* Estilos basados en admin.component.scss para mantener coherencia visual */
+.lista-quincenario {
+	padding: 24px;
+	max-width: 1600px;
+	margin: 0 auto;
+}
+
+::ng-deep .admin-card {
+	background: linear-gradient(180deg, #ffffff 0%, #f7f9fb 100%);
+	border-radius: 20px;
+	box-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 10px 15px -3px rgba(0, 0, 0, 0.08),
+		0 20px 25px -5px rgba(0, 0, 0, 0.05);
+	border: 1px solid rgba(0, 0, 0, 0.05);
+
+	.p-card-body {
+		padding: 24px;
+	}
+
+	.p-card-content {
+		padding: 0;
+	}
+}
+
+.admin-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 16px;
+	padding-bottom: 12px;
+	border-bottom: 2px solid #e5e7eb;
+
+	h2 {
+		margin: 0;
+		font-size: 20px;
+		color: #0f172a;
+		font-weight: 600;
+	}
+}
+
+.empty-message {
+	margin: 20px 0;
+}
+
+/* Copiar estilos de tabla PrimeNG para mantener apariencia */
+::ng-deep .p-datatable {
+	border-radius: 12px;
+	overflow: hidden;
+	border: 1px solid #e5e7eb;
+
+	.p-datatable-wrapper {
+		border-radius: 12px;
+	}
+
+	.p-datatable-thead > tr > th {
+		background: #0f172a;
+		color: white;
+		font-weight: 600;
+		padding: 12px 16px;
+		border: none;
+		font-size: 13px;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+
+		&:first-child {
+			border-top-left-radius: 12px;
+		}
+
+		&:last-child {
+			border-top-right-radius: 12px;
+		}
+	}
+
+	.p-datatable-tbody > tr {
+		transition: background 0.2s ease;
+
+		&:hover {
+			background: #f8fafc !important;
+		}
+
+		&:last-child > td {
+			border-bottom: none;
+
+			&:first-child {
+				border-bottom-left-radius: 12px;
+			}
+
+			&:last-child {
+				border-bottom-right-radius: 12px;
+			}
+		}
+
+		> td {
+			padding: 12px 16px;
+			border-color: #e5e7eb;
+			font-size: 14px;
+			color: #374151;
+		}
+	}
+
+	.p-button {
+		margin-right: 6px;
+	}
+}
+
+@media (max-width: 768px) {
+	.lista-quincenario {
+		padding: 12px;
+	}
+
+	::ng-deep .admin-card {
+		border-radius: 12px;
+
+		.p-card-body {
+			padding: 16px;
+		}
+	}
+
+	.admin-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+		margin-bottom: 12px;
+		padding-bottom: 12px;
+	}
+
+	::ng-deep .p-datatable {
+		font-size: 12px;
+
+		.p-datatable-thead > tr > th {
+			padding: 10px 8px;
+			font-size: 11px;
+		}
+
+		.p-datatable-tbody > tr > td {
+			padding: 10px 8px;
+			font-size: 13px;
+		}
+	}
+}
+

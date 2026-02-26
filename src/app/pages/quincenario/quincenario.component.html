@@ -1,0 +1,126 @@
+<div class="quincenario-container">
+  <div class="p-card">
+    <header class="q-header">
+      <h2>Reserva de Espacio - Quincenario</h2>
+      <p class="q-sub">Elige la fecha y la hora</p>
+    </header>
+
+    <div class="reserva-section reserva-grid">
+      <!-- Formulario: pedir datos primero -->
+      <section class="form-panel">
+        <h3>Datos de Registro</h3>
+
+        <div class="field full">
+          <div class="input-wrap">
+            <input id="celebrante" name="celebrante" pInputText type="text" [(ngModel)]="celebrante" placeholder="Nombre del celebrante" />
+            <label for="celebrante">Celebrante</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="input-wrap">
+            <input id="provincia" name="provincia" pInputText type="text" [(ngModel)]="provincia" placeholder="Provincia" />
+            <label for="provincia">Provincia</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="input-wrap">
+            <input id="parroquia" name="parroquia" pInputText type="text" [(ngModel)]="parroquia" placeholder="Parroquia o comunidad" />
+            <label for="parroquia">Parroquia - Comunidad</label>
+          </div>
+        </div>
+
+        <div class="field inline">
+          <label for="peregrinacion">¿Traer peregrinación?</label>
+          <p-inputSwitch inputId="peregrinacion" [(ngModel)]="traerPeregrinacion"></p-inputSwitch>
+        </div>
+
+        <div class="field full" *ngIf="traerPeregrinacion">
+          <div class="input-wrap">
+            <input id="detallePeregrinacion" name="detallePeregrinacion" pInputText type="text" [(ngModel)]="detallePeregrinacion" placeholder="Detalles de la peregrinación" />
+            <label for="detallePeregrinacion">Detalles de la peregrinación</label>
+          </div>
+        </div>
+
+        <div class="field inline">
+          <label for="coro">¿Trae coro?</label>
+          <p-inputSwitch inputId="coro" [(ngModel)]="traeCoro"></p-inputSwitch>
+        </div>
+
+        <div class="field full" *ngIf="traeCoro">
+          <div class="input-wrap">
+            <input id="detalleCoro" name="detalleCoro" pInputText type="text" [(ngModel)]="detalleCoro" placeholder="Detalles del coro" />
+            <label for="detalleCoro">Detalles del coro</label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Calendario para seleccionar fecha -->
+      <div class="calendario-wrapper">
+        <div class="calendar-card">
+          <p-calendar 
+            [(ngModel)]="fechaSeleccionada"
+            [inline]="true"
+            [minDate]="minDate"
+            dateFormat="dd/mm/yy"
+            (onSelect)="onFechaSeleccionada($event)"
+            [locale]="es">
+          </p-calendar>
+        </div>
+      </div>
+
+      <!-- Panel lateral: horarios + resumen -->
+      <aside class="side-panel">
+        <div class="horarios-wrapper" *ngIf="fechaSeleccionada">
+          <h3>Selecciona una hora</h3>
+          
+          <div class="cargando-container" *ngIf="cargandoHorarios">
+            <p-progressSpinner 
+              strokeWidth="4" 
+              [style]="{width: '50px', height: '50px'}">
+            </p-progressSpinner>
+            <p class="texto-cargando">Cargando horarios disponibles...</p>
+          </div>
+
+          <div class="horarios-grid" *ngIf="!cargandoHorarios">
+            <button 
+              *ngFor="let hora of horariosDisponibles"
+              pButton
+              type="button"
+              [label]="hora"
+              [class.selected]="horaSeleccionada === hora"
+              [class.ocupado]="isHorarioOcupado(hora)"
+              [disabled]="isHorarioOcupado(hora)"
+              (click)="onHoraSeleccionada(hora)"
+              class="p-button-outlined horario-btn">
+            </button>
+          </div>
+        </div>
+
+        <div class="resumen-reserva" *ngIf="reservaCompleta">
+          <h3>Resumen de tu reserva</h3>
+          <div class="resumen-content">
+            <p class="res-item"><strong>Fecha:</strong> {{ fechaSeleccionada | date:'dd/MM/yyyy' }}</p>
+            <p class="res-item"><strong>Hora:</strong> {{ horaSeleccionada }}</p>
+            <p class="res-item" *ngIf="celebrante"><strong>Celebrante:</strong> {{ celebrante }}</p>
+            <p class="res-item" *ngIf="traerPeregrinacion && detallePeregrinacion"><strong>Peregrinación:</strong> {{ detallePeregrinacion }}</p>
+            <p class="res-item" *ngIf="traeCoro && detalleCoro"><strong>Coro:</strong> {{ detalleCoro }}</p>
+            <p class="res-item" *ngIf="provincia"><strong>Provincia:</strong> {{ provincia }}</p>
+            <p class="res-item" *ngIf="parroquia"><strong>Parroquia:</strong> {{ parroquia }}</p>
+          </div>
+          <button 
+            pButton 
+            label="Confirmar Reserva" 
+            icon="pi pi-check"
+            class="confirm-btn"
+            (click)="confirmarReserva()">
+          </button>
+        </div>
+
+        <div class="empty-note" *ngIf="!fechaSeleccionada">
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>

@@ -76,6 +76,17 @@
 				background: #991b1b;
 				border-color: #991b1b;
 			}
+
+			&.p-button-quincenario {
+				background: #F97316;
+				border-color: #F97316;
+				color: #ffffff;
+
+				&:enabled:hover {
+					background: #EA580C;
+					border-color: #EA580C;
+				}
+			}
 		}
 	}
 }

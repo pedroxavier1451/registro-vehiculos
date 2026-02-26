@@ -13,6 +13,7 @@ export const MENU_USER = [
       { label: 'Niño Viajero', routerLink: ['/'] },
       { label: 'Santuario', routerLink: ['/'] },
       { label: 'Grupo Hermano Miguel', routerLink: ['/'] },
+      { label: 'Quincenario', routerLink: ['/quincenario'] },
     ]
   },
   {

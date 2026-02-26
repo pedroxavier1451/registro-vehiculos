@@ -1,0 +1,363 @@
+.quincenario-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .p-card {
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    border-radius: 14px;
+    padding: 2rem;
+    box-shadow: 0 6px 20px rgba(31, 41, 55, 0.08);
+
+    h2 {
+      color: #0f172a;
+      margin: 0;
+      text-align: center;
+      font-size: 1.6rem;
+      letter-spacing: -0.2px;
+    }
+
+    .q-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-bottom: 1.25rem;
+      align-items: center;
+    }
+
+    .q-sub {
+      color: #6b7280;
+      margin: 0;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+  }
+
+  .reserva-section {
+    display: block;
+    gap: 2rem;
+
+    h3 {
+      color: #555;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+
+    .calendario-wrapper {
+      display: flex;
+      justify-content: center;
+
+      .calendar-card {
+        background: #fff;
+        padding: 1rem;
+        border-radius: 10px;
+        border: 1px solid #eef2f7;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+      }
+
+      ::ng-deep .p-calendar {
+        .p-datepicker {
+          border: 1px solid #e6edf3;
+          border-radius: 8px;
+          box-shadow: none;
+        }
+      }
+    }
+
+    .horarios-wrapper {
+      .cargando-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 1rem;
+        gap: 1rem;
+
+        .texto-cargando {
+          color: #6b7280;
+          font-size: 0.95rem;
+          margin: 0;
+          text-align: center;
+        }
+
+        ::ng-deep .p-progress-spinner-circle {
+          stroke: #3b82f6;
+          animation: p-progress-spinner-dash 1.5s ease-in-out infinite;
+        }
+      }
+
+      .horarios-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+
+        .horario-btn {
+          border-radius: 999px;
+          padding: 0.5rem 0.75rem;
+          font-weight: 600;
+          color: #1f2937;
+          background: transparent;
+          border: 1px solid #d1d5db;
+          transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+
+          &.selected {
+            background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.18);
+            transform: translateY(-3px);
+          }
+
+          &.ocupado {
+            background: #fee2e2;
+            color: #991b1b;
+            border-color: #ef4444;
+            border-width: 2px;
+            cursor: not-allowed;
+            opacity: 0.85;
+            position: relative;
+
+            &::after {
+              content: '✕';
+              position: absolute;
+              top: 50%;
+              right: 8px;
+              transform: translateY(-50%);
+              font-size: 1rem;
+              font-weight: 700;
+              color: #dc2626;
+            }
+          }
+
+          &:hover:not(.ocupado) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(31, 41, 55, 0.06);
+          }
+
+          &.ocupado:hover {
+            transform: none;
+            box-shadow: none;
+          }
+        }
+      }
+    }
+
+    .form-panel {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+      border: 1px solid rgba(14,30,37,0.08);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+
+      h3 { 
+        margin: 0 0 1.25rem 0; 
+        color: #111827; 
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+
+        .input-wrap {
+          position: relative;
+          display: block;
+
+          input[pInputText] {
+            width: 100%;
+            height: 48px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 2px solid #dbeafe;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            background: #fff;
+            outline: none;
+
+            &::placeholder {
+              color: transparent;
+            }
+
+            &:focus {
+              border-color: #3b82f6;
+              box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            }
+
+            &:focus + label,
+            &:not(:placeholder-shown) + label {
+              top: -8px;
+              left: 10px;
+              font-size: 0.75rem;
+              background: #fff;
+              padding: 0 6px;
+              color: #3b82f6;
+            }
+          }
+
+          label {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.95rem;
+            color: #6b7280;
+            pointer-events: none;
+            transition: all 0.2s ease;
+            background: transparent;
+          }
+        }
+      }
+
+      .field.full {
+        grid-column: 1 / -1;
+        animation: slideDown 0.3s ease-out;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .inline {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.75rem 0.5rem;
+        background: #f9fafb;
+        border-radius: 8px;
+
+        label {
+          font-size: 0.9rem;
+          color: #374151;
+          margin: 0;
+          font-weight: 500;
+        }
+      }
+
+      ::ng-deep .p-inputswitch {
+        width: 3rem;
+        height: 1.75rem;
+
+        .p-inputswitch-slider {
+          background: #cbd5e1;
+          border-radius: 30px;
+          transition: all 0.3s ease;
+
+          &:before {
+            width: 1.25rem;
+            height: 1.25rem;
+            left: 0.25rem;
+            bottom: 0.25rem;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          }
+        }
+
+        &.p-inputswitch-checked .p-inputswitch-slider {
+          background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+
+          &:before {
+            transform: translateX(1.25rem);
+          }
+        }
+
+        &:not(.p-disabled):hover .p-inputswitch-slider {
+          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+      }
+
+      @media (min-width: 640px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .resumen-reserva {
+      background: linear-gradient(180deg, #fbfdff 0%, #f7fafc 100%);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1rem;
+      border: 1px solid #eef2f7;
+
+      h3 {
+        color: #0f766e;
+        margin-bottom: 0.75rem;
+      }
+
+      .resumen-content {
+        margin-bottom: 1rem;
+
+        p {
+          margin: 0.35rem 0;
+          font-size: 1rem;
+          color: #111827;
+
+          strong {
+            color: #374151;
+            margin-right: 0.4rem;
+          }
+        }
+      }
+
+      .confirm-btn {
+        width: 100%;
+        padding: 0.7rem;
+        font-size: 1rem;
+        background: linear-gradient(90deg,#10b981 0%,#059669 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(6, 95, 70, 0.12);
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+
+        &:hover { transform: translateY(-2px); }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .quincenario-container {
+    padding: 1rem;
+
+    .p-card {
+      padding: 1rem;
+    }
+
+    .horarios-grid {
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  .reserva-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 1.5rem;
+    align-items: start;
+    justify-content: center;
+  }
+
+  .side-panel {
+    position: sticky;
+    top: 1.75rem;
+    align-self: start;
+  }
+}

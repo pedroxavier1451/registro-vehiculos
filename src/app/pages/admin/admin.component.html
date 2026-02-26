@@ -4,10 +4,16 @@
 			<h2>Panel de Administración</h2>
 			<div class="actions">
 				<p-button 
+					label="Quincenario" 
+					icon="pi pi-calendar"
+					(onClick)="irQuincenario()"
+					styleClass="p-button-quincenario"
+				></p-button>
+				<p-button 
 					label="Validar Códigos QR" 
 					icon="pi pi-qrcode"
 					(onClick)="irAValidacion()"
-					styleClass="p-button-success"
+					styleClass="p-button-quincenario"
 				></p-button>
 				<p-button
 					label="Descargar CSV"

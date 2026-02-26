@@ -5,6 +5,8 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { ValidacionComponent } from './pages/validacion/validacion.component';
 import { FormularioPaseComponent } from './pages/formulario-pase/formulario-pase.component';
 import { HomeComponent } from './pages/home/home.component';
+import { QuincenarioComponent } from './pages/quincenario/quincenario.component';
+import { ListaQuincenarioComponent } from './pages/lista-quincenario/lista-quincenario.component';
 
 const routes: Routes = [
   // Página principal
@@ -20,6 +22,10 @@ const routes: Routes = [
   { path: 'admin/validacion', component: ValidacionComponent },
 
   { path: 'formulario', component: FormularioPaseComponent },
+
+  { path: 'quincenario', component: QuincenarioComponent },
+
+  { path: 'admin/lista-quincenario', component: ListaQuincenarioComponent },
 
   // Redirigir cualquier otra ruta a la página principal
   { path: '**', redirectTo: '' }

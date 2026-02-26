@@ -84,6 +84,32 @@ export class FirebaseService {
     }
   }
 
+  // Registrar una reserva en la colección 'reservas'
+  // Ahora acepta un objeto payload con fecha, hora y campos adicionales
+  async registrarReserva(payload: any): Promise<string> {
+    try {
+      const reservasRef = collection(this.db, 'reservas');
+
+      const reservaData: any = {
+        fecha: payload.fecha && payload.fecha instanceof Date ? Timestamp.fromDate(payload.fecha) : payload.fecha,
+        hora: payload.hora || null,
+        celebrante: payload.celebrante || null,
+        peregrinacion: payload.peregrinacion || null,
+        coro: payload.coro || null,
+        provincia: payload.provincia || null,
+        parroquia: payload.parroquia || null,
+        createdAt: Timestamp.now()
+      };
+
+      const docRef = await addDoc(reservasRef, reservaData);
+      console.log('Reserva registrada con ID: ', docRef.id);
+      return docRef.id;
+    } catch (error) {
+      console.error('Error al registrar reserva: ', error);
+      throw error;
+    }
+  }
+
   // Valida credenciales contra la colección 'usuarios'.
   // Estructura esperada en Firestore: colección 'usuarios' con documentos que contienen
   // campos 'username' y 'password' (en texto plano en este ejemplo simple).
@@ -112,6 +138,67 @@ export class FirebaseService {
       return items;
     } catch (error) {
       console.error('Error obteniendo vehículos: ', error);
+      throw error;
+    }
+  }
+
+  // Obtener todas las reservas (no en tiempo real)
+  async obtenerReservas(): Promise<Array<any>> {
+    try {
+      const reservasRef = collection(this.db, 'reservas');
+      const snap = await getDocs(reservasRef);
+      const items: any[] = [];
+      snap.forEach(docSnap => {
+        const data: any = docSnap.data();
+        items.push({
+          id: docSnap.id,
+          fecha: data.fecha && typeof data.fecha.toDate === 'function' ? data.fecha.toDate() : data.fecha,
+          hora: data.hora,
+          createdAt: data.createdAt && typeof data.createdAt.toDate === 'function' ? data.createdAt.toDate() : data.createdAt
+        });
+      });
+      return items;
+    } catch (error) {
+      console.error('Error obteniendo reservas: ', error);
+      throw error;
+    }
+  }
+
+  // Obtener reservas para una fecha específica
+  async obtenerReservasPorFecha(fecha: Date): Promise<Array<any>> {
+    try {
+      const reservasRef = collection(this.db, 'reservas');
+      
+      // Crear rango de fecha (inicio y fin del día)
+      const inicioDia = new Date(fecha);
+      inicioDia.setHours(0, 0, 0, 0);
+      
+      const finDia = new Date(fecha);
+      finDia.setHours(23, 59, 59, 999);
+      
+      // Consultar reservas en el rango de fecha
+      const q = query(
+        reservasRef,
+        where('fecha', '>=', Timestamp.fromDate(inicioDia)),
+        where('fecha', '<=', Timestamp.fromDate(finDia))
+      );
+      
+      const snap = await getDocs(q);
+      const items: any[] = [];
+      snap.forEach(docSnap => {
+        const data: any = docSnap.data();
+        items.push({
+          id: docSnap.id,
+          fecha: data.fecha && typeof data.fecha.toDate === 'function' ? data.fecha.toDate() : data.fecha,
+          hora: data.hora,
+          celebrante: data.celebrante,
+          provincia: data.provincia,
+          parroquia: data.parroquia
+        });
+      });
+      return items;
+    } catch (error) {
+      console.error('Error obteniendo reservas por fecha: ', error);
       throw error;
     }
   }

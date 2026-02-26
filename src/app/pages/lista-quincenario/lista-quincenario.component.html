@@ -1,0 +1,43 @@
+<div class="lista-quincenario">
+	<p-card styleClass="admin-card">
+		<div class="admin-header">
+			<h2>Reservas del Quincenario</h2>
+		</div>
+
+		<div *ngIf="reservas.length === 0" class="empty-message">
+			<p-message severity="info" text="No hay reservas registradas."></p-message>
+		</div>
+
+		<p-table
+			*ngIf="reservas.length > 0"
+			[value]="reservas"
+			styleClass="p-datatable-sm p-datatable-striped"
+			[scrollable]="true"
+			scrollHeight="400px"
+		>
+			<ng-template pTemplate="header">
+				<tr>
+					<th>Fecha</th>
+					<th>Hora</th>
+					<th>ID</th>
+					<th>Registrada</th>
+					<th>Acciones</th>
+				</tr>
+			</ng-template>
+
+			<ng-template pTemplate="body" let-r>
+				<tr>
+					<td>{{ r.fecha | date:'dd/MM/yyyy' }}</td>
+					<td>{{ r.hora }}</td>
+					<td>{{ r.id }}</td>
+					<td>{{ r.createdAt ? (r.createdAt | date:'dd/MM/yyyy HH:mm') : '-' }}</td>
+					<td>
+						<!-- Acciones de ejemplo: ver o eliminar (implementar si se necesita) -->
+						<p-button icon="pi pi-eye" styleClass="p-button-rounded p-button-text"></p-button>
+						<p-button icon="pi pi-trash" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
+					</td>
+				</tr>
+			</ng-template>
+		</p-table>
+	</p-card>
+</div>

@@ -158,6 +158,10 @@ export class AdminComponent implements OnInit {
     this.router.navigate(['/admin/validacion']);
   }
 
+  irQuincenario(): void {
+    this.router.navigate(['/admin/lista-quincenario']);
+  }
+
   logout(): void {
     // Limpiar toda la sesión
     sessionStorage.removeItem('isAdmin');
