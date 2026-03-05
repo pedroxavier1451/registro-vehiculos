@@ -29,8 +29,8 @@ export class AppComponent implements OnInit {
   }
 
   private checkRoute(url: string) {
-    // Ocultar header y footer en rutas de administración
-    const adminRoutes = ['/admin', '/admin/panel', '/admin/validacion'];
+    // Ocultar header y footer en rutas de administración y quincenario
+    const adminRoutes = ['/admin', '/admin/panel', '/admin/validacion', '/quincenario'];
     this.showHeaderFooter = !adminRoutes.some(route => url.startsWith(route));
   }
 

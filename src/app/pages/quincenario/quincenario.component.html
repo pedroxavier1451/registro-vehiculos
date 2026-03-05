@@ -8,32 +8,45 @@
     <div class="reserva-section reserva-grid">
       <!-- Formulario: pedir datos primero -->
       <section class="form-panel">
-        <h3>Datos de Registro</h3>
-
         <div class="field full">
+          <h3>Datos de Registro</h3>
+        </div>
+
+        <div class="field">
           <div class="input-wrap">
-            <input id="celebrante" name="celebrante" pInputText type="text" [(ngModel)]="celebrante" placeholder="Nombre del celebrante" />
+            <input id="celebrante" name="celebrante" pInputText type="text" [(ngModel)]="celebrante" (ngModelChange)="onCelebranteChange()" placeholder="Nombre del celebrante" [class.input-error]="celebranteError" />
             <label for="celebrante">Celebrante</label>
           </div>
+          <small *ngIf="celebranteError" class="error-message">{{ celebranteError }}</small>
         </div>
 
         <div class="field">
           <div class="input-wrap">
-            <input id="provincia" name="provincia" pInputText type="text" [(ngModel)]="provincia" placeholder="Provincia" />
+            <input id="telefono" name="telefono" pInputText type="tel" [(ngModel)]="telefono" (ngModelChange)="onTelefonoChange()" placeholder="Número de teléfono" maxlength="10" [class.input-error]="telefonoError" />
+            <label for="telefono">Teléfono</label>
+          </div>
+          <small *ngIf="telefonoError" class="error-message">{{ telefonoError }}</small>
+        </div>
+
+        <div class="field">
+          <div class="input-wrap">
+            <input id="provincia" name="provincia" pInputText type="text" [(ngModel)]="provincia" (ngModelChange)="onProvinciaChange()" placeholder="Provincia" [class.input-error]="provinciaError" />
             <label for="provincia">Provincia</label>
           </div>
+          <small *ngIf="provinciaError" class="error-message">{{ provinciaError }}</small>
         </div>
 
         <div class="field">
           <div class="input-wrap">
-            <input id="parroquia" name="parroquia" pInputText type="text" [(ngModel)]="parroquia" placeholder="Parroquia o comunidad" />
+            <input id="parroquia" name="parroquia" pInputText type="text" [(ngModel)]="parroquia" (ngModelChange)="onParroquiaChange()" placeholder="Parroquia o comunidad" [class.input-error]="parroquiaError" />
             <label for="parroquia">Parroquia - Comunidad</label>
           </div>
+          <small *ngIf="parroquiaError" class="error-message">{{ parroquiaError }}</small>
         </div>
 
-        <div class="field inline">
-          <label for="peregrinacion">¿Traer peregrinación?</label>
-          <p-inputSwitch inputId="peregrinacion" [(ngModel)]="traerPeregrinacion"></p-inputSwitch>
+        <div class="field inline" style="display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 2rem !important; padding: 1rem 1.25rem !important; min-height: 3.5rem !important;">
+          <label for="peregrinacion">¿Trae peregrinación?</label>
+          <p-inputSwitch inputId="peregrinacion" [(ngModel)]="traerPeregrinacion" (onChange)="onPeregrinacionChange()"></p-inputSwitch>
         </div>
 
         <div class="field full" *ngIf="traerPeregrinacion">
@@ -43,9 +56,9 @@
           </div>
         </div>
 
-        <div class="field inline">
+        <div class="field inline" style="display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 2rem !important; padding: 1rem 1.25rem !important; min-height: 3.5rem !important;">
           <label for="coro">¿Trae coro?</label>
-          <p-inputSwitch inputId="coro" [(ngModel)]="traeCoro"></p-inputSwitch>
+          <p-inputSwitch inputId="coro" [(ngModel)]="traeCoro" (onChange)="onCoroChange()"></p-inputSwitch>
         </div>
 
         <div class="field full" *ngIf="traeCoro">
@@ -63,6 +76,7 @@
             [(ngModel)]="fechaSeleccionada"
             [inline]="true"
             [minDate]="minDate"
+            [maxDate]="maxDate"
             dateFormat="dd/mm/yy"
             (onSelect)="onFechaSeleccionada($event)"
             [locale]="es">
@@ -104,6 +118,7 @@
             <p class="res-item"><strong>Fecha:</strong> {{ fechaSeleccionada | date:'dd/MM/yyyy' }}</p>
             <p class="res-item"><strong>Hora:</strong> {{ horaSeleccionada }}</p>
             <p class="res-item" *ngIf="celebrante"><strong>Celebrante:</strong> {{ celebrante }}</p>
+            <p class="res-item" *ngIf="telefono"><strong>Teléfono:</strong> {{ telefono }}</p>
             <p class="res-item" *ngIf="traerPeregrinacion && detallePeregrinacion"><strong>Peregrinación:</strong> {{ detallePeregrinacion }}</p>
             <p class="res-item" *ngIf="traeCoro && detalleCoro"><strong>Coro:</strong> {{ detalleCoro }}</p>
             <p class="res-item" *ngIf="provincia"><strong>Provincia:</strong> {{ provincia }}</p>

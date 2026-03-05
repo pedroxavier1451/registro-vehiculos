@@ -24,6 +24,7 @@
     "@zxing/library": "^0.21.3",
     "@zxing/ngx-scanner": "^20.0.0",
     "firebase": "^10.14.1",
+    "jspdf": "^4.2.0",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^16.9.1",

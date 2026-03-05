@@ -24,6 +24,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { CalendarModule } from 'primeng/calendar';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TooltipModule } from 'primeng/tooltip';
 import { MessageService, ConfirmationService } from 'primeng/api';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -71,7 +72,8 @@ import { ListaQuincenarioComponent } from './pages/lista-quincenario/lista-quinc
     CarouselModule,
     CalendarModule,
     InputSwitchModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    TooltipModule
   ],
   providers: [MessageService, ConfirmationService, { provide: LOCALE_ID, useValue: 'es' }],
   bootstrap: [AppComponent]

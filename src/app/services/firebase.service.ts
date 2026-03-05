@@ -92,8 +92,9 @@ export class FirebaseService {
 
       const reservaData: any = {
         fecha: payload.fecha && payload.fecha instanceof Date ? Timestamp.fromDate(payload.fecha) : payload.fecha,
-        hora: payload.hora || null,
+        horas: payload.horas || [],
         celebrante: payload.celebrante || null,
+        telefono: payload.telefono || null,
         peregrinacion: payload.peregrinacion || null,
         coro: payload.coro || null,
         provincia: payload.provincia || null,
@@ -153,7 +154,13 @@ export class FirebaseService {
         items.push({
           id: docSnap.id,
           fecha: data.fecha && typeof data.fecha.toDate === 'function' ? data.fecha.toDate() : data.fecha,
-          hora: data.hora,
+          horas: data.horas || [],
+          celebrante: data.celebrante,
+          telefono: data.telefono,
+          provincia: data.provincia,
+          parroquia: data.parroquia,
+          peregrinacion: data.peregrinacion,
+          coro: data.coro,
           createdAt: data.createdAt && typeof data.createdAt.toDate === 'function' ? data.createdAt.toDate() : data.createdAt
         });
       });
@@ -190,7 +197,7 @@ export class FirebaseService {
         items.push({
           id: docSnap.id,
           fecha: data.fecha && typeof data.fecha.toDate === 'function' ? data.fecha.toDate() : data.fecha,
-          hora: data.hora,
+          horas: data.horas || [],
           celebrante: data.celebrante,
           provincia: data.provincia,
           parroquia: data.parroquia
@@ -210,6 +217,38 @@ export class FirebaseService {
       await deleteDoc(d);
     } catch (error) {
       console.error('Error eliminando vehículo: ', error);
+      throw error;
+    }
+  }
+
+  // Eliminar una reserva por ID
+  async eliminarReserva(id: string): Promise<void> {
+    try {
+      const d = doc(this.db, 'reservas', id);
+      await deleteDoc(d);
+    } catch (error) {
+      console.error('Error eliminando reserva: ', error);
+      throw error;
+    }
+  }
+
+  // Actualizar una reserva por ID
+  async actualizarReserva(id: string, payload: any): Promise<void> {
+    try {
+      const docRef = doc(this.db, 'reservas', id);
+      const updateData: any = {
+        fecha: payload.fecha && payload.fecha instanceof Date ? Timestamp.fromDate(payload.fecha) : payload.fecha,
+        horas: payload.horas || [],
+        celebrante: payload.celebrante,
+        telefono: payload.telefono,
+        provincia: payload.provincia,
+        parroquia: payload.parroquia,
+        peregrinacion: payload.peregrinacion || null,
+        coro: payload.coro || null,
+      };
+      await updateDoc(docRef, updateData);
+    } catch (error) {
+      console.error('Error actualizando reserva: ', error);
       throw error;
     }
   }

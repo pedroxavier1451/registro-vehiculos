@@ -2,6 +2,13 @@
 	<p-card styleClass="admin-card">
 		<div class="admin-header">
 			<h2>Reservas del Quincenario</h2>
+			<p-button 
+				label="Generar PDF" 
+				icon="pi pi-file-pdf" 
+				(onClick)="generarPDF()"
+				styleClass="p-button-success"
+				[disabled]="reservas.length === 0">
+			</p-button>
 		</div>
 
 		<div *ngIf="reservas.length === 0" class="empty-message">
@@ -19,7 +26,12 @@
 				<tr>
 					<th>Fecha</th>
 					<th>Hora</th>
-					<th>ID</th>
+					<th>Celebrante</th>
+					<th>Teléfono</th>
+					<th>Provincia</th>
+					<th>Parroquia</th>
+					<th>Peregrinación</th>
+					<th>Coro</th>
 					<th>Registrada</th>
 					<th>Acciones</th>
 				</tr>
@@ -28,16 +40,126 @@
 			<ng-template pTemplate="body" let-r>
 				<tr>
 					<td>{{ r.fecha | date:'dd/MM/yyyy' }}</td>
-					<td>{{ r.hora }}</td>
-					<td>{{ r.id }}</td>
+					<td>{{ r.horas && r.horas.length > 0 ? r.horas.join(', ') : '-' }}</td>
+					<td>{{ r.celebrante || '-' }}</td>
+					<td>{{ r.telefono || '-' }}</td>
+					<td>{{ r.provincia || '-' }}</td>
+					<td>{{ r.parroquia || '-' }}</td>
+					<td>{{ r.peregrinacion || '-' }}</td>
+					<td>{{ r.coro || '-' }}</td>
 					<td>{{ r.createdAt ? (r.createdAt | date:'dd/MM/yyyy HH:mm') : '-' }}</td>
 					<td>
-						<!-- Acciones de ejemplo: ver o eliminar (implementar si se necesita) -->
-						<p-button icon="pi pi-eye" styleClass="p-button-rounded p-button-text"></p-button>
-						<p-button icon="pi pi-trash" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
+						<p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-info p-button-text" (onClick)="abrirModalEdicion(r)" pTooltip="Editar reserva"></p-button>
+						<p-button icon="pi pi-trash" styleClass="p-button-rounded p-button-danger p-button-text" (onClick)="eliminarReserva(r)" pTooltip="Eliminar reserva"></p-button>
 					</td>
 				</tr>
 			</ng-template>
 		</p-table>
 	</p-card>
 </div>
+
+<!-- Modal de edición -->
+<p-dialog 
+	[(visible)]="mostrarModalEdicion" 
+	[modal]="true" 
+	[style]="{width: '800px', maxWidth: '90vw'}"
+	[draggable]="false"
+	[resizable]="false"
+	styleClass="dialog-edicion">
+	<ng-template pTemplate="header">
+		<div class="dialog-header-content">
+			<i class="pi pi-pencil"></i>
+			<span>Editar Reserva</span>
+		</div>
+	</ng-template>
+
+	<div class="form-edicion">
+
+		<!-- Campos del formulario -->
+		<h4>Datos de la Reserva</h4>
+		<div class="form-grid">
+			<div class="field">
+				<label for="editCelebrante">Celebrante</label>
+				<input id="editCelebrante" type="text" pInputText [(ngModel)]="editCelebrante" />
+			</div>
+
+			<div class="field">
+				<label for="editTelefono">Teléfono</label>
+				<input id="editTelefono" type="tel" pInputText [(ngModel)]="editTelefono" />
+			</div>
+
+			<div class="field">
+				<label for="editProvincia">Provincia</label>
+				<input id="editProvincia" type="text" pInputText [(ngModel)]="editProvincia" />
+			</div>
+
+			<div class="field">
+				<label for="editParroquia">Parroquia - Comunidad</label>
+				<input id="editParroquia" type="text" pInputText [(ngModel)]="editParroquia" />
+			</div>
+
+			<div class="field">
+				<label for="editDetallePeregrinacion">Detalles de la peregrinación</label>
+				<input id="editDetallePeregrinacion" type="text" pInputText [(ngModel)]="editDetallePeregrinacion" />
+			</div>
+
+			<div class="field">
+				<label for="editDetalleCoro">Detalles del coro</label>
+				<input id="editDetalleCoro" type="text" pInputText [(ngModel)]="editDetalleCoro" />
+			</div>
+		</div>
+
+		<!-- Selección de fecha y hora -->
+		<div class="fecha-hora-section">
+			<h4>Fecha y Hora</h4>
+			<div class="fecha-hora-grid">
+				<div class="calendario-edit">
+					<p-calendar 
+						[(ngModel)]="editFecha"
+						[inline]="true"
+						[minDate]="minDate"
+						[maxDate]="maxDate"
+						dateFormat="dd/mm/yy"
+						(onSelect)="onFechaEditadaSeleccionada($event)"
+						[locale]="es"
+						[showButtonBar]="false">
+					</p-calendar>
+				</div>
+
+				<div class="horarios-edit" *ngIf="editFecha">
+					<label>Selecciona una o dos horas</label>
+					
+					<div class="cargando-container" *ngIf="cargandoHorariosEdit">
+						<p-progressSpinner 
+							strokeWidth="4" 
+							[style]="{width: '40px', height: '40px'}">
+						</p-progressSpinner>
+						<p class="texto-cargando">Cargando...</p>
+					</div>
+
+					<div class="horarios-grid-edit" *ngIf="!cargandoHorariosEdit">
+						<button 
+							*ngFor="let hora of horariosDisponiblesEdit"
+							pButton
+							type="button"
+							[label]="hora"
+							[class.selected]="isHoraSeleccionadaEdit(hora)"
+							[class.ocupado]="isHorarioOcupadoEdit(hora)"
+							[disabled]="isHorarioOcupadoEdit(hora)"
+							(click)="onHoraSeleccionadaEdit(hora)"
+							class="p-button-outlined horario-btn-edit">
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<ng-template pTemplate="footer">
+		<p-button label="Cancelar" (onClick)="cerrarModalEdicion()" styleClass="p-button-outlined"></p-button>
+		<p-button label="Guardar cambios" (onClick)="guardarEdicion()" styleClass="p-button-success"></p-button>
+	</ng-template>
+</p-dialog>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>
