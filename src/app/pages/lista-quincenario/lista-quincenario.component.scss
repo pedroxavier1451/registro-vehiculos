@@ -3,6 +3,39 @@
 	padding: 24px;
 	max-width: 1600px;
 	margin: 0 auto;
+
+	.back-button-container {
+		margin-bottom: 32px;
+		display: flex;
+		align-items: center;
+
+		::ng-deep .p-button.back-btn {
+			padding: 0.875rem 1.75rem !important;
+			border-radius: 12px !important;
+			font-weight: 700 !important;
+			font-size: 15px !important;
+			transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+			background: #1f2937 !important;
+			border: none !important;
+			color: #fff !important;
+			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2) !important;
+
+			&:hover:not(:disabled) {
+				background: #111827 !important;
+				box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+				transform: translateY(-3px);
+			}
+
+			&:active:not(:disabled) {
+				transform: translateY(-1px);
+			}
+
+			i {
+				margin-right: 1.25rem;
+				font-size: 16px;
+			}
+		}
+	}
 }
 
 ::ng-deep .admin-card {
@@ -27,15 +60,378 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 16px;
-	padding-bottom: 12px;
+	margin-bottom: 24px;
+	padding-bottom: 16px;
 	border-bottom: 2px solid #e5e7eb;
+	gap: 1rem;
+	flex-wrap: wrap;
 
 	h2 {
 		margin: 0;
-		font-size: 20px;
+		font-size: 24px;
 		color: #0f172a;
-		font-weight: 600;
+		font-weight: 700;
+		letter-spacing: -0.5px;
+	}
+
+	.button-group {
+		display: flex;
+		gap: 0.875rem;
+		flex-wrap: wrap;
+		align-items: center;
+
+		p-button {
+			flex-shrink: 0;
+		}
+
+		::ng-deep .p-button {
+			padding: 0.65rem 0.65rem !important;
+			border-radius: 10px !important;
+			font-weight: 700 !important;
+			transition: all 0.2s cubic-bezier(0.2, 0, 0, 1) !important;
+		}
+
+		::ng-deep .p-button.export-btn {
+			background: #1f2937 !important;
+			border: none !important;
+			color: #fff !important;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+
+			&:hover:not(:disabled) {
+				background: #111827 !important;
+				box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
+				transform: translateY(-2px);
+			}
+
+			&:active:not(:disabled) {
+				transform: translateY(0);
+			}
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.admin-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1.5rem;
+
+		h2 {
+			font-size: 20px;
+		}
+
+		.button-group {
+			width: 100%;
+			gap: 0.75rem;
+
+			p-button {
+				flex: 1;
+				min-width: 140px;
+			}
+
+			::ng-deep .p-button.export-btn {
+				width: 100% !important;
+			}
+		}
+	}
+}
+
+.busqueda-container {
+	display: flex;
+	align-items: center;
+	margin-bottom: 24px;
+	max-width: 550px;
+
+	.busqueda-input-wrapper {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		background: #f1f5f9;
+		border: 1px solid #cbd5e1;
+		border-radius: 10px;
+		padding: 0 14px;
+		transition: all 0.2s ease;
+
+		i {
+			color: #64748b;
+			font-size: 16px;
+		}
+
+		::ng-deep input[pInputText] {
+			background: transparent !important;
+			border: none !important;
+			padding: 12px 0 !important;
+			width: 100%;
+			font-size: 14px;
+			color: #0f172a;
+			box-shadow: none !important;
+
+			&::placeholder {
+				color: #94a3b8;
+			}
+
+			&:focus {
+				outline: none !important;
+				background: transparent !important;
+				border: none !important;
+				box-shadow: none !important;
+			}
+		}
+
+		&:focus-within {
+			border-color: #3b82f6;
+			background: #f8fafc;
+			box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+		}
+	}
+
+	// Estilo para doble búsqueda (celular + fecha)
+	&.busqueda-doble {
+		max-width: 1000px;
+		gap: 16px;
+		flex-wrap: wrap;
+		align-items: center;
+
+		.btn-limpiar-filtros {
+			::ng-deep .p-button {
+				padding: 0.5rem !important;
+				width: 44px !important;
+				height: 44px !important;
+				border-radius: 10px !important;
+				font-size: 18px !important;
+				transition: all 0.2s ease !important;
+				box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2) !important;
+
+				&:hover:not(:disabled) {
+					box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+					transform: translateY(-2px);
+				}
+
+				i {
+					margin: 0 !important;
+				}
+			}
+		}
+
+		.busqueda-input-wrapper {
+			flex: 1;
+			min-width: 240px;
+
+			&.calendario-wrapper {
+				position: relative;
+				overflow: visible;
+
+				.calendario-content {
+					position: absolute;
+					top: 100%;
+					left: 0;
+					z-index: 1000;
+					margin-top: 8px;
+					width: auto;
+					overflow: visible;
+				}
+
+				::ng-deep .p-calendar {
+					width: auto;
+					overflow: visible;
+
+					.p-datepicker {
+						border: 2px solid #e5e7eb;
+						box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+						width: 350px !important;
+						min-width: auto !important;
+						overflow: visible !important;
+						border-radius: 10px;
+
+						.p-datepicker-group-container {
+							width: 100%;
+							overflow: visible;
+						}
+
+						.p-datepicker-group {
+							width: 100%;
+							overflow: visible;
+						}
+
+						table {
+							width: 100%;
+							border-spacing: 8px 6px;
+							table-layout: fixed;
+							
+							th {
+								padding: 0.4rem;
+								color: #6b7280;
+								font-weight: 600;
+								font-size: 0.8rem;
+							}
+						}
+
+						table td {
+							padding: 4px;
+							text-align: center;
+
+							> span {
+								width: 2.2rem;
+								height: 2.2rem;
+								border-radius: 8px;
+								display: inline-flex;
+								align-items: center;
+								justify-content: center;
+								font-size: 0.9rem;
+							}
+
+							&.p-datepicker-today > span {
+								background: #eff6ff;
+								color: #3b82f6;
+								font-weight: 600;
+							}
+
+							&:not(.p-highlight):not(.p-disabled) > span:hover {
+								background: #dbeafe;
+								color: #3b82f6;
+							}
+						}
+
+						.p-datepicker-header {
+							padding: 0.75rem 1rem;
+							background: #f3f4f6;
+							border-bottom: 2px solid #e5e7eb;
+							border-radius: 8px 8px 0 0;
+						}
+						
+						.p-datepicker-title {
+							display: flex !important;
+							justify-content: center;
+							align-items: center;
+							gap: 0.5rem;
+							font-weight: 600;
+							width: 100%;
+							text-align: center;
+							font-size: 1rem;
+							color: #0f172a;
+						}
+
+						.p-datepicker-prev,
+						.p-datepicker-next,
+						.p-datepicker-prev-icon,
+						.p-datepicker-next-icon {
+							display: none !important;
+							pointer-events: none !important;
+						}
+
+						select.p-datepicker-month,
+						select.p-datepicker-year,
+						.p-datepicker-monthpicker,
+						.p-datepicker-yearpicker {
+							display: none !important;
+							pointer-events: none !important;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// Estilo para calendario de búsqueda (legacy)
+.calendario-busqueda {
+	overflow: visible;
+	
+	::ng-deep .p-calendar {
+		width: auto;
+		overflow: visible;
+
+		.p-datepicker {
+			border: 2px solid #e5e7eb;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+			width: 350px !important;
+			min-width: auto !important;
+			overflow: visible !important;
+
+			.p-datepicker-group-container {
+				width: 100%;
+				overflow: visible;
+			}
+
+			.p-datepicker-group {
+				width: 100%;
+				overflow: visible;
+			}
+
+			table {
+				width: 100%;
+				border-spacing: 8px 6px;
+				table-layout: fixed;
+				
+				th {
+					padding: 0.4rem;
+					color: #6b7280;
+					font-weight: 600;
+					font-size: 0.8rem;
+				}
+			}
+
+			table td {
+				padding: 4px;
+				text-align: center;
+
+				> span {
+					width: 2.2rem;
+					height: 2.2rem;
+					border-radius: 8px;
+					display: inline-flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 0.9rem;
+				}
+
+				&.p-datepicker-today > span {
+					background: #eff6ff;
+					color: #3b82f6;
+					font-weight: 600;
+				}
+
+				&:not(.p-highlight):not(.p-disabled) > span:hover {
+					background: #dbeafe;
+					color: #3b82f6;
+				}
+			}
+
+			.p-datepicker-header {
+				padding: 0.75rem 1rem;
+				background: #f3f4f6;
+				border-bottom: 2px solid #e5e7eb;
+			}
+			
+			.p-datepicker-title {
+				display: flex !important;
+				justify-content: center;
+				align-items: center;
+				gap: 0.5rem;
+				font-weight: 600;
+				width: 100%;
+				text-align: center;
+				font-size: 1rem;
+				color: #0f172a;
+			}
+
+			.p-datepicker-prev,
+			.p-datepicker-next,
+			.p-datepicker-prev-icon,
+			.p-datepicker-next-icon {
+				display: none !important;
+				pointer-events: none !important;
+			}
+
+			select.p-datepicker-month,
+			select.p-datepicker-year,
+			.p-datepicker-monthpicker,
+			.p-datepicker-yearpicker {
+				display: none !important;
+				pointer-events: none !important;
+			}
+		}
 	}
 }
 
@@ -101,6 +497,47 @@
 
 	.p-button {
 		margin-right: 6px;
+	}
+}
+
+/* Estilos para botones de acciones en tabla */
+::ng-deep .p-button.p-button-info {
+	padding: 0.85rem 1.5rem !important;
+	border-radius: 10px !important;
+	transition: all 0.2s cubic-bezier(0.2, 0, 0, 1) !important;
+	background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+	border: none !important;
+	color: #fff !important;
+	box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15) !important;
+
+	&:hover:not(:disabled) {
+		background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+		box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25) !important;
+		transform: translateY(-2px);
+	}
+
+	&:active:not(:disabled) {
+		transform: translateY(0);
+	}
+}
+
+::ng-deep .p-button.p-button-danger {
+	padding: 0.85rem 1.5rem !important;
+	border-radius: 10px !important;
+	transition: all 0.2s cubic-bezier(0.2, 0, 0, 1) !important;
+	background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+	border: none !important;
+	color: #fff !important;
+	box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15) !important;
+
+	&:hover:not(:disabled) {
+		background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+		box-shadow: 0 8px 20px rgba(239, 68, 68, 0.25) !important;
+		transform: translateY(-2px);
+	}
+
+	&:active:not(:disabled) {
+		transform: translateY(0);
 	}
 }
 
@@ -249,6 +686,35 @@
 				color: white;
 			}
 		}
+	}
+}
+
+/* Estilos para tooltips */
+::ng-deep .p-tooltip {
+	.p-tooltip-text {
+		padding: 0.75rem 1rem !important;
+		font-size: 14px !important;
+		font-weight: 500 !important;
+		background: #1f2937 !important;
+		color: #fff !important;
+		border-radius: 8px !important;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+	}
+
+	&.p-tooltip-right .p-tooltip-arrow {
+		border-right-color: #1f2937 !important;
+	}
+
+	&.p-tooltip-left .p-tooltip-arrow {
+		border-left-color: #1f2937 !important;
+	}
+
+	&.p-tooltip-top .p-tooltip-arrow {
+		border-top-color: #1f2937 !important;
+	}
+
+	&.p-tooltip-bottom .p-tooltip-arrow {
+		border-bottom-color: #1f2937 !important;
 	}
 }
 

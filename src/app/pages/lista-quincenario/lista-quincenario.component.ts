@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
 import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
 import jsPDF from 'jspdf';
@@ -14,6 +15,8 @@ interface Reserva {
   peregrinacion?: string | null;
   coro?: string | null;
   createdAt?: Date | null;
+  editadoPor?: string | null;
+  ultimaModificacion?: Date | null;
 }
 
 @Component({
@@ -33,14 +36,19 @@ export class ListaQuincenarioComponent implements OnInit {
   editTelefono: string = '';
   editProvincia: string = '';
   editParroquia: string = '';
-  editTraerPeregrinacion: boolean = false;
   editDetallePeregrinacion: string = '';
-  editTraeCoro: boolean = false;
   editDetalleCoro: string = '';
+  
+  // Filtro de búsqueda
+  buscarCelular: string = '';
+  buscarFecha: Date | null = null;
+  reservasFiltradas: Reserva[] = [];
+  mostrarCalendarioBusqueda: boolean = false;
   
   // Configuración de fecha y horarios para edición
   minDate: Date = new Date();
   maxDate: Date = new Date();
+  defaultDate: Date = new Date();
   horariosDisponiblesEdit: string[] = [];
   horariosOcupadosEdit: Set<string> = new Set();
   cargandoHorariosEdit: boolean = false;
@@ -50,8 +58,20 @@ export class ListaQuincenarioComponent implements OnInit {
     private firebaseService: FirebaseService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private primengConfig: PrimeNGConfig
+    private primengConfig: PrimeNGConfig,
+    private router: Router,
+    private elementRef: ElementRef
   ) {}
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const calendarioWrapper = this.elementRef.nativeElement.querySelector('.calendario-wrapper');
+    
+    if (calendarioWrapper && !calendarioWrapper.contains(target)) {
+      this.mostrarCalendarioBusqueda = false;
+    }
+  }
 
   ngOnInit(): void {
     this.configurarRangoJulio();
@@ -60,10 +80,15 @@ export class ListaQuincenarioComponent implements OnInit {
     this.cargarReservas();
   }
 
+  regresarAlMenu(): void {
+    this.router.navigate(['/admin/panel']);
+  }
+
   configurarRangoJulio() {
     const fixedYear = 2026;
     this.minDate = new Date(fixedYear, 6, 1);
     this.maxDate = new Date(fixedYear, 6, 16);
+    this.defaultDate = new Date(fixedYear, 6, 1);
   }
 
   configurarLocaleEspanol() {
@@ -156,9 +181,44 @@ export class ListaQuincenarioComponent implements OnInit {
         const fb = b.fecha ? b.fecha.getTime() : 0;
         return fa - fb;
       });
+      // Aplicar filtro
+      this.aplicarFiltro();
     } catch (error) {
       console.error('Error cargando reservas:', error);
     }
+  }
+
+  aplicarFiltro() {
+    let filtradas = [...this.reservas];
+
+    // Filtro por celular
+    if (this.buscarCelular.trim() !== '') {
+      filtradas = filtradas.filter(reserva => 
+        reserva.telefono && reserva.telefono.includes(this.buscarCelular)
+      );
+    }
+
+    // Filtro por fecha
+    if (this.buscarFecha) {
+      filtradas = filtradas.filter(reserva => {
+        if (!reserva.fecha) return false;
+        const reservaDate = new Date(reserva.fecha);
+        return (
+          reservaDate.getFullYear() === this.buscarFecha!.getFullYear() &&
+          reservaDate.getMonth() === this.buscarFecha!.getMonth() &&
+          reservaDate.getDate() === this.buscarFecha!.getDate()
+        );
+      });
+    }
+
+    this.reservasFiltradas = filtradas;
+  }
+
+  limpiarFiltros() {
+    this.buscarCelular = '';
+    this.buscarFecha = null;
+    this.mostrarCalendarioBusqueda = false;
+    this.aplicarFiltro();
   }
 
   eliminarReserva(reserva: Reserva) {
@@ -169,7 +229,6 @@ export class ListaQuincenarioComponent implements OnInit {
     this.confirmationService.confirm({
       message: mensaje,
       header: '⚠️ Confirmar Eliminación',
-      icon: 'pi pi-exclamation-triangle',
       acceptLabel: 'Sí, eliminar',
       rejectLabel: 'Cancelar',
       acceptButtonStyleClass: 'p-button-danger',
@@ -179,7 +238,7 @@ export class ListaQuincenarioComponent implements OnInit {
           await this.firebaseService.eliminarReserva(reserva.id);
           this.messageService.add({ 
             severity: 'success', 
-            summary: '✓ Reserva Eliminada', 
+            summary: 'Reserva Eliminada', 
             detail: `La reserva de ${reserva.celebrante} ha sido eliminada correctamente`,
             life: 3000
           });
@@ -205,9 +264,7 @@ export class ListaQuincenarioComponent implements OnInit {
     this.editTelefono = reserva.telefono || '';
     this.editProvincia = reserva.provincia || '';
     this.editParroquia = reserva.parroquia || '';
-    this.editTraerPeregrinacion = !!reserva.peregrinacion;
     this.editDetallePeregrinacion = reserva.peregrinacion || '';
-    this.editTraeCoro = !!reserva.coro;
     this.editDetalleCoro = reserva.coro || '';
     
     this.generarHorariosDisponiblesEdit();
@@ -244,6 +301,10 @@ export class ListaQuincenarioComponent implements OnInit {
     }
 
     try {
+      // Obtener usuario actual desde sessionStorage
+      const usuarioActual = sessionStorage.getItem('adminUser') || 'Desconocido';
+      const ahora = new Date();
+
       const payload = {
         fecha: this.editFecha,
         horas: [...this.editHorasSeleccionadas], // Enviar array de horas
@@ -251,21 +312,23 @@ export class ListaQuincenarioComponent implements OnInit {
         telefono: this.editTelefono,
         provincia: this.editProvincia,
         parroquia: this.editParroquia,
-        peregrinacion: this.editTraerPeregrinacion && this.editDetallePeregrinacion ? this.editDetallePeregrinacion : null,
-        coro: this.editTraeCoro && this.editDetalleCoro ? this.editDetalleCoro : null,
+        peregrinacion: this.editDetallePeregrinacion || null,
+        coro: this.editDetalleCoro || null,
+        editadoPor: usuarioActual,
+        ultimaModificacion: ahora
       };
 
       await this.firebaseService.actualizarReserva(this.reservaEditando.id, payload);
       
-      this.messageService.add({
-        severity: 'success',
-        summary: '✓ Reserva Actualizada',
-        detail: 'Los cambios se han guardado correctamente',
-        life: 3000
-      });
-
       this.cerrarModalEdicion();
       await this.cargarReservas();
+      
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Reserva Actualizada',
+        detail: `Los cambios se han guardado correctamente por ${usuarioActual}`,
+        life: 3000
+      });
     } catch (error) {
       console.error('Error actualizando reserva:', error);
       this.messageService.add({
@@ -281,7 +344,7 @@ export class ListaQuincenarioComponent implements OnInit {
     // Recargar datos de la base de datos antes de generar el PDF
     await this.cargarReservas();
     
-    if (this.reservas.length === 0) {
+    if (this.reservasFiltradas.length === 0) {
       this.messageService.add({
         severity: 'warn',
         summary: 'Sin reservas',
@@ -468,10 +531,84 @@ export class ListaQuincenarioComponent implements OnInit {
     });
   }
 
+  async generarCSV() {
+    // Recargar datos de la base de datos antes de generar el CSV
+    await this.cargarReservas();
+
+    if (this.reservasFiltradas.length === 0) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Sin reservas',
+        detail: 'No hay reservas para generar el CSV',
+        life: 3000
+      });
+      return;
+    }
+
+    // Encabezados del CSV
+    const headers = ['Fecha', 'Hora(s)', 'Celebrante', 'Teléfono', 'Provincia', 'Parroquia', 'Peregrinación', 'Coro', 'Registrada'];
+
+    // Convertir datos a formato CSV
+    const rows = this.reservasFiltradas.map(reserva => [
+      reserva.fecha ? new Date(reserva.fecha).toLocaleDateString('es-ES') : '',
+      reserva.horas && reserva.horas.length > 0 ? reserva.horas.join('; ') : '',
+      reserva.celebrante || '',
+      reserva.telefono || '',
+      reserva.provincia || '',
+      reserva.parroquia || '',
+      reserva.peregrinacion || '',
+      reserva.coro || '',
+      reserva.createdAt ? new Date(reserva.createdAt).toLocaleString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }) : ''
+    ]);
+
+    // Función para escapar valores que contengan comillas o comas
+    const escapeCSV = (valor: string): string => {
+      if (valor.includes(',') || valor.includes('"') || valor.includes('\n')) {
+        return `"${valor.replace(/"/g, '""')}"`;
+      }
+      return valor;
+    };
+
+    // Construir contenido CSV
+    const headerRow = headers.map(h => escapeCSV(h)).join(',');
+    const dataRows = rows.map(row => 
+      row.map(cell => escapeCSV(String(cell))).join(',')
+    ).join('\n');
+
+    const csvContent = [headerRow, ...dataRows.split('\n')].join('\n');
+
+    // Crear blob y descargar
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    const fechaActual = new Date().toLocaleDateString('es-ES').replace(/\//g, '-');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `Quincenario_Reservas_${fechaActual}.csv`);
+    link.style.visibility = 'hidden';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'CSV Generado',
+      detail: 'El archivo CSV se ha descargado correctamente',
+      life: 3000
+    });
+  }
+
   private agruparReservasPorFecha(): { [fecha: string]: Reserva[] } {
     const agrupadas: { [fecha: string]: Reserva[] } = {};
     
-    for (const reserva of this.reservas) {
+    for (const reserva of this.reservasFiltradas) {
       if (reserva.fecha) {
         const fecha = new Date(reserva.fecha);
         // Usar componentes locales para evitar problemas de zona horaria

@@ -29,8 +29,19 @@
         </div>
 
         <div class="field">
-          <div class="input-wrap">
-            <input id="provincia" name="provincia" pInputText type="text" [(ngModel)]="provincia" (ngModelChange)="onProvinciaChange()" placeholder="Provincia" [class.input-error]="provinciaError" />
+          <div class="input-wrap" [class.has-value]="provincia">
+            <p-dropdown 
+              id="provincia" 
+              name="provincia" 
+              [(ngModel)]="provincia" 
+              [options]="provincias"
+              optionLabel="label"
+              optionValue="value"
+              [filter]="true"
+              filterBy="label"
+              (onChange)="onProvinciaChange()"
+              [class.input-error]="provinciaError">
+            </p-dropdown>
             <label for="provincia">Provincia</label>
           </div>
           <small *ngIf="provinciaError" class="error-message">{{ provinciaError }}</small>
@@ -70,7 +81,7 @@
       </section>
 
       <!-- Calendario para seleccionar fecha -->
-      <div class="calendario-wrapper">
+      <div class="calendario-wrapper" [class.todas-fechas-llenas]="todasLasFechasLlenas">
         <div class="calendar-card">
           <p-calendar 
             [(ngModel)]="fechaSeleccionada"
@@ -113,29 +124,56 @@
         </div>
 
         <div class="resumen-reserva" *ngIf="reservaCompleta">
-          <h3>Resumen de tu reserva</h3>
-          <div class="resumen-content">
-            <p class="res-item"><strong>Fecha:</strong> {{ fechaSeleccionada | date:'dd/MM/yyyy' }}</p>
-            <p class="res-item"><strong>Hora:</strong> {{ horaSeleccionada }}</p>
-            <p class="res-item" *ngIf="celebrante"><strong>Celebrante:</strong> {{ celebrante }}</p>
-            <p class="res-item" *ngIf="telefono"><strong>Teléfono:</strong> {{ telefono }}</p>
-            <p class="res-item" *ngIf="traerPeregrinacion && detallePeregrinacion"><strong>Peregrinación:</strong> {{ detallePeregrinacion }}</p>
-            <p class="res-item" *ngIf="traeCoro && detalleCoro"><strong>Coro:</strong> {{ detalleCoro }}</p>
-            <p class="res-item" *ngIf="provincia"><strong>Provincia:</strong> {{ provincia }}</p>
-            <p class="res-item" *ngIf="parroquia"><strong>Parroquia:</strong> {{ parroquia }}</p>
-          </div>
           <button 
             pButton 
             label="Confirmar Reserva" 
             icon="pi pi-check"
             class="confirm-btn"
-            (click)="confirmarReserva()">
+            (click)="abrirResumenModal()">
           </button>
         </div>
 
         <div class="empty-note" *ngIf="!fechaSeleccionada">
         </div>
       </aside>
+      <!-- Modal de resumen de reserva -->
+      <div class="modal-overlay" *ngIf="showResumenModal">
+        <div class="modal-card">
+          <header class="modal-header">
+            <div class="header-top">
+              <h3>Resumen de tu reserva</h3>
+              <button type="button" class="close-btn" (click)="cerrarResumenModal()">
+                <i class="pi pi-times"></i>
+              </button>
+            </div>
+          </header>
+          <div class="modal-body">
+            <div class="res-items-container">
+              <div class="res-group">
+                <p class="res-item"><strong>Fecha:</strong> {{ fechaSeleccionada | date:'dd/MM/yyyy' }}</p>
+                <p class="res-item"><strong>Hora:</strong> {{ horaSeleccionada }}</p>
+              </div>
+              <div class="res-group">
+                <p class="res-item" *ngIf="celebrante"><strong>Celebrante:</strong> {{ celebrante }}</p>
+                <p class="res-item" *ngIf="telefono"><strong>Teléfono:</strong> {{ telefono }}</p>
+              </div>
+              <div class="res-group" *ngIf="traerPeregrinacion || traeCoro">
+                <p class="res-item" *ngIf="traerPeregrinacion && detallePeregrinacion"><strong>Peregrinación:</strong> {{ detallePeregrinacion }}</p>
+                <p class="res-item" *ngIf="traeCoro && detalleCoro"><strong>Coro:</strong> {{ detalleCoro }}</p>
+              </div>
+              <div class="res-group">
+                <p class="res-item" *ngIf="provincia"><strong>Provincia:</strong> {{ provincia }}</p>
+                <p class="res-item" *ngIf="parroquia"><strong>Parroquia:</strong> {{ parroquia }}</p>
+              </div>
+            </div>
+          </div>
+          <footer class="modal-footer">
+            <button pButton type="button" class="cancel-btn" label="Cancelar" (click)="cerrarResumenModal()"></button>
+            <button pButton type="button" class="confirm-btn" label="Confirmar Reserva" (click)="confirmarReserva()"></button>
+          </footer>
+        </div>
+      </div>
+
     </div>
-  </div>
-</div>
+    </div>
+    </div>

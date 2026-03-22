@@ -161,7 +161,9 @@ export class FirebaseService {
           parroquia: data.parroquia,
           peregrinacion: data.peregrinacion,
           coro: data.coro,
-          createdAt: data.createdAt && typeof data.createdAt.toDate === 'function' ? data.createdAt.toDate() : data.createdAt
+          createdAt: data.createdAt && typeof data.createdAt.toDate === 'function' ? data.createdAt.toDate() : data.createdAt,
+          editadoPor: data.editadoPor || null,
+          ultimaModificacion: data.ultimaModificacion && typeof data.ultimaModificacion.toDate === 'function' ? data.ultimaModificacion.toDate() : data.ultimaModificacion
         });
       });
       return items;
@@ -200,7 +202,9 @@ export class FirebaseService {
           horas: data.horas || [],
           celebrante: data.celebrante,
           provincia: data.provincia,
-          parroquia: data.parroquia
+          parroquia: data.parroquia,
+          editadoPor: data.editadoPor || null,
+          ultimaModificacion: data.ultimaModificacion && typeof data.ultimaModificacion.toDate === 'function' ? data.ultimaModificacion.toDate() : data.ultimaModificacion
         });
       });
       return items;
@@ -245,6 +249,10 @@ export class FirebaseService {
         parroquia: payload.parroquia,
         peregrinacion: payload.peregrinacion || null,
         coro: payload.coro || null,
+        editadoPor: payload.editadoPor || null,
+        ultimaModificacion: payload.ultimaModificacion && payload.ultimaModificacion instanceof Date 
+          ? Timestamp.fromDate(payload.ultimaModificacion) 
+          : payload.ultimaModificacion || null,
       };
       await updateDoc(docRef, updateData);
     } catch (error) {

@@ -1,13 +1,74 @@
 <div class="lista-quincenario">
+	<div class="back-button-container">
+		<p-button 
+			icon="pi pi-arrow-left" 
+			label="Atrás" 
+			(onClick)="regresarAlMenu()"
+			styleClass="back-btn">
+		</p-button>
+	</div>
 	<p-card styleClass="admin-card">
 		<div class="admin-header">
 			<h2>Reservas del Quincenario</h2>
+			<div class="button-group">
+				<p-button 
+					label="Generar PDF" 
+					(onClick)="generarPDF()"
+					styleClass="export-btn pdf-btn"
+					[disabled]="reservas.length === 0">
+				</p-button>
+				<p-button 
+					label="Generar CSV" 
+					(onClick)="generarCSV()"
+					styleClass="export-btn csv-btn"
+					[disabled]="reservas.length === 0">
+				</p-button>
+			</div>
+		</div>
+
+		<!-- Barra de búsqueda por celular y fecha -->
+		<div class="busqueda-container busqueda-doble">
+			<div class="busqueda-input-wrapper">
+				<i class="pi pi-search"></i>
+				<input 
+					type="text" 
+					pInputText 
+					[(ngModel)]="buscarCelular" 
+					placeholder="Buscar celular" 
+					(ngModelChange)="aplicarFiltro()"
+					maxlength="10">
+			</div>
+
+			<div class="busqueda-input-wrapper calendario-wrapper">
+				<i class="pi pi-calendar"></i>
+				<input 
+					type="text" 
+					pInputText 
+					[value]="buscarFecha ? (buscarFecha | date:'dd/MM/yyyy') : ''"
+					placeholder="Filtrar por fecha"
+					readonly
+					(click)="mostrarCalendarioBusqueda = !mostrarCalendarioBusqueda">
+				<div *ngIf="mostrarCalendarioBusqueda" class="calendario-content" (click)="$event.stopPropagation()">
+					<p-calendar 
+						[(ngModel)]="buscarFecha"
+						[inline]="true"
+						[defaultDate]="defaultDate"
+						[minDate]="minDate"
+						[maxDate]="maxDate"
+						dateFormat="dd/mm/yy"
+						(onSelect)="aplicarFiltro(); mostrarCalendarioBusqueda = false"
+						[locale]="es"
+						[showButtonBar]="false"
+						class="calendario-popup">
+					</p-calendar>
+				</div>
+			</div>
+
 			<p-button 
-				label="Generar PDF" 
-				icon="pi pi-file-pdf" 
-				(onClick)="generarPDF()"
-				styleClass="p-button-success"
-				[disabled]="reservas.length === 0">
+				*ngIf="buscarCelular || buscarFecha"
+				icon="pi pi-times" 
+				(onClick)="limpiarFiltros()"
+				styleClass="p-button-rounded p-button-primary btn-limpiar-filtros">
 			</p-button>
 		</div>
 
@@ -16,15 +77,15 @@
 		</div>
 
 		<p-table
-			*ngIf="reservas.length > 0"
-			[value]="reservas"
+			*ngIf="reservasFiltradas.length > 0"
+			[value]="reservasFiltradas"
 			styleClass="p-datatable-sm p-datatable-striped"
 			[scrollable]="true"
 			scrollHeight="400px"
 		>
 			<ng-template pTemplate="header">
 				<tr>
-					<th>Fecha</th>
+					<th>Fecha Reserva</th>
 					<th>Hora</th>
 					<th>Celebrante</th>
 					<th>Teléfono</th>
@@ -32,7 +93,9 @@
 					<th>Parroquia</th>
 					<th>Peregrinación</th>
 					<th>Coro</th>
-					<th>Registrada</th>
+					<th>Fecha Registro</th>
+					<th>Editado por</th>
+					<th>Última Modificación</th>
 					<th>Acciones</th>
 				</tr>
 			</ng-template>
@@ -48,6 +111,8 @@
 					<td>{{ r.peregrinacion || '-' }}</td>
 					<td>{{ r.coro || '-' }}</td>
 					<td>{{ r.createdAt ? (r.createdAt | date:'dd/MM/yyyy HH:mm') : '-' }}</td>
+					<td>{{ r.editadoPor || '-' }}</td>
+					<td>{{ r.ultimaModificacion ? (r.ultimaModificacion | date:'dd/MM/yyyy HH:mm') : '-' }}</td>
 					<td>
 						<p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-info p-button-text" (onClick)="abrirModalEdicion(r)" pTooltip="Editar reserva"></p-button>
 						<p-button icon="pi pi-trash" styleClass="p-button-rounded p-button-danger p-button-text" (onClick)="eliminarReserva(r)" pTooltip="Eliminar reserva"></p-button>
