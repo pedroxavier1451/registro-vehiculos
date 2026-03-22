@@ -78,8 +78,8 @@ export class QuincenarioComponent implements OnInit {
     // Primer rango especial: 06:45 - 08:00
     this.horariosDisponibles.push('06:45 - 08:00');
     
-    // Rangos de hora en hora desde 08:00 hasta 19:00
-    for (let hora = 8; hora < 19; hora++) {
+    // Rangos de hora en hora desde 08:00 hasta 20:00 (incluye 19:00 - 20:00)
+    for (let hora = 8; hora <= 19; hora++) {
       const horaInicio = hora.toString().padStart(2, '0');
       const horaFin = (hora + 1).toString().padStart(2, '0');
       this.horariosDisponibles.push(`${horaInicio}:00 - ${horaFin}:00`);

@@ -84,7 +84,7 @@ export class ListaQuincenarioComponent implements OnInit {
   generarHorariosDisponiblesEdit() {
     this.horariosDisponiblesEdit = [];
     this.horariosDisponiblesEdit.push('06:45 - 08:00');
-    for (let hora = 8; hora < 19; hora++) {
+    for (let hora = 8; hora <= 19; hora++) {
       const horaInicio = hora.toString().padStart(2, '0');
       const horaFin = (hora + 1).toString().padStart(2, '0');
       this.horariosDisponiblesEdit.push(`${horaInicio}:00 - ${horaFin}:00`);
