@@ -1,17 +1,17 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const { defineString } = require('firebase-functions/params');
+const { defineString, defineSecret } = require('firebase-functions/params');
 const QRCode = require('qrcode');
 const { v4: uuidv4 } = require('uuid');
-// Don't require/sendgrid at top-level to avoid blocking initialization
-let sgMail: any = null;
 
 admin.initializeApp();
 
 // Define params for Cloud Functions v2
-const SENDGRID_KEY = defineString('SENDGRID_KEY');
+// API key de Resend guardada en Secret Manager: firebase functions:secrets:set RESEND_API_KEY
+const RESEND_API_KEY = defineSecret('RESEND_API_KEY');
 
-const SENDGRID_FROM = defineString('SENDGRID_FROM');
+// Remitente verificado en Resend, ej: "Santuario <registro@tudominio.com>"
+const RESEND_FROM = defineString('RESEND_FROM');
 
 /**
  * Genera un código QR en formato base64
@@ -32,29 +32,17 @@ async function generateQRCode(data: string): Promise<string> {
 }
 
 /**
- * Helper to send a simple welcome email via SendGrid with QR code
+ * Helper to send a simple welcome email via Resend with QR code
  */
 async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?: string) {
-  // Lazy-require SendGrid so module loading doesn't fail or block deploy analysis
-  const sendgridKeyValue = SENDGRID_KEY.value();
-  const sendgridFromValue = SENDGRID_FROM.value();
+  const resendKeyValue = RESEND_API_KEY.value();
+  const resendFromValue = RESEND_FROM.value();
 
-  if (!sgMail) {
-    try {
-      // use require here to avoid top-level side effects
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      sgMail = require('@sendgrid/mail');
-    } catch (err: any) {
-      throw new Error('@sendgrid/mail module is not installed');
-    }
-
-    if (sendgridKeyValue) {
-      sgMail.setApiKey(sendgridKeyValue);
-    }
+  if (!resendKeyValue) {
+    throw new Error('Resend API key not configured');
   }
-
-  if (!sendgridKeyValue) {
-    throw new Error('SendGrid key not configured');
+  if (!resendFromValue) {
+    throw new Error('RESEND_FROM not configured');
   }
 
   // Extraer el base64 del data URL
@@ -214,8 +202,8 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
   }
 
   const msg: any = {
-    to: email,
-    from: sendgridFromValue,
+    to: [email],
+    from: resendFromValue,
     subject: 'Confirmación de Registro - Pase del Niño Viajero 2025',
     text: `Bendiciones ${nombre || ''},\n\nTu registro para el Pase del Niño Viajero del 24 de diciembre de 2025 ha sido confirmado exitosamente.\n\nDescarga el archivo adjunto qr-code.png y preséntalo el día del evento.\n\nPunto de concentración: Av. 3 de Noviembre y Simón Bolivar, Cuenca - Ecuador\n\nQue el Niño Jesús bendiga tu hogar y tu familia.\n\nSantuario Mariano Nacional del Carmen de la Asunción\nCuenca - Ecuador`,
     html: htmlContent,
@@ -227,19 +215,33 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
     msg.attachments.push({
       content: base64Content,
       filename: 'qr-code.png',
-      type: 'image/png',
-      disposition: 'attachment'
+      content_type: 'image/png'
     });
   }
 
-  return sgMail.send(msg);
+  // Resend REST API: https://resend.com/docs/api-reference/emails/send-email
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${resendKeyValue}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(msg)
+  });
+
+  const result: any = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(`Resend error ${response.status}: ${result.message || response.statusText}`);
+  }
+
+  return result; // { id: '...' }
 }
 
 // 1) Firestore trigger: envia un correo cuando se crea un documento en 'vehiculos'
 // Use v2 API to be compatible with firebase-functions v7+
 const { onDocumentCreated } = require('firebase-functions/v2/firestore');
 
-export const sendWelcomeOnCreate = onDocumentCreated('vehiculos/{docId}', async (event: any) => {
+export const sendWelcomeOnCreate = onDocumentCreated({ document: 'vehiculos/{docId}', secrets: [RESEND_API_KEY] }, async (event: any) => {
   // event.data is a Firestore snapshot-like object in v2; adapt accordingly
   const snap = event.data;
   const data = (snap && typeof snap.data === 'function') ? snap.data() : (snap || {});
@@ -295,7 +297,7 @@ export const sendWelcomeOnCreate = onDocumentCreated('vehiculos/{docId}', async 
         docId,
         qrToken,
         hasQR: !!qrCodeDataUrl,
-        status: resp && resp[0] && resp[0].statusCode 
+        resendId: resp && resp.id
       });
     }
   } catch (err: any) {
@@ -314,7 +316,9 @@ export const sendWelcomeOnCreate = onDocumentCreated('vehiculos/{docId}', async 
 // 2) Callable function: invocación explícita desde cliente con SDK httpsCallable
 const { onCall } = require('firebase-functions/v2/https');
 
-export const sendWelcomeCallable = onCall(async (data: any, context: any) => {
+export const sendWelcomeCallable = onCall({ secrets: [RESEND_API_KEY] }, async (request: any) => {
+  // En v2 el payload llega en request.data
+  const data = request && request.data;
   const email = data && data.email;
   const nombre = data && data.nombreCompleto;
 
@@ -337,7 +341,7 @@ export const sendWelcomeCallable = onCall(async (data: any, context: any) => {
 // 3) HTTP endpoint (onRequest) with simple CORS handling for direct fetch calls (for testing)
 const { onRequest } = require('firebase-functions/v2/https');
 
-export const sendWelcomeHttp = onRequest(async (req: any, res: any) => {
+export const sendWelcomeHttp = onRequest({ secrets: [RESEND_API_KEY] }, async (req: any, res: any) => {
   // Basic CORS handling - allow any origin. For production restrict origins.
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
