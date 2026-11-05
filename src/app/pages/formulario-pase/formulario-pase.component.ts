@@ -145,7 +145,10 @@ export class FormularioPaseComponent implements OnInit, OnDestroy {
       placa: ['', [
         Validators.required, 
         Validators.pattern(/^[A-Z]{3,4}-[0-9]{3,4}$/i)
-      ]]
+      ]],
+
+      // Consentimiento de uso de datos
+      aceptaDatos: [false, [Validators.requiredTrue]]
     });
   }
 
@@ -187,7 +190,8 @@ export class FormularioPaseComponent implements OnInit, OnDestroy {
         'email': 'Correo Electrónico',
         'tematica': 'Temática',
         'tipoVehiculo': 'Tipo de Vehículo',
-        'placa': 'Placa'
+        'placa': 'Placa',
+        'aceptaDatos': 'Consentimiento de uso de datos'
       };
 
       Object.keys(this.vehicleForm.controls).forEach(key => {

@@ -115,7 +115,7 @@
 				</div>
         
 				<!-- Fila 2: Título principal -->
-				<h1 class="header-title">Gran Pase del Niño Viajero 2025</h1>
+				<h1 class="header-title">Gran Pase del Niño Viajero 2026</h1>
         
 				<!-- Fila 3: Niño Viajero grande -->
 				<div class="nino-viajero-hero">
@@ -350,6 +350,17 @@
 								</ul>
 							</div>
 						</div>
+					</div>
+
+					<!-- Consentimiento de uso de datos -->
+					<div class="p-col-12 consent-field">
+						<label for="aceptaDatos" class="consent-label">
+							<input type="checkbox" id="aceptaDatos" formControlName="aceptaDatos" />
+							<span>Acepto el tratamiento de mis datos personales para recibir información, noticias, novedades y futuras convocatorias relacionadas con las actividades y eventos de la organización. Mis datos serán utilizados únicamente con fines informativos, tratados de manera confidencial y no serán compartidos con terceros.</span>
+						</label>
+						<small class="p-error" *ngIf="isSubmitted && f['aceptaDatos'].errors?.['required']">
+							Debe aceptar el uso de sus datos para continuar
+						</small>
 					</div>
 				</div>
 			</div>
