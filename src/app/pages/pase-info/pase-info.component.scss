@@ -1,0 +1,304 @@
+$navy: #1f2a44;
+$gold: #b08a3e;
+$gold-dark: #8f6d2c;
+$beige: #f7f1e6;
+$border: #e8dcc4;
+$text: #4a4a4a;
+
+.pase-info {
+	display: flex;
+	flex-direction: column;
+	background: #fbfaf7;
+	font-family: 'Mulish', 'Inter', sans-serif;
+	color: $text;
+}
+
+// Cabecera
+.pase-header {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 160px;
+	overflow: hidden;
+	background: linear-gradient(180deg, #fbf7ef 0%, #fbfaf7 100%);
+}
+
+.pase-header-waves {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.pase-header-silueta {
+	position: absolute;
+	right: 6%;
+	bottom: 18px;
+	height: 120px;
+	width: auto;
+	opacity: 0.08;
+	mix-blend-mode: multiply;
+	pointer-events: none;
+}
+
+.pase-header-logo {
+	position: relative;
+	height: 90px;
+	width: auto;
+}
+
+.pase-main {
+	flex: 1;
+	width: 100%;
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 2rem 1rem 1rem;
+}
+
+// Bienvenida
+.pase-hero {
+	text-align: center;
+	max-width: 800px;
+	margin: 0 auto 2rem;
+
+	h1 {
+		font-size: 2.75rem;
+		font-weight: 800;
+		color: $navy;
+		margin-bottom: 0.5rem;
+	}
+
+	.pase-tagline {
+		font-size: 1.3rem;
+		font-style: italic;
+		color: $gold-dark;
+		margin-bottom: 1rem;
+	}
+
+	.pase-intro {
+		font-size: 1rem;
+		line-height: 1.6;
+	}
+}
+
+// Tarjetas
+.pase-cards {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1.25rem;
+	margin-bottom: 2rem;
+}
+
+.pase-card {
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+	padding: 1.5rem 1.25rem;
+	text-align: center;
+
+	i {
+		font-size: 2.25rem;
+		color: $gold;
+		margin-bottom: 0.75rem;
+	}
+
+	h3 {
+		font-size: 1.25rem;
+		font-weight: 800;
+		color: $navy;
+		margin-bottom: 0.5rem;
+	}
+
+	p {
+		font-size: 0.9rem;
+		line-height: 1.5;
+	}
+}
+
+.pase-divider {
+	border: none;
+	border-top: 1px solid $border;
+	margin: 0 0 2rem;
+}
+
+// Sobre el evento
+.pase-about {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 2.5rem;
+	align-items: center;
+	margin-bottom: 2rem;
+
+	h2 {
+		font-size: 2rem;
+		font-weight: 800;
+		color: $navy;
+		margin-bottom: 0.75rem;
+	}
+
+	p {
+		line-height: 1.6;
+		text-align: justify;
+		margin-bottom: 0.75rem;
+	}
+}
+
+.pase-about-image {
+	background: radial-gradient(circle at center, #fff8e7 0%, $beige 60%, #ecdfc4 100%);
+	border-radius: 12px;
+	padding: 1.5rem;
+	display: flex;
+	justify-content: center;
+
+	img {
+		max-width: 100%;
+		max-height: 280px;
+		object-fit: contain;
+	}
+}
+
+// Llamado al registro
+.pase-cta {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+	background: $beige;
+	border-radius: 16px;
+	padding: 1.5rem 2.5rem;
+	margin-bottom: 2rem;
+
+	.pase-cta-icon {
+		padding-right: 2rem;
+		border-right: 1px solid $border;
+
+		i {
+			font-size: 3rem;
+			color: $gold;
+		}
+	}
+
+	.pase-cta-text {
+		flex: 1;
+
+		h2 {
+			font-size: 1.6rem;
+			font-weight: 800;
+			color: $navy;
+			margin-bottom: 0.35rem;
+		}
+
+		p {
+			line-height: 1.5;
+		}
+	}
+}
+
+.pase-cta-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6rem;
+	background: $gold;
+	color: #fff;
+	font-weight: 700;
+	font-size: 1.05rem;
+	padding: 0.75rem 1.75rem;
+	border-radius: 8px;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background 0.2s ease;
+
+	&:hover {
+		background: $gold-dark;
+	}
+}
+
+// Información adicional
+.pase-extra {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	margin-bottom: 1.5rem;
+}
+
+.pase-extra-item {
+	display: flex;
+	gap: 1rem;
+	padding: 0.5rem 1.5rem;
+
+	& + & {
+		border-left: 1px solid $border;
+	}
+
+	i {
+		font-size: 2rem;
+		color: $gold;
+	}
+
+	h4 {
+		font-size: 1.1rem;
+		font-weight: 800;
+		color: $navy;
+		margin-bottom: 0.25rem;
+	}
+
+	p {
+		font-size: 0.85rem;
+		line-height: 1.5;
+		word-break: break-word;
+	}
+}
+
+// Responsive
+@media (max-width: 900px) {
+	.pase-cards {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.pase-about {
+		grid-template-columns: 1fr;
+	}
+
+	.pase-cta {
+		flex-direction: column;
+		text-align: center;
+		padding: 1.5rem;
+
+		.pase-cta-icon {
+			padding-right: 0;
+			border-right: none;
+		}
+	}
+
+	.pase-extra {
+		grid-template-columns: 1fr;
+	}
+
+	.pase-extra-item + .pase-extra-item {
+		border-left: none;
+		border-top: 1px solid $border;
+		padding-top: 1rem;
+	}
+}
+
+@media (max-width: 560px) {
+	.pase-header {
+		height: 120px;
+	}
+
+	.pase-header-logo {
+		height: 64px;
+	}
+
+	.pase-header-silueta {
+		display: none;
+	}
+
+	.pase-cards {
+		grid-template-columns: 1fr;
+	}
+
+	.pase-hero h1 {
+		font-size: 2rem;
+	}
+}

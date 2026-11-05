@@ -36,6 +36,7 @@ import { FormularioPaseComponent } from './pages/formulario-pase/formulario-pase
 import { HomeComponent } from './pages/home/home.component';
 import { QuincenarioComponent } from './pages/quincenario/quincenario.component';
 import { ListaQuincenarioComponent } from './pages/lista-quincenario/lista-quincenario.component';
+import { PaseInfoComponent } from './pages/pase-info/pase-info.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ListaQuincenarioComponent } from './pages/lista-quincenario/lista-quinc
     FormularioPaseComponent,
     HomeComponent,
     QuincenarioComponent,
-    ListaQuincenarioComponent
+    ListaQuincenarioComponent,
+    PaseInfoComponent
   ],
   imports: [
     BrowserModule,

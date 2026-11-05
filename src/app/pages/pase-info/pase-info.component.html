@@ -1,0 +1,99 @@
+<div class="pase-info">
+	<!-- Cabecera simple (solo logo, sin navegación) -->
+	<header class="pase-header">
+		<!-- Ondas doradas decorativas -->
+		<svg class="pase-header-waves" viewBox="0 0 1440 160" preserveAspectRatio="none" aria-hidden="true">
+			<path d="M0,95 C180,55 360,50 560,110 C620,128 660,135 700,138" fill="none" stroke="#d9c29a" stroke-width="2.5" stroke-linecap="round" />
+			<path d="M0,110 C200,75 380,75 600,135" fill="none" stroke="#e9dcc3" stroke-width="1.5" stroke-linecap="round" />
+			<path d="M920,140 C1120,128 1300,100 1440,60" fill="none" stroke="#d9c29a" stroke-width="2.5" stroke-linecap="round" />
+			<path d="M980,150 C1160,142 1320,118 1440,85" fill="none" stroke="#e9dcc3" stroke-width="1.5" stroke-linecap="round" />
+		</svg>
+		<!-- Silueta tenue del monasterio -->
+		<img src="assets/images/silueta monasterio ok.png" alt="" class="pase-header-silueta" aria-hidden="true" />
+		<img src="assets/images/LogoMonasterio.png" alt="Monasterio del Carmen de la Asunción" class="pase-header-logo" />
+	</header>
+
+	<main class="pase-main">
+		<!-- Bienvenida -->
+		<section class="pase-hero">
+			<h1>Pase del Niño Viajero</h1>
+			<p class="pase-tagline">Tradición de fe, cultura y encuentro comunitario</p>
+			<p class="pase-intro">
+				Te damos la bienvenida a la página del Pase del Niño Viajero, una de las tradiciones religiosas más
+				emblemáticas de Cuenca, que reúne a familias, instituciones y grupos de devoción en honor al Niño Jesús.
+			</p>
+		</section>
+
+		<!-- Tarjetas informativas -->
+		<section class="pase-cards">
+			<div class="pase-card" *ngFor="let tarjeta of tarjetas">
+				<i [class]="tarjeta.icono"></i>
+				<h3>{{ tarjeta.titulo }}</h3>
+				<p>{{ tarjeta.texto }}</p>
+			</div>
+		</section>
+
+		<hr class="pase-divider" />
+
+		<!-- Sobre el evento -->
+		<section class="pase-about">
+			<div class="pase-about-text">
+				<h2>Sobre el evento</h2>
+				<p>
+					El Pase del Niño Viajero es una celebración que une la devoción al Niño Jesús con la riqueza cultural
+					de Cuenca. Cada año, la ciudad se viste de fiesta con coloridos carros alegóricos, música, danzas y la
+					participación de numerosos niños que, con entusiasmo, representan pasajes bíblicos.
+				</p>
+				<p>
+					Es una expresión viva de fe e identidad, que fortalece los lazos comunitarios y mantiene vigente una
+					tradición que se transmite de generación en generación.
+				</p>
+			</div>
+			<div class="pase-about-image">
+				<img src="assets/images/Niño Viajero.png" alt="Niño Viajero" />
+			</div>
+		</section>
+
+		<!-- Llamado al registro -->
+		<section class="pase-cta">
+			<div class="pase-cta-icon">
+				<i class="pi pi-car"></i>
+			</div>
+			<div class="pase-cta-text">
+				<h2>Registro de vehículos y carros alegóricos</h2>
+				<p>
+					Te invitamos a registrar tus vehículos, carros alegóricos o grupos participantes para una mejor
+					organización del evento.
+				</p>
+			</div>
+			<a routerLink="/formulario" class="pase-cta-button">
+				Ir al registro <i class="pi pi-arrow-right"></i>
+			</a>
+		</section>
+
+		<!-- Información adicional -->
+		<section class="pase-extra">
+			<div class="pase-extra-item">
+				<i class="pi pi-calendar"></i>
+				<div>
+					<h4>Horario</h4>
+					<p>El Pase del Niño Viajero se realiza anualmente en el mes de diciembre.</p>
+				</div>
+			</div>
+			<div class="pase-extra-item">
+				<i class="pi pi-users"></i>
+				<div>
+					<h4>Organización</h4>
+					<p>Coordinado por el Monasterio del Carmen de la Asunción, en conjunto con instituciones y grupos de la ciudad.</p>
+				</div>
+			</div>
+			<div class="pase-extra-item">
+				<i class="pi pi-envelope"></i>
+				<div>
+					<h4>Contacto</h4>
+					<p>Para más información, escríbenos a info&#64;monasteriocarmenasuncionocd.com o llámanos al (07) 2823450.</p>
+				</div>
+			</div>
+		</section>
+	</main>
+</div>

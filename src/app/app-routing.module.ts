@@ -7,6 +7,7 @@ import { FormularioPaseComponent } from './pages/formulario-pase/formulario-pase
 import { HomeComponent } from './pages/home/home.component';
 import { QuincenarioComponent } from './pages/quincenario/quincenario.component';
 import { ListaQuincenarioComponent } from './pages/lista-quincenario/lista-quincenario.component';
+import { PaseInfoComponent } from './pages/pase-info/pase-info.component';
 
 const routes: Routes = [
   // Página principal
@@ -21,6 +22,9 @@ const routes: Routes = [
   // Página de validación de códigos QR
   { path: 'admin/validacion', component: ValidacionComponent },
 
+  // Página informativa del Pase del Niño Viajero (antes del formulario)
+  { path: 'pase-nino-viajero', component: PaseInfoComponent },
+
   { path: 'formulario', component: FormularioPaseComponent },
 
   { path: 'quincenario', component: QuincenarioComponent },
@@ -32,7 +36,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  // scrollPositionRestoration: al navegar a otra página se inicia desde arriba
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

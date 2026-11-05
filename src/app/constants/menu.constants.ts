@@ -25,7 +25,7 @@ export const MENU_USER = [
   {
     label: 'Eventos',
     items: [
-      { label: 'Pase del niño viajero', routerLink: ['/formulario'] },
+      { label: 'Pase del niño viajero', routerLink: ['/pase-nino-viajero'] },
     ]
   },
   {
