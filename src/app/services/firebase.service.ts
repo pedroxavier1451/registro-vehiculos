@@ -15,7 +15,13 @@ export interface VehicleRegistration {
   tematica: string;
   tipoVehiculo: string;
   placa: string;
-  
+  responsableVehiculo: string;
+  numeroParticipantes: number;
+
+  // Consentimientos
+  aceptaTerminos: boolean;
+  aceptaComunicaciones: boolean;
+
   // Metadatos
   fechaRegistro: any;
 }
@@ -70,6 +76,10 @@ export class FirebaseService {
         tematica: data.tematica,
         tipoVehiculo: data.tipoVehiculo,
         placa: data.placa.toUpperCase(),
+        responsableVehiculo: (data.responsableVehiculo || '').trim(),
+        numeroParticipantes: Number(data.numeroParticipantes),
+        aceptaTerminos: !!data.aceptaTerminos,
+        aceptaComunicaciones: !!data.aceptaComunicaciones,
         fechaRegistro: Timestamp.now()
       };
 

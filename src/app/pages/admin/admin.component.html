@@ -76,6 +76,8 @@
 					<th>Temática</th>
 					<th>Tipo Vehículo</th>
 					<th>Placa</th>
+					<th>Responsable Vehículo</th>
+					<th>N° Participantes</th>
 					<th>Fecha Registro</th>
 					<th>Validado</th>
 					<th>Fecha Validación</th>
@@ -93,6 +95,8 @@
 					<td>{{ v.tematica }}</td>
 					<td>{{ v.tipoVehiculo }}</td>
 					<td><p-tag [value]="v.placa" styleClass="placa-tag"></p-tag></td>
+					<td>{{ v.responsableVehiculo || '-' }}</td>
+					<td>{{ v.numeroParticipantes ?? '-' }}</td>
 					<td>{{ v.fechaRegistro?.toDate?.() | date:'short' }}</td>
 					<td>
 						<p-tag 

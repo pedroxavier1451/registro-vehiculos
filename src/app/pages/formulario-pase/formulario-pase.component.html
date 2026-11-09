@@ -68,6 +68,80 @@
 	</ng-template>
 </p-dialog>
 
+<!-- Modal de documentos legales (Términos y Condiciones / Política de Privacidad) -->
+<p-dialog
+	[(visible)]="showLegalModal"
+	[modal]="true"
+	[draggable]="false"
+	[resizable]="false"
+	[dismissableMask]="true"
+	[blockScroll]="true"
+	(onShow)="onLegalShow()"
+	styleClass="terms-modal"
+	[contentStyle]="{padding: '0', overflow: 'hidden'}"
+	[style]="{width: '95%', maxWidth: '1080px'}">
+	<ng-template pTemplate="header">
+		<div class="terms-modal-title">
+			<i [class]="documentoLegal.icono"></i>
+			<span>{{ documentoLegal.titulo }}</span>
+		</div>
+	</ng-template>
+
+	<div class="terms-layout">
+		<!-- Índice lateral -->
+		<nav class="terms-nav">
+			<button
+				type="button"
+				*ngFor="let seccion of documentoLegal.secciones; let i = index"
+				class="terms-nav-item"
+				[class.active]="seccionActiva === seccion.id"
+				(click)="irASeccion(seccion.id)">
+				<span class="terms-nav-num">{{ i + 1 }}.</span> {{ seccion.indice }}
+			</button>
+		</nav>
+
+		<!-- Contenido -->
+		<div class="terms-content" #legalContent (scroll)="onLegalScroll()">
+			<div class="terms-org">
+				<svg class="terms-org-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true">
+					<path d="M24 3v8M20 6.5h8" stroke-linecap="round" />
+					<path d="M24 11l-9 9v6h18v-6z" />
+					<path d="M15 26l-9 7v12h36V33l-9-7" />
+					<path d="M20 45v-8a4 4 0 0 1 8 0v8" />
+					<path d="M11 45v-6M37 45v-6" stroke-linecap="round" />
+				</svg>
+				<div>
+					<strong>Monasterio del Carmen de la Asunción</strong>
+					<span>Pase del Niño Viajero – Cuenca, Ecuador</span>
+				</div>
+			</div>
+
+			<h2 class="terms-title">{{ documentoLegal.titulo }}</h2>
+			<p class="terms-updated">Última actualización: {{ documentoLegal.actualizacion }}</p>
+
+			<section class="terms-section" *ngFor="let seccion of documentoLegal.secciones; let i = index" [id]="'legal-' + seccion.id">
+				<h3>{{ i + 1 }}. {{ seccion.titulo }}</h3>
+				<ng-container *ngFor="let bloque of seccion.bloques">
+					<p *ngIf="bloque.tipo === 'p'">{{ bloque.texto }}</p>
+					<h4 *ngIf="bloque.tipo === 'h4'">{{ bloque.texto }}</h4>
+					<ul *ngIf="bloque.tipo === 'ul'">
+						<li *ngFor="let item of bloque.items">{{ item }}</li>
+					</ul>
+				</ng-container>
+			</section>
+
+			<div class="terms-declaration">
+				<h3>{{ documentoLegal.cierre.titulo }}</h3>
+				<p>{{ documentoLegal.cierre.texto }}</p>
+			</div>
+		</div>
+	</div>
+
+	<ng-template pTemplate="footer">
+		<button type="button" class="terms-close-btn" (click)="showLegalModal = false">Cerrar</button>
+	</ng-template>
+</p-dialog>
+
 <!-- Modal de Éxito -->
 <p-dialog 
 	[(visible)]="showSuccessModal" 
@@ -332,6 +406,58 @@
 						</small>
 					</div>
 
+					<!-- Responsable del Vehículo -->
+					<div class="p-field p-col-12 p-md-6">
+						<label for="responsableVehiculo">Responsable del Vehículo</label>
+						<input
+							pInputText
+							id="responsableVehiculo"
+							formControlName="responsableVehiculo"
+							placeholder="Nombre de quien conduce o responde por el vehículo"
+							[class.ng-invalid]="isSubmitted && f['responsableVehiculo'].errors"
+							[class.ng-dirty]="isSubmitted"
+						/>
+						<small class="p-error" *ngIf="isSubmitted && f['responsableVehiculo'].errors?.['required']">
+							El responsable del vehículo es requerido
+						</small>
+						<small class="p-error" *ngIf="isSubmitted && f['responsableVehiculo'].errors?.['minlength']">
+							El nombre debe tener al menos 3 caracteres
+						</small>
+						<small class="p-error" *ngIf="isSubmitted && f['responsableVehiculo'].errors?.['maxlength']">
+							El nombre no puede exceder 100 caracteres
+						</small>
+						<small class="p-error" *ngIf="isSubmitted && f['responsableVehiculo'].errors?.['pattern']">
+							El nombre solo puede contener letras y espacios
+						</small>
+					</div>
+
+					<!-- Número de Participantes -->
+					<div class="p-field p-col-12 p-md-6">
+						<label for="numeroParticipantes">Número de Participantes</label>
+						<input
+							pInputText
+							id="numeroParticipantes"
+							type="number"
+							inputmode="numeric"
+							min="1"
+							max="999"
+							step="1"
+							formControlName="numeroParticipantes"
+							placeholder="Ej: 15"
+							[class.ng-invalid]="isSubmitted && f['numeroParticipantes'].errors"
+							[class.ng-dirty]="isSubmitted"
+						/>
+						<small class="p-error" *ngIf="isSubmitted && f['numeroParticipantes'].errors?.['required']">
+							El número de participantes es requerido
+						</small>
+						<small class="p-error" *ngIf="isSubmitted && (f['numeroParticipantes'].errors?.['min'] || f['numeroParticipantes'].errors?.['pattern'])">
+							Ingrese un número entero mayor o igual a 1
+						</small>
+						<small class="p-error" *ngIf="isSubmitted && f['numeroParticipantes'].errors?.['max']">
+							El número de participantes no puede exceder 999
+						</small>
+					</div>
+
 					<!-- Advertencia de vehículos no permitidos -->
 					<div class="p-col-12">
 						<div class="warning-card">
@@ -352,15 +478,35 @@
 						</div>
 					</div>
 
-					<!-- Consentimiento de uso de datos -->
-					<div class="p-col-12 consent-field">
-						<label for="aceptaDatos" class="consent-label">
-							<input type="checkbox" id="aceptaDatos" formControlName="aceptaDatos" />
-							<span>Acepto el tratamiento de mis datos personales para recibir información, noticias, novedades y futuras convocatorias relacionadas con las actividades y eventos de la organización. Mis datos serán utilizados únicamente con fines informativos, tratados de manera confidencial y no serán compartidos con terceros.</span>
-						</label>
-						<small class="p-error" *ngIf="isSubmitted && f['aceptaDatos'].errors?.['required']">
-							Debe aceptar el uso de sus datos para continuar
-						</small>
+					<!-- Consentimientos -->
+					<div class="p-col-12 consent-group">
+						<!-- Términos y política de privacidad (obligatorio) -->
+						<div class="consent-field">
+							<input type="checkbox" id="aceptaTerminos" formControlName="aceptaTerminos" />
+							<div class="consent-body">
+								<label for="aceptaTerminos" class="consent-label">
+									He leído y acepto los
+									<a href="#" class="consent-link" (click)="abrirTerminos($event)">Términos y Condiciones de Participación</a>
+									y confirmo haber leído la
+									<a href="#" class="consent-link" (click)="abrirPrivacidad($event)">Política de Privacidad y Protección de Datos Personales</a>.
+								</label>
+								<span class="consent-badge required">Obligatorio</span>
+								<small class="p-error" *ngIf="isSubmitted && f['aceptaTerminos'].errors?.['required']">
+									Debe aceptar los términos y la política de privacidad para continuar
+								</small>
+							</div>
+						</div>
+
+						<!-- Comunicaciones futuras (opcional) -->
+						<div class="consent-field">
+							<input type="checkbox" id="aceptaComunicaciones" formControlName="aceptaComunicaciones" />
+							<div class="consent-body">
+								<label for="aceptaComunicaciones" class="consent-label consent-label-light">
+									Autorizo al Monasterio del Carmen de la Asunción a utilizar mis datos de contacto para enviarme noticias, información sobre sus actividades y futuras convocatorias.
+								</label>
+								<span class="consent-badge">Opcional</span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

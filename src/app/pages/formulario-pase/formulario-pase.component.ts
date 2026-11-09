@@ -1,10 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FirebaseService } from '../../services/firebase.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
+import { TERMINOS, DocumentoLegal } from '../../constants/terminos.constants';
+import { PRIVACIDAD } from '../../constants/privacidad.constants';
 
 @Component({
   selector: 'app-formulario-pase',
@@ -19,6 +21,12 @@ export class FormularioPaseComponent implements OnInit, OnDestroy {
   showForm = true;
   showSuccessModal = false;
   showConfirmModal = false;
+  showLegalModal = false;
+
+  // Documento mostrado en el modal legal (Términos y Condiciones o Política de Privacidad)
+  documentoLegal: DocumentoLegal = TERMINOS;
+  seccionActiva = TERMINOS.secciones[0].id;
+  @ViewChild('legalContent') legalContent?: ElementRef<HTMLElement>;
   confirmacionDatos: any = {};
   private routerSub?: Subscription;
 
@@ -146,9 +154,22 @@ export class FormularioPaseComponent implements OnInit, OnDestroy {
         Validators.required, 
         Validators.pattern(/^[A-Z]{3,4}-[0-9]{3,4}$/i)
       ]],
+      responsableVehiculo: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(100),
+        Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
+      ]],
+      numeroParticipantes: [null, [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(999),
+        Validators.pattern(/^\d+$/)
+      ]],
 
-      // Consentimiento de uso de datos
-      aceptaDatos: [false, [Validators.requiredTrue]]
+      // Consentimientos: términos y privacidad (obligatorio) y comunicaciones (opcional)
+      aceptaTerminos: [false, [Validators.requiredTrue]],
+      aceptaComunicaciones: [false]
     });
   }
 
@@ -185,13 +206,16 @@ export class FormularioPaseComponent implements OnInit, OnDestroy {
       const camposConError: string[] = [];
       const nombresCampos: {[key: string]: string} = {
         'nombreCompleto': 'Nombre Completo',
+        'nombreGrupo': 'Nombre del Grupo',
         'documentoIdentificacion': 'Documento de Identificación',
         'telefono': 'Teléfono',
         'email': 'Correo Electrónico',
         'tematica': 'Temática',
         'tipoVehiculo': 'Tipo de Vehículo',
         'placa': 'Placa',
-        'aceptaDatos': 'Consentimiento de uso de datos'
+        'responsableVehiculo': 'Responsable del Vehículo',
+        'numeroParticipantes': 'Número de Participantes',
+        'aceptaTerminos': 'Términos y Política de Privacidad'
       };
 
       Object.keys(this.vehicleForm.controls).forEach(key => {
@@ -310,6 +334,60 @@ export class FormularioPaseComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     });
+  }
+
+  abrirTerminos(event: Event): void {
+    // Evita que el clic en el enlace marque la casilla
+    event.preventDefault();
+    this.abrirDocumentoLegal(TERMINOS);
+  }
+
+  abrirPrivacidad(event: Event): void {
+    event.preventDefault();
+    this.abrirDocumentoLegal(PRIVACIDAD);
+  }
+
+  private abrirDocumentoLegal(documento: DocumentoLegal): void {
+    this.documentoLegal = documento;
+    this.seccionActiva = documento.secciones[0].id;
+    this.showLegalModal = true;
+  }
+
+  onLegalShow(): void {
+    // Al abrir el modal, empezar siempre desde la primera sección
+    if (this.legalContent) {
+      this.legalContent.nativeElement.scrollTop = 0;
+    }
+  }
+
+  irASeccion(id: string): void {
+    const contenedor = this.legalContent?.nativeElement;
+    const seccion = contenedor?.querySelector<HTMLElement>(`#legal-${id}`);
+    if (contenedor && seccion) {
+      contenedor.scrollTo({ top: seccion.offsetTop - 12, behavior: 'smooth' });
+      this.seccionActiva = id;
+    }
+  }
+
+  onLegalScroll(): void {
+    // Resalta en el índice la última sección cuyo título ya pasó la parte superior
+    const contenedor = this.legalContent?.nativeElement;
+    if (!contenedor) return;
+
+    const secciones = this.documentoLegal.secciones;
+    const limite = contenedor.scrollTop + 40;
+    let activa = secciones[0].id;
+    for (const seccion of secciones) {
+      const el = contenedor.querySelector<HTMLElement>(`#legal-${seccion.id}`);
+      if (el && el.offsetTop <= limite) {
+        activa = seccion.id;
+      }
+    }
+    // Al llegar al final, marcar la última sección
+    if (contenedor.scrollTop + contenedor.clientHeight >= contenedor.scrollHeight - 4) {
+      activa = secciones[secciones.length - 1].id;
+    }
+    this.seccionActiva = activa;
   }
 
   cancelarRegistro(): void {
