@@ -112,6 +112,7 @@ export class FormularioPaseComponent implements OnInit, OnDestroy {
           { label: 'Pesebres vivientes', value: 'Pesebres vivientes' },
           { label: 'Grupo folklórico (especificar)', value: 'Grupo folklórico' },
           { label: 'Grupos artístico navideño (especificar)', value: 'Grupos artístico navideño' },
+          { label: 'Mayorales', value: 'Mayorales' },
           { label: 'Otros (especificar)', value: 'Otros' }
         ]
       }

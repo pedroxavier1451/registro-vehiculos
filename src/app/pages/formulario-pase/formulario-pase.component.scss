@@ -1273,6 +1273,17 @@ $terms-text: #2E2A26;
 		color: #6B4423;
 	}
 
+	cite {
+		display: block;
+		margin-top: 0.4rem;
+		font-family: 'Crimson Text', Georgia, serif;
+		font-size: 0.95rem;
+		font-style: normal;
+		font-weight: 600;
+		letter-spacing: 0.03em;
+		color: #8B6B47;
+	}
+
 	@media (max-width: 768px) {
 		margin: 1.25rem auto;
 		padding: 0 0.5rem;

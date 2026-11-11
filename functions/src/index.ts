@@ -77,7 +77,7 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
                 Santuario Mariano Nacional<br>del Carmen de la Asunción
               </h1>
               <p style="color: #FFD700 !important; margin: 0 !important; font-size: 16px !important; font-weight: bold !important; letter-spacing: 1px !important;">
-                Pase del Niño Viajero 2025
+                Pase del Niño Viajero 2026
               </p>
             </td>
           </tr>
@@ -89,7 +89,7 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
                 ¡Bendiciones, ${nombre || ''}!
               </h2>
               <p style="color: #333333 !important; margin: 0 0 15px 0 !important; font-size: 16px !important; line-height: 1.7 !important;">
-                Tu registro ha sido confirmado exitosamente para el <strong style="color: #B8860B !important;">Pase del Niño Viajero</strong> que se realizará el <strong style="color: #B8860B !important;">24 de diciembre de 2025 a las 10:00 am</strong>.
+                Tu registro ha sido confirmado exitosamente para el <strong style="color: #B8860B !important;">Pase del Niño Viajero</strong> que se realizará el <strong style="color: #B8860B !important;">24 de diciembre de 2026 a las 10:00 am</strong>.
               </p>
               <p style="color: #666666 !important; margin: 0 !important; font-size: 15px !important; line-height: 1.7 !important;">
                 Es un honor contar con tu participación en esta tradición tan especial de nuestra fe católica.
@@ -110,7 +110,7 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
                       Descarga el archivo adjunto <strong style="color: #B8860B !important;">qr-code.png</strong> y guárdalo en tu dispositivo.
                     </p>
                     <p style="color: #333333 !important; margin: 0 !important; font-size: 15px !important; line-height: 1.6 !important;">
-                      <strong style="color: #B8860B !important;">¡MUY IMPORTANTE!</strong> Presenta este código QR el día del evento para tu validación.
+                      <strong style="color: #B8860B !important;">¡MUY IMPORTANTE!</strong> Debe imprimir el código QR y colocarlo en un lugar visible del parabrisas de su vehículo.
                     </p>
                   </td>
                 </tr>
@@ -174,7 +174,7 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
           <tr>
             <td style="background-color: #6B4423 !important; padding: 25px 30px !important; text-align: center !important; border-top: 4px solid #DAA520 !important;">
               <p style="color: #FFD700 !important; margin: 0 0 10px 0 !important; font-size: 15px !important; font-style: italic !important; line-height: 1.6 !important;">
-                "Que el Niño Jesús bendiga tu hogar y tu familia"
+                "Que el divino Niño Viajero bendiga su hogar y los proteja"
               </p>
               <p style="color: #FFFFFF !important; margin: 0 !important; font-size: 13px !important;">
                 Santuario Mariano Nacional del Carmen de la Asunción<br>
@@ -204,8 +204,8 @@ async function sendWelcomeEmailTo(email: string, nombre?: string, qrCodeDataUrl?
   const msg: any = {
     to: [email],
     from: resendFromValue,
-    subject: 'Confirmación de Registro - Pase del Niño Viajero 2025',
-    text: `Bendiciones ${nombre || ''},\n\nTu registro para el Pase del Niño Viajero del 24 de diciembre de 2025 ha sido confirmado exitosamente.\n\nDescarga el archivo adjunto qr-code.png y preséntalo el día del evento.\n\nPunto de concentración: Av. 3 de Noviembre y Simón Bolivar, Cuenca - Ecuador\n\nQue el Niño Jesús bendiga tu hogar y tu familia.\n\nSantuario Mariano Nacional del Carmen de la Asunción\nCuenca - Ecuador`,
+    subject: 'Confirmación de Registro - Pase del Niño Viajero 2026',
+    text: `Bendiciones ${nombre || ''},\n\nTu registro para el Pase del Niño Viajero del 24 de diciembre de 2026 ha sido confirmado exitosamente.\n\nDescarga el archivo adjunto qr-code.png y preséntalo el día del evento.\n\nPunto de concentración: Av. 3 de Noviembre y Simón Bolivar, Cuenca - Ecuador\n\nQue el Niño Jesús bendiga tu hogar y tu familia.\n\nSantuario Mariano Nacional del Carmen de la Asunción\nCuenca - Ecuador`,
     html: htmlContent,
     attachments: []
   };
